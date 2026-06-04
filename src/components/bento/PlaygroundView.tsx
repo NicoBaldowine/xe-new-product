@@ -28,7 +28,9 @@ function Stage({ entry, props, variant }: { entry: WidgetEntry; props: Record<st
       <div
         className={cn(
           "flex flex-col bg-canvas p-5",
-          variant === "mobile" ? "w-[360px]" : "w-full max-w-[520px]",
+          // Fixed container widths so a widget keeps one width across all its
+          // variants: desktop 480, mobile 353.
+          variant === "mobile" ? "w-[353px]" : "w-[480px]",
         )}
       >
         {/* No layoutId in the playground → no morph-id collisions. Figma widgets

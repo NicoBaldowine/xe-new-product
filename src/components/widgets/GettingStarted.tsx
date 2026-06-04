@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { AssetIcon } from "@/components/primitives/AssetIcon";
-import { Figure } from "@/components/primitives/Figure";
 import { Icon, type IconName } from "@/components/primitives/Icon";
 import { spring } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -96,10 +95,9 @@ function StepRow({ step, done, reduce }: { step: GettingStartedStep; done: boole
       initial={reduce ? false : { scale: 0.6, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={spring}
+      className="grid size-6 shrink-0 place-items-center rounded-full bg-success text-content-white"
     >
-      <Figure size={24} className="bg-success text-content-white">
-        <Icon name="check" size={14} className="text-content-white" />
-      </Figure>
+      <Icon name="check" size={14} />
     </motion.span>
   ) : (
     <span className="inline-flex size-6 items-center justify-center">
@@ -184,7 +182,7 @@ export function GettingStarted({
         <span className="text-sm text-content-secondary">{helpLabel}</span>
         <a
           href="#"
-          className="text-sm font-medium text-brand-orange underline underline-offset-2 hover:opacity-80"
+          className="text-sm font-medium text-brand-blue-bright underline underline-offset-2 hover:opacity-80"
         >
           {helpLinkLabel}
         </a>
