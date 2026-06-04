@@ -15,7 +15,12 @@ import { MktCard } from "@/components/widgets/MktCard";
  * different containers, and the shared `layoutId` lets each widget morph between
  * its phone-cell and its desktop card when the view toggles.
  */
-export type ConsumerWidget = { id: string; el: ReactNode };
+export type ConsumerWidget = {
+  id: string;
+  el: ReactNode;
+  /** Self-contained widget (brings its own surface) → render without the shell card. */
+  bare?: boolean;
+};
 
 /** Top-of-screen hero (spans full width on desktop). */
 export const HERO_WIDGET: ConsumerWidget = { id: "c-hero", el: <Hero variant="balance" /> };
@@ -30,7 +35,7 @@ export const PRIMARY_WIDGETS: ConsumerWidget[] = [
 
 /** Right desktop column / lower mobile stack. */
 export const SECONDARY_WIDGETS: ConsumerWidget[] = [
-  { id: "c-send-again", el: <SendAgain /> },
+  { id: "c-send-again", el: <SendAgain />, bare: true },
   { id: "c-getting-started", el: <GettingStarted /> },
   { id: "c-convert", el: <Convert /> },
   { id: "c-mkt", el: <MktCard variant="Large" /> },

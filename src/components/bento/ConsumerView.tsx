@@ -95,7 +95,7 @@ export function ConsumerView() {
               </div>
               <div className="flex min-w-0 flex-1 flex-col gap-6">
                 {SECONDARY_WIDGETS.map((w) => (
-                  <WidgetShell key={w.id} variant="desktop" layoutId={w.id}>
+                  <WidgetShell key={w.id} variant="desktop" layoutId={w.id} bare={w.bare}>
                     {w.el}
                   </WidgetShell>
                 ))}

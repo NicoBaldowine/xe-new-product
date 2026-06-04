@@ -22,6 +22,12 @@ type WidgetShellProps = {
   layoutId?: string;
   /** Remove default padding (tables / media manage their own). */
   flush?: boolean;
+  /**
+   * Self-contained widgets (e.g. Send Again, which brings its own surface) opt
+   * out of the shell surface entirely — no bg/border/padding, just the morph
+   * wrapper + container context — so they don't end up card-in-card.
+   */
+  bare?: boolean;
   className?: string;
   children: React.ReactNode;
 };
@@ -32,7 +38,16 @@ type WidgetShellProps = {
  *  · desktop → 24px padding, base surface, base stroke (the standard Card).
  * Same content, different container → "same structure, different container".
  */
-export function WidgetShell({ variant, layoutId, flush, className, children }: WidgetShellProps) {
+export function WidgetShell({ variant, layoutId, flush, bare, className, children }: WidgetShellProps) {
+  if (bare) {
+    return (
+      <WidgetContainerContext.Provider value={variant}>
+        <motion.div layoutId={layoutId} variants={cardVariants} className={cn("w-full", className)}>
+          {children}
+        </motion.div>
+      </WidgetContainerContext.Provider>
+    );
+  }
   if (variant === "mobile") {
     return (
       <WidgetContainerContext.Provider value="mobile">
