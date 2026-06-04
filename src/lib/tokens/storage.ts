@@ -33,3 +33,26 @@ export function clearEdits(): void {
     /* ignore */
   }
 }
+
+/** A saved, named snapshot of the token edits — a "source of truth" you can restore. */
+export type TokenVersion = { id: string; name: string; date: string; edits: Edits };
+
+const VERSIONS_KEY = "xe-token-versions";
+
+export function loadVersions(): TokenVersion[] {
+  try {
+    const raw = localStorage.getItem(VERSIONS_KEY);
+    const parsed = raw ? (JSON.parse(raw) as TokenVersion[]) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveVersions(versions: TokenVersion[]): void {
+  try {
+    localStorage.setItem(VERSIONS_KEY, JSON.stringify(versions));
+  } catch {
+    /* ignore */
+  }
+}

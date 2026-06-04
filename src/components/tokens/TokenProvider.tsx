@@ -12,7 +12,14 @@ import {
 import type { Edits, ResolvedTokens, Theme } from "@/lib/tokens/types";
 import { TOKEN_BY_NAME } from "@/lib/tokens/registry";
 import { buildOverrideCss, buildResolved, resolveValue } from "@/lib/tokens/css";
-import { clearEdits, loadEdits, saveEdits } from "@/lib/tokens/storage";
+import {
+  clearEdits,
+  loadEdits,
+  saveEdits,
+  loadVersions,
+  saveVersions,
+  type TokenVersion,
+} from "@/lib/tokens/storage";
 
 const STYLE_ID = "xe-token-overrides";
 
@@ -34,6 +41,13 @@ interface TokenContextValue {
   resetAll: () => void;
   /** Full resolved snapshot for the exporters. */
   snapshot: () => ResolvedTokens;
+  /** Saved named+dated snapshots (sources of truth). */
+  versions: TokenVersion[];
+  /** Save the current edits as a named version (the new source of truth). */
+  saveVersion: (name: string) => void;
+  /** Restore a saved version's edits. */
+  applyVersion: (id: string) => void;
+  deleteVersion: (id: string) => void;
 }
 
 const TokenContext = createContext<TokenContextValue | null>(null);
@@ -48,14 +62,17 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
   // Server + first client render start empty → SSR-safe (no hydration mismatch).
   const [edits, setEdits] = useState<Edits>({});
   const [editingTheme, setEditingTheme] = useState<Theme>("light");
+  const [versions, setVersions] = useState<TokenVersion[]>([]);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Load persisted edits after mount. Starting empty on the server + first
-  // client render keeps SSR markup identical; hydrating from localStorage here
-  // is the intended one-time sync (not a cascading-render loop).
+  // Load persisted edits + versions after mount. Starting empty on the server +
+  // first client render keeps SSR markup identical; hydrating from localStorage
+  // here is the intended one-time sync (not a cascading-render loop).
   useEffect(() => {
     const stored = loadEdits();
     if (Object.keys(stored).length) setEdits(stored);
+    const v = loadVersions();
+    if (v.length) setVersions(v);
   }, []);
 
   // Keep the runtime override <style> in sync with edits.
@@ -109,6 +126,40 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
 
   const snapshot = useCallback(() => buildResolved(edits), [edits]);
 
+  const persistVersions = useCallback((next: TokenVersion[]) => {
+    setVersions(next);
+    saveVersions(next);
+  }, []);
+
+  const saveVersion = useCallback(
+    (name: string) => {
+      const version: TokenVersion = {
+        id:
+          typeof crypto !== "undefined" && "randomUUID" in crypto
+            ? crypto.randomUUID()
+            : String(Date.now()),
+        name: name.trim() || `Version ${versions.length + 1}`,
+        date: new Date().toISOString(),
+        edits,
+      };
+      persistVersions([version, ...versions]);
+    },
+    [edits, versions, persistVersions],
+  );
+
+  const applyVersion = useCallback(
+    (id: string) => {
+      const v = versions.find((x) => x.id === id);
+      if (v) setEdits(v.edits);
+    },
+    [versions],
+  );
+
+  const deleteVersion = useCallback(
+    (id: string) => persistVersions(versions.filter((v) => v.id !== id)),
+    [versions, persistVersions],
+  );
+
   const value = useMemo<TokenContextValue>(
     () => ({
       edits,
@@ -120,8 +171,12 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
       resetToken,
       resetAll,
       snapshot,
+      versions,
+      saveVersion,
+      applyVersion,
+      deleteVersion,
     }),
-    [edits, editingTheme, getValue, setValue, resetToken, resetAll, snapshot],
+    [edits, editingTheme, getValue, setValue, resetToken, resetAll, snapshot, versions, saveVersion, applyVersion, deleteVersion],
   );
 
   return <TokenContext.Provider value={value}>{children}</TokenContext.Provider>;

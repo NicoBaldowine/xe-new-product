@@ -21,6 +21,7 @@ export type TokenCategory =
   | "brand"
   | "radius"
   | "typography"
+  | "textStyle"
   | "fontFamily"
   | "fontWeight"
   | "blur";
@@ -39,6 +40,10 @@ export interface TokenDef {
   description: string;
   /** Which Tailwind `@theme` vars consume this token (used by the Tailwind exporter + docs). */
   themeKeys?: string[];
+  /** For text/"on-*" tokens: the background token it sits on — drives the contrast check. */
+  pairWith?: string;
+  /** Curated list of where this token is used (drives the usage explorer popover). */
+  usage?: string[];
 }
 
 /** Sparse map of user edits over the registry defaults. */

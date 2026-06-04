@@ -86,6 +86,24 @@
   --xe-text-4xl: 36px;
   --xe-text-4xl-lh: 36px;
 
+  /* semantic text styles (size + line-height) */
+  --xe-title-h1: 36px;
+  --xe-title-h1-lh: 40px;
+  --xe-title-h2: 30px;
+  --xe-title-h2-lh: 36px;
+  --xe-title-h3: 24px;
+  --xe-title-h3-lh: 32px;
+  --xe-title-h4: 20px;
+  --xe-title-h4-lh: 28px;
+  --xe-body-lg: 18px;
+  --xe-body-lg-lh: 28px;
+  --xe-body: 16px;
+  --xe-body-lh: 24px;
+  --xe-body-sm: 14px;
+  --xe-body-sm-lh: 20px;
+  --xe-caption: 12px;
+  --xe-caption-lh: 16px;
+
   /* font weights */
   --xe-weight-normal: 400;
   --xe-weight-medium: 500;
@@ -241,6 +259,24 @@
   --text-3xl--line-height: var(--xe-text-3xl-lh);
   --text-4xl: var(--xe-text-4xl);
   --text-4xl--line-height: var(--xe-text-4xl-lh);
+
+  /* semantic text styles → text-h1.. / text-body.. utilities */
+  --text-h1: var(--xe-title-h1);
+  --text-h1--line-height: var(--xe-title-h1-lh);
+  --text-h2: var(--xe-title-h2);
+  --text-h2--line-height: var(--xe-title-h2-lh);
+  --text-h3: var(--xe-title-h3);
+  --text-h3--line-height: var(--xe-title-h3-lh);
+  --text-h4: var(--xe-title-h4);
+  --text-h4--line-height: var(--xe-title-h4-lh);
+  --text-body-lg: var(--xe-body-lg);
+  --text-body-lg--line-height: var(--xe-body-lg-lh);
+  --text-body: var(--xe-body);
+  --text-body--line-height: var(--xe-body-lh);
+  --text-body-sm: var(--xe-body-sm);
+  --text-body-sm--line-height: var(--xe-body-sm-lh);
+  --text-caption: var(--xe-caption);
+  --text-caption--line-height: var(--xe-caption-lh);
 
   /* blur */
   --blur-md: var(--xe-blur-md);

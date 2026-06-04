@@ -72,6 +72,8 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
               </button>
             </div>
 
+            <VersionsSection />
+
             {/* token groups */}
             <div className="flex-1 overflow-y-auto px-4 py-3">
               {mode === "both" && (
@@ -103,6 +105,72 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
 
       {showExport && <ExportDialog onClose={() => setShowExport(false)} />}
     </>
+  );
+}
+
+/** Save/restore named token snapshots (sources of truth). */
+function VersionsSection() {
+  const { versions, saveVersion, applyVersion, deleteVersion, isDirty } = useTokens();
+  const [name, setName] = useState("");
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border-b border-stroke px-4 py-2">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-content-secondary"
+      >
+        <Icon name={open ? "chevronDown" : "chevronRight"} size={12} />
+        Versions{versions.length > 0 && ` (${versions.length})`}
+      </button>
+
+      {open && (
+        <div className="mt-2 flex flex-col gap-2">
+          <div className="flex gap-1.5">
+            <input
+              type="text"
+              value={name}
+              placeholder="Name this version…"
+              onChange={(e) => setName(e.target.value)}
+              className="h-7 min-w-0 flex-1 rounded-md border border-stroke bg-surface-1 px-2 text-xs text-content outline-none focus:ring-2 focus:ring-stroke-brand"
+            />
+            <button
+              type="button"
+              disabled={!isDirty}
+              onClick={() => {
+                saveVersion(name);
+                setName("");
+              }}
+              title={isDirty ? "Save current edits as a version" : "Edit a token first"}
+              className={cn(
+                "rounded-md px-2.5 py-1 text-xs font-medium",
+                isDirty ? "bg-brand-blue-bright text-content-white" : "cursor-not-allowed bg-surface-1 text-content-tertiary",
+              )}
+            >
+              Save
+            </button>
+          </div>
+          {versions.map((v) => (
+            <div key={v.id} className="flex items-center gap-2 text-xs">
+              <span className="min-w-0 flex-1 truncate text-content" title={v.name}>{v.name}</span>
+              <span className="shrink-0 text-[10px] text-content-tertiary">
+                {new Date(v.date).toLocaleDateString()}
+              </span>
+              <button type="button" onClick={() => applyVersion(v.id)} className="shrink-0 rounded bg-surface-1 px-2 py-0.5 text-content hover:bg-surface-adaptive">
+                Restore
+              </button>
+              <button type="button" aria-label="Delete version" onClick={() => deleteVersion(v.id)} className="shrink-0 text-content-tertiary hover:text-danger">
+                <Icon name="plus" size={12} className="rotate-45" />
+              </button>
+            </div>
+          ))}
+          {versions.length === 0 && (
+            <p className="text-[11px] text-content-tertiary">No saved versions yet. Edit tokens, then save one as your source of truth.</p>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 

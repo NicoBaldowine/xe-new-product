@@ -15,26 +15,26 @@ import type { TokenCategory, TokenDef } from "./types";
  */
 export const TOKENS: TokenDef[] = [
   // ── content (text / icon) — names mirror the Figma "hola mundo" variables ──
-  { name: "content-base", cssVar: "--xe-content-base", category: "content", type: "color", light: "#0a0a0a", dark: "#ffffff", description: "Primary text / icon.", themeKeys: ["--color-content"] },
-  { name: "content-secondary", cssVar: "--xe-content-secondary", category: "content", type: "color", light: "#737373", dark: "#a3a3a3", description: "Secondary text.", themeKeys: ["--color-content-secondary"] },
-  { name: "content-tertiary", cssVar: "--xe-content-tertiary", category: "content", type: "color", light: "#a3a3a3", dark: "#a3a3a3", description: "Tertiary text / hints.", themeKeys: ["--color-content-tertiary"] },
+  { name: "content-base", cssVar: "--xe-content-base", category: "content", type: "color", light: "#0a0a0a", dark: "#ffffff", description: "Primary text / icon.", themeKeys: ["--color-content"], pairWith: "surface-base", usage: ["Titles & body copy", "Icons", "text-content"] },
+  { name: "content-secondary", cssVar: "--xe-content-secondary", category: "content", type: "color", light: "#737373", dark: "#a3a3a3", description: "Secondary text.", themeKeys: ["--color-content-secondary"], pairWith: "surface-base", usage: ["Subtitles, helper text", "Eyebrow labels", "text-content-secondary"] },
+  { name: "content-tertiary", cssVar: "--xe-content-tertiary", category: "content", type: "color", light: "#a3a3a3", dark: "#a3a3a3", description: "Tertiary text / hints.", themeKeys: ["--color-content-tertiary"], usage: ["Timestamps, counters, disabled hints"] },
   { name: "content-base-reverse", cssVar: "--xe-content-base-reverse", category: "content", type: "color", light: "#ffffff", dark: "#0a0a0a", description: "Text on inverted surfaces.", themeKeys: ["--color-content-reverse"] },
   { name: "content-stays-white", cssVar: "--xe-content-stays-white", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Always white (e.g. text on photos / CTAs).", themeKeys: ["--color-content-white"] },
   { name: "content-brand-logo", cssVar: "--xe-content-brand-logo", category: "content", type: "color", light: "#0a146e", dark: "#ffffff", description: "Logo colour (Figma navy in light, white in dark).", themeKeys: ["--color-brand-logo"] },
-  { name: "content-on-brand", cssVar: "--xe-content-on-brand", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on brand surfaces.", themeKeys: ["--color-on-brand"] },
-  { name: "content-on-action", cssVar: "--xe-content-on-action", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on action buttons.", themeKeys: ["--color-on-action"] },
-  { name: "content-info-on-muted", cssVar: "--xe-content-info-on-muted", category: "content", type: "color", light: "#1d4ed8", dark: "#bfdbfe", description: "Info text on muted bg.", themeKeys: ["--color-info-on-muted"] },
-  { name: "content-success-on-muted", cssVar: "--xe-content-success-on-muted", category: "content", type: "color", light: "#16a34a", dark: "#86efac", description: "Success text on muted bg.", themeKeys: ["--color-success-on-muted"] },
-  { name: "content-warning-on-muted", cssVar: "--xe-content-warning-on-muted", category: "content", type: "color", light: "#a16207", dark: "#fde047", description: "Warning text on muted bg.", themeKeys: ["--color-warning-on-muted"] },
-  { name: "content-danger-on-muted", cssVar: "--xe-content-danger-on-muted", category: "content", type: "color", light: "#dc2626", dark: "#fca5a5", description: "Danger text on muted bg.", themeKeys: ["--color-danger-on-muted"] },
+  { name: "content-on-brand", cssVar: "--xe-content-on-brand", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on brand surfaces.", themeKeys: ["--color-on-brand"], pairWith: "surface-brand-default", usage: ["Text/icons on brand-blue fills"] },
+  { name: "content-on-action", cssVar: "--xe-content-on-action", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on action buttons.", themeKeys: ["--color-on-action"], pairWith: "blue-bright", usage: ["Primary Button label", "Send money CTA"] },
+  { name: "content-info-on-muted", cssVar: "--xe-content-info-on-muted", category: "content", type: "color", light: "#1d4ed8", dark: "#bfdbfe", description: "Info text on muted bg.", themeKeys: ["--color-info-on-muted"], pairWith: "surface-info-muted", usage: ["Info Pill text", "status badges"] },
+  { name: "content-success-on-muted", cssVar: "--xe-content-success-on-muted", category: "content", type: "color", light: "#16a34a", dark: "#86efac", description: "Success text on muted bg.", themeKeys: ["--color-success-on-muted"], pairWith: "surface-success-muted", usage: ["Positive rate delta", "rate badge", "Completed pill"] },
+  { name: "content-warning-on-muted", cssVar: "--xe-content-warning-on-muted", category: "content", type: "color", light: "#a16207", dark: "#fde047", description: "Warning text on muted bg.", themeKeys: ["--color-warning-on-muted"], pairWith: "surface-warning-muted", usage: ["Action-required pill", "In-progress warnings"] },
+  { name: "content-danger-on-muted", cssVar: "--xe-content-danger-on-muted", category: "content", type: "color", light: "#dc2626", dark: "#fca5a5", description: "Danger text on muted bg.", themeKeys: ["--color-danger-on-muted"], pairWith: "surface-danger-muted", usage: ["Negative rate delta", "error pills"] },
   { name: "content-brand-default", cssVar: "--xe-content-brand-default", category: "content", type: "color", light: "#2563eb", dark: "#3b82f6", description: "Brand default (accent text/icon).", themeKeys: ["--color-brand-default"] },
   { name: "content-success-default", cssVar: "--xe-content-success-default", category: "content", type: "color", light: "#15803d", dark: "#4ade80", description: "Success default.", themeKeys: ["--color-success"] },
   { name: "content-danger-default", cssVar: "--xe-content-danger-default", category: "content", type: "color", light: "#dc2626", dark: "#f87171", description: "Danger / error default.", themeKeys: ["--color-danger"] },
 
   // ── surfaces ──────────────────────────────────────────────────────────
   { name: "canvas", cssVar: "--xe-canvas", category: "surface", type: "color", light: "#ffffff", dark: "#000000", description: "Page background behind cards.", themeKeys: ["--color-canvas"] },
-  { name: "surface-base", cssVar: "--xe-surface-base", category: "surface", type: "color", light: "#ffffff", dark: "#000000", description: "Card surface.", themeKeys: ["--color-surface"] },
-  { name: "surface-level-01", cssVar: "--xe-surface-level-01", category: "surface", type: "color", light: "#f5f5f5", dark: "#1f1f1f", description: "Nested chips / secondary fills. Utility: bg-surface-1.", themeKeys: ["--color-surface-1"] },
+  { name: "surface-base", cssVar: "--xe-surface-base", category: "surface", type: "color", light: "#ffffff", dark: "#000000", description: "Card surface.", themeKeys: ["--color-surface"], usage: ["Desktop card background", "bg-surface"] },
+  { name: "surface-level-01", cssVar: "--xe-surface-level-01", category: "surface", type: "color", light: "#f5f5f5", dark: "#1f1f1f", description: "Nested chips / secondary fills. Utility: bg-surface-1.", themeKeys: ["--color-surface-1"], usage: ["Mobile card background", "Secondary buttons", "Amount fields", "bg-surface-1"] },
   { name: "surface-level-02", cssVar: "--xe-surface-level-02", category: "surface", type: "color", light: "#f5f5f5", dark: "#262626", description: "Level-02 fill (seen on some widgets). Utility: bg-surface-2.", themeKeys: ["--color-surface-2"] },
   { name: "surface-level-03", cssVar: "--xe-surface-level-03", category: "surface", type: "color", light: "#d4d4d4", dark: "#404040", description: "Level-03 fill. Utility: bg-surface-3.", themeKeys: ["--color-surface-3"] },
   { name: "surface-adaptive-gray", cssVar: "--xe-surface-adaptive-gray", category: "surface", type: "color", light: "#0a0a0a0d", dark: "#ffffff1a", description: "Adaptive tint (black 5% / white 10%). Utility: bg-surface-adaptive.", themeKeys: ["--color-surface-adaptive"] },
@@ -48,12 +48,12 @@ export const TOKENS: TokenDef[] = [
   { name: "surface-overlay-invert", cssVar: "--xe-surface-overlay-invert", category: "surface", type: "color", light: "#ffffff80", dark: "#ffffff80", description: "Inverted overlay (alpha 50%).", themeKeys: ["--color-overlay-invert"] },
 
   // ── strokes ───────────────────────────────────────────────────────────
-  { name: "stroke-base", cssVar: "--xe-stroke-base", category: "stroke", type: "color", light: "#e5e5e5", dark: "#262626", description: "Default border / divider.", themeKeys: ["--color-stroke"] },
+  { name: "stroke-base", cssVar: "--xe-stroke-base", category: "stroke", type: "color", light: "#e5e5e5", dark: "#262626", description: "Default border / divider.", themeKeys: ["--color-stroke"], usage: ["Desktop card border", "Row dividers", "border-stroke"] },
   { name: "stroke-brand-default", cssVar: "--xe-stroke-brand-default", category: "stroke", type: "color", light: "#2563eb", dark: "#2563eb", description: "Brand stroke.", themeKeys: ["--color-stroke-brand"] },
 
   // ── brand / fixed colours (dual: editable per theme, default identical) ──
   { name: "blue", cssVar: "--xe-blue", category: "brand", type: "color", light: "#002beb", dark: "#002beb", description: "Brand blue (Figma “Main Blue”).", themeKeys: ["--color-brand-blue"] },
-  { name: "blue-bright", cssVar: "--xe-blue-bright", category: "brand", type: "color", light: "#0533ff", dark: "#0533ff", description: "Primary CTA fill (Figma “Primary blue”).", themeKeys: ["--color-brand-blue-bright"] },
+  { name: "blue-bright", cssVar: "--xe-blue-bright", category: "brand", type: "color", light: "#0533ff", dark: "#0533ff", description: "Primary CTA fill (Figma “Primary blue”).", themeKeys: ["--color-brand-blue-bright"], usage: ["Primary Button", "Send money CTA", "active range tab", "links"] },
   { name: "orange", cssVar: "--xe-orange", category: "brand", type: "color", light: "#ff6e14", dark: "#ff6e14", description: "Brand orange.", themeKeys: ["--color-brand-orange"] },
   { name: "fuchsia-50", cssVar: "--xe-fuchsia-50", category: "brand", type: "color", light: "#fdf4ff", dark: "#fdf4ff", description: "Fuchsia 50.", themeKeys: ["--color-fuchsia-50"] },
   { name: "fuchsia-600", cssVar: "--xe-fuchsia-600", category: "brand", type: "color", light: "#c026d3", dark: "#c026d3", description: "Fuchsia 600.", themeKeys: ["--color-fuchsia-600"] },
@@ -81,6 +81,24 @@ export const TOKENS: TokenDef[] = [
   { name: "text-3xl-lh", cssVar: "--xe-text-3xl-lh", category: "typography", type: "dimension", light: "34px", description: "3xl line-height.", themeKeys: ["--text-3xl--line-height"] },
   { name: "text-4xl", cssVar: "--xe-text-4xl", category: "typography", type: "dimension", light: "36px", description: "Title h1 — hero / display (36px).", themeKeys: ["--text-4xl"] },
   { name: "text-4xl-lh", cssVar: "--xe-text-4xl-lh", category: "typography", type: "dimension", light: "36px", description: "4xl line-height.", themeKeys: ["--text-4xl--line-height"] },
+
+  // ── semantic text styles (size + line-height; → text-h1.. / text-body.. utilities) ──
+  { name: "title-h1", cssVar: "--xe-title-h1", category: "textStyle", type: "dimension", light: "36px", description: "Title H1 — hero / display.", themeKeys: ["--text-h1"] },
+  { name: "title-h1-lh", cssVar: "--xe-title-h1-lh", category: "textStyle", type: "dimension", light: "40px", description: "Title H1 line-height.", themeKeys: ["--text-h1--line-height"] },
+  { name: "title-h2", cssVar: "--xe-title-h2", category: "textStyle", type: "dimension", light: "30px", description: "Title H2 — big numbers / balances.", themeKeys: ["--text-h2"] },
+  { name: "title-h2-lh", cssVar: "--xe-title-h2-lh", category: "textStyle", type: "dimension", light: "36px", description: "Title H2 line-height.", themeKeys: ["--text-h2--line-height"] },
+  { name: "title-h3", cssVar: "--xe-title-h3", category: "textStyle", type: "dimension", light: "24px", description: "Title H3 — card headings / greetings.", themeKeys: ["--text-h3"] },
+  { name: "title-h3-lh", cssVar: "--xe-title-h3-lh", category: "textStyle", type: "dimension", light: "32px", description: "Title H3 line-height.", themeKeys: ["--text-h3--line-height"] },
+  { name: "title-h4", cssVar: "--xe-title-h4", category: "textStyle", type: "dimension", light: "20px", description: "Title H4 — small section headings.", themeKeys: ["--text-h4"] },
+  { name: "title-h4-lh", cssVar: "--xe-title-h4-lh", category: "textStyle", type: "dimension", light: "28px", description: "Title H4 line-height.", themeKeys: ["--text-h4--line-height"] },
+  { name: "body-lg", cssVar: "--xe-body-lg", category: "textStyle", type: "dimension", light: "18px", description: "Body large.", themeKeys: ["--text-body-lg"] },
+  { name: "body-lg-lh", cssVar: "--xe-body-lg-lh", category: "textStyle", type: "dimension", light: "28px", description: "Body large line-height.", themeKeys: ["--text-body-lg--line-height"] },
+  { name: "body", cssVar: "--xe-body", category: "textStyle", type: "dimension", light: "16px", description: "Body — default paragraph.", themeKeys: ["--text-body"] },
+  { name: "body-lh", cssVar: "--xe-body-lh", category: "textStyle", type: "dimension", light: "24px", description: "Body line-height.", themeKeys: ["--text-body--line-height"] },
+  { name: "body-sm", cssVar: "--xe-body-sm", category: "textStyle", type: "dimension", light: "14px", description: "Body small — rows / secondary.", themeKeys: ["--text-body-sm"] },
+  { name: "body-sm-lh", cssVar: "--xe-body-sm-lh", category: "textStyle", type: "dimension", light: "20px", description: "Body small line-height.", themeKeys: ["--text-body-sm--line-height"] },
+  { name: "caption", cssVar: "--xe-caption", category: "textStyle", type: "dimension", light: "12px", description: "Caption / eyebrow.", themeKeys: ["--text-caption"] },
+  { name: "caption-lh", cssVar: "--xe-caption-lh", category: "textStyle", type: "dimension", light: "16px", description: "Caption line-height.", themeKeys: ["--text-caption--line-height"] },
 
   // ── font weights (theme-invariant) ────────────────────────────────────
   { name: "weight-normal", cssVar: "--xe-weight-normal", category: "fontWeight", type: "fontWeight", light: "400", description: "Regular.", themeKeys: ["--font-weight-normal"] },
@@ -120,6 +138,7 @@ export const TOKEN_GROUPS: TokenCategory[] = [
   "stroke",
   "brand",
   "fontFamily",
+  "textStyle",
   "typography",
   "fontWeight",
   "radius",
@@ -134,6 +153,7 @@ export const CATEGORY_LABEL: Record<TokenCategory, string> = {
   brand: "Brand / fixed",
   radius: "Radius",
   typography: "Type scale",
+  textStyle: "Text styles",
   fontFamily: "Font family",
   fontWeight: "Font weight",
   blur: "Blur",
