@@ -83,7 +83,7 @@ export function SendMoneyFlow({
   return (
     <div className={cn("flex flex-col gap-3", className)}>
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col items-center gap-0.5 text-center">
+        <div className="flex flex-col items-start gap-0.5 text-left">
           <h3 className="w-full font-display text-xl font-medium tracking-[-0.02em] text-content">
             {title}
           </h3>

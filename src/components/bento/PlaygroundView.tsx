@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { spring } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { DrawStrokeContext } from "@/components/primitives/Card";
-import { WidgetContainerContext } from "@/components/primitives/WidgetShell";
+import { WidgetShell, WidgetContainerContext } from "@/components/primitives/WidgetShell";
 import { Icon } from "@/components/primitives/Icon";
 import {
   WIDGETS,
@@ -27,15 +27,21 @@ function Stage({ entry, props, variant }: { entry: WidgetEntry; props: Record<st
       </span>
       <div
         className={cn(
-          "rounded-card border border-stroke bg-canvas p-5",
+          "bg-canvas p-5",
           variant === "mobile" ? "w-[360px]" : "w-full max-w-[520px]",
         )}
       >
-        {/* No layoutId in the playground → no morph-id collisions. */}
+        {/* No layoutId in the playground → no morph-id collisions. Figma widgets
+            are pure content → wrap in WidgetShell so the mobile/desktop surface
+            rule applies; legacy blocks bring their own Card. */}
         <DrawStrokeContext.Provider value={false}>
-          <WidgetContainerContext.Provider value={variant}>
-            {entry.render(props)}
-          </WidgetContainerContext.Provider>
+          {entry.source === "figma-widget" ? (
+            <WidgetShell variant={variant}>{entry.render(props)}</WidgetShell>
+          ) : (
+            <WidgetContainerContext.Provider value={variant}>
+              {entry.render(props)}
+            </WidgetContainerContext.Provider>
+          )}
         </DrawStrokeContext.Provider>
       </div>
     </div>

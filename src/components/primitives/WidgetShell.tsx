@@ -1,13 +1,14 @@
 "use client";
 
 import { createContext, useContext } from "react";
+import { motion } from "motion/react";
 import { Card } from "./Card";
+import { cardVariants } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
 /**
  * The container a widget renders in. A pure *content* component reads this to
- * make minor responsive choices (inline vs stacked) — it must never fork into
- * two components. Mirrors the DrawStrokeContext pattern.
+ * make minor responsive choices — it must never fork into two components.
  */
 export const WidgetContainerContext = createContext<"mobile" | "desktop">("desktop");
 
@@ -26,20 +27,32 @@ type WidgetShellProps = {
 };
 
 /**
- * The only place that decides a widget's outer surface.
- *  · desktop → the standard Card (rounded-card, border-stroke, p-6).
- *  · mobile  → the phone-cell surface used inside MobileFrame (same token surface,
- *              edge-to-edge rhythm). Content stays identical → "same structure,
- *              different container."
+ * The only place that decides a widget's outer surface. Per the XE rule:
+ *  · mobile  → 16px padding, surface level-1 fill, NO border.
+ *  · desktop → 24px padding, base surface, base stroke (the standard Card).
+ * Same content, different container → "same structure, different container".
  */
 export function WidgetShell({ variant, layoutId, flush, className, children }: WidgetShellProps) {
+  if (variant === "mobile") {
+    return (
+      <WidgetContainerContext.Provider value="mobile">
+        <motion.div
+          layoutId={layoutId}
+          variants={cardVariants}
+          className={cn(
+            "w-full rounded-card bg-surface-1 text-content",
+            !flush && "p-4",
+            className,
+          )}
+        >
+          {children}
+        </motion.div>
+      </WidgetContainerContext.Provider>
+    );
+  }
   return (
-    <WidgetContainerContext.Provider value={variant}>
-      <Card
-        layoutId={layoutId}
-        flush={flush}
-        className={cn(variant === "mobile" && "w-full", className)}
-      >
+    <WidgetContainerContext.Provider value="desktop">
+      <Card layoutId={layoutId} flush={flush} className={className}>
         {children}
       </Card>
     </WidgetContainerContext.Provider>

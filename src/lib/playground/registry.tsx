@@ -24,6 +24,7 @@ import { Transactions } from "@/components/widgets/Transactions";
 import { SendAgain } from "@/components/widgets/SendAgain";
 import { GettingStarted } from "@/components/widgets/GettingStarted";
 import { MktCard } from "@/components/widgets/MktCard";
+import { InProgress } from "@/components/widgets/InProgress";
 
 /**
  * Playground catalog. The ONLY file to touch to add a widget. Each entry is
@@ -121,7 +122,7 @@ export const WIDGETS: WidgetEntry[] = [
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["All", "Empty", "Only Balance"], default: "All" },
       { kind: "text", prop: "title", label: "Title", default: "Transactions" },
-      { kind: "toggle", prop: "showStatusPill", label: "Status pill", default: true },
+      { kind: "toggle", prop: "showStatusPill", label: "Status pill", default: false },
     ],
     presets: [
       { label: "All", props: { variant: "All" } },
@@ -129,6 +130,27 @@ export const WIDGETS: WidgetEntry[] = [
       { label: "Only balance", props: { variant: "Only Balance" } },
     ],
     render: (p) => <Transactions {...p} />,
+  },
+  {
+    id: "in-progress",
+    name: "In Progress",
+    group: "Activity",
+    source: "figma-widget",
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "select", prop: "variant", label: "Variant", options: ["Add funds - Scheduled", "Waiting for funds", "Scheduled", "In progress", "Received money", "Transaction created"], default: "In progress" },
+      { kind: "text", prop: "recipient", label: "Recipient", default: "To Matias" },
+      { kind: "text", prop: "amount", label: "Amount", default: "100 EUR" },
+    ],
+    presets: [
+      { label: "In progress", props: { variant: "In progress" } },
+      { label: "Add funds", props: { variant: "Add funds - Scheduled" } },
+      { label: "Waiting for funds", props: { variant: "Waiting for funds" } },
+      { label: "Scheduled", props: { variant: "Scheduled" } },
+      { label: "Received money", props: { variant: "Received money" } },
+      { label: "Transaction created", props: { variant: "Transaction created" } },
+    ],
+    render: (p) => <InProgress {...p} />,
   },
   {
     id: "send-again",
