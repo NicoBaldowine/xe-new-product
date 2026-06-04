@@ -115,11 +115,11 @@ export function Charts({
 
   const pair = (
     <span className="flex items-center">
-      <Figure flag={from} size={24} ring />
+      <Figure flag={from} size={24} />
       <span className="z-10 -mx-1 flex size-5 items-center justify-center rounded-full bg-surface text-content-secondary">
         <AssetIcon name="arrow-right" size={12} />
       </span>
-      <Figure flag={to} size={24} ring />
+      <Figure flag={to} size={24} />
     </span>
   );
 

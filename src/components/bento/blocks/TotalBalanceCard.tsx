@@ -1,6 +1,6 @@
 import { Card } from "@/components/primitives/Card";
 import { Button } from "@/components/primitives/Button";
-import { Figure } from "@/components/primitives/Figure";
+import { FlagStack } from "@/components/primitives/FlagStack";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { cn } from "@/lib/cn";
@@ -23,13 +23,7 @@ export function TotalBalanceCard({
 }: TotalBalanceCardProps = {}) {
   const left = align === "left";
 
-  const flags = (
-    <div className="flex">
-      {data.flags.map((f, i) => (
-        <Figure key={f} flag={f} ring className={i > 0 ? "-ml-2" : ""} />
-      ))}
-    </div>
-  );
+  const flags = <FlagStack flags={data.flags} size={40} />;
 
   const text = (
     <div className={cn("flex flex-col gap-2", left ? "items-start" : "items-center")}>
