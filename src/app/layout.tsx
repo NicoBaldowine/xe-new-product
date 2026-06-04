@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif, Zalando_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { TokenProvider } from "@/components/tokens/TokenProvider";
 
-// Numerals — IBM Plex Sans (variable wght). Restricted to the digit glyphs
+// Numerals — Roboto Mono (variable wght). Restricted to the digit glyphs
 // (U+0030–0039) via a `unicode-range` @font-face descriptor, so when this
 // family is placed FIRST in the font stack the browser only reaches for it on
-// 0–9 and falls through to Instrument Sans for everything else. This makes all
-// numbers render in IBM Plex Sans automatically, with no per-element markup.
-// `adjustFontFallback: false` is required: the generated Arial fallback face
-// carries no unicode-range and would otherwise swallow all text.
-const ibmPlexNumeric = localFont({
-  src: "./fonts/IBMPlexSans-Variable.woff2",
+// 0–9 and falls through to the body face (Zalando Sans) for everything else.
+// This makes all numbers render in Roboto Mono automatically, no per-element
+// markup. `adjustFontFallback: false` is required: the generated Arial fallback
+// face carries no unicode-range and would otherwise swallow all text.
+const robotoMonoNumeric = localFont({
+  src: "./fonts/RobotoMono-Variable.woff2",
   variable: "--font-numeric",
   display: "swap",
   weight: "100 700",
@@ -19,10 +20,15 @@ const ibmPlexNumeric = localFont({
   declarations: [{ prop: "unicode-range", value: "U+0030-0039" }],
 });
 
-// UI / body / headings — variable font (wght 400–700).
-// Per the XE brand spec, headings are also Instrument Sans, so this one face
-// drives both --font-sans and --font-display.
+// Titles / headings — Instrument Sans (variable wght). Drives --font-display.
 const instrumentSans = Instrument_Sans({
+  variable: "--font-display",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// UI / body — Zalando Sans (variable). Drives --font-sans (the default body).
+const zalandoSans = Zalando_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
@@ -50,7 +56,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${instrumentSerif.variable} ${ibmPlexNumeric.variable} h-full antialiased`}
+      className={`${instrumentSans.variable} ${zalandoSans.variable} ${instrumentSerif.variable} ${robotoMonoNumeric.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -61,7 +67,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-surface text-content">{children}</body>
+      <body className="min-h-full flex flex-col bg-surface text-content">
+        <TokenProvider>{children}</TokenProvider>
+      </body>
     </html>
   );
 }

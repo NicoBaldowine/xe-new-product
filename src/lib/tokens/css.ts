@@ -1,0 +1,59 @@
+import type { Edits, ResolvedTokens, Theme, TokenDef } from "./types";
+import { TOKEN_BY_NAME, TOKENS } from "./registry";
+
+/**
+ * Generate the static `:root` / `.dark` custom-property block (the content that
+ * lives between the `@generated:tokens` sentinels in globals.css). Theme-invariant
+ * tokens (no `dark`) are emitted only in `:root`.
+ */
+export function buildBaseCss(tokens: TokenDef[] = TOKENS): string {
+  const root = tokens.map((t) => `  ${t.cssVar}: ${t.light};`).join("\n");
+  const dark = tokens
+    .filter((t) => t.dark != null)
+    .map((t) => `  ${t.cssVar}: ${t.dark};`)
+    .join("\n");
+  return `:root {\n${root}\n}\n\n.dark {\n${dark}\n}`;
+}
+
+/** Resolve a token's value for a theme = edit ?? registry default. */
+export function resolveValue(name: string, theme: Theme, edits: Edits): string {
+  const def = TOKEN_BY_NAME[name];
+  const edit = edits[name];
+  if (theme === "dark") {
+    return edit?.dark ?? def.dark ?? edit?.light ?? def.light;
+  }
+  return edit?.light ?? def.light;
+}
+
+/** Full resolved snapshot for the exporters. */
+export function buildResolved(edits: Edits, tokens: TokenDef[] = TOKENS): ResolvedTokens {
+  const out: ResolvedTokens = {};
+  for (const t of tokens) {
+    out[t.name] = {
+      light: edits[t.name]?.light ?? t.light,
+      ...(t.dark != null ? { dark: edits[t.name]?.dark ?? t.dark } : {}),
+    };
+  }
+  return out;
+}
+
+/**
+ * Build the runtime override stylesheet text from the sparse edits map. Only
+ * edited vars are emitted, scoped so dark edits land under `html.dark`. Injected
+ * AFTER the base stylesheet, so it wins on source order and cascades through
+ * `--color-*` → Tailwind utilities → inline `var(--color-*)`.
+ */
+export function buildOverrideCss(edits: Edits): string {
+  const rootLines: string[] = [];
+  const darkLines: string[] = [];
+  for (const [name, edit] of Object.entries(edits)) {
+    const def = TOKEN_BY_NAME[name];
+    if (!def || !edit) continue;
+    if (edit.light != null) rootLines.push(`${def.cssVar}: ${edit.light};`);
+    if (edit.dark != null) darkLines.push(`${def.cssVar}: ${edit.dark};`);
+  }
+  const blocks: string[] = [];
+  if (rootLines.length) blocks.push(`:root{${rootLines.join("")}}`);
+  if (darkLines.length) blocks.push(`html.dark{${darkLines.join("")}}`);
+  return blocks.join("\n");
+}

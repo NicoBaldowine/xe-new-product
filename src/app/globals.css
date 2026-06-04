@@ -7,49 +7,92 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ============================================================================
-   XE Brand Bento — design tokens
-   Source of truth: Figma "Brand bento" (TEDuyTkrM8rQWswGR9R3uE)
-     · light frame 236-8092
-     · dark  frame 265-3542
-   Extracted live via Figma MCP. Light values live on :root, dark overrides on
-   .dark (class strategy → theme is toggled independently of OS preference).
-   Components must read these tokens only — no hardcoded colors.
+   XE design tokens — raw `--xe-*` custom properties.
+   Source of truth: the typed registry in src/lib/tokens/registry.ts (extracted
+   from Figma "Capacitor – Xe Consumer"). The block between the sentinels below
+   mirrors that registry (see css.ts → buildBaseCss); keep them in sync.
+   Light values on :root, dark overrides on .dark (class strategy → theme is
+   toggled independently of OS preference). The live token editor overrides
+   these `--xe-*` vars at runtime. Components must read tokens only — no hardcode.
    ============================================================================ */
 
+/* @generated:tokens-start — mirror of src/lib/tokens/registry.ts */
 :root {
-  /* content (text / icon) */
+  /* content */
   --xe-content-base: #0a0a0a;
   --xe-content-secondary: #737373;
   --xe-content-tertiary: #a3a3a3;
   --xe-content-reverse: #ffffff;
   --xe-content-white: #ffffff;
-  --xe-content-brand-logo: #ff6e14;
+  --xe-content-brand-logo: #0a146e;
+  --xe-content-on-brand: #ffffff;
+  --xe-content-on-action: #ffffff;
   --xe-content-info-on-muted: #1d4ed8;
-  --xe-content-success-on-muted: #16a34a; /* TODO: confirm in Figma */
-  --xe-content-warning-on-muted: #a16207; /* TODO: confirm in Figma */
-  --xe-content-danger-on-muted: #dc2626; /* TODO: confirm in Figma */
+  --xe-content-success-on-muted: #16a34a;
+  --xe-content-warning-on-muted: #a16207;
+  --xe-content-danger-on-muted: #dc2626;
+  --xe-content-brand-default: #2563eb;
+  --xe-content-success-default: #15803d;
+  --xe-content-danger-default: #dc2626;
 
   /* surfaces */
-  --xe-canvas: #ffffff; /* page background behind the cards (frame is white) */
-  --xe-surface-base: #ffffff; /* card surface */
-  --xe-surface-1: #f5f5f5; /* nested chips / secondary fills */
-  --xe-surface-adaptive: #0a0a0a0d; /* black @ 5% */
+  --xe-canvas: #ffffff;
+  --xe-surface-base: #ffffff;
+  --xe-surface-1: #f5f5f5;
+  --xe-surface-2: #f5f5f5;
+  --xe-surface-3: #d4d4d4;
+  --xe-surface-adaptive: #0a0a0a0d;
   --xe-surface-info-muted: #dbeafe;
-  --xe-surface-success-muted: #dcfce7; /* TODO: confirm in Figma */
-  --xe-surface-warning-muted: #fef3c7; /* TODO: confirm in Figma */
-  --xe-surface-danger-muted: #fee2e2; /* TODO: confirm in Figma */
+  --xe-surface-success-muted: #dcfce7;
+  --xe-surface-warning-muted: #fef3c7;
+  --xe-surface-danger-muted: #fee2e2;
+  --xe-surface-glass-white: #ffffff33;
+  --xe-surface-glass-black: #0a0a0ab2;
+  --xe-surface-overlay-invert: #ffffff80;
 
   /* strokes */
   --xe-stroke-base: #e5e5e5;
   --xe-stroke-brand: #2563eb;
 
-  /* brand / fixed (do not change between themes) */
+  /* brand / fixed */
   --xe-blue: #002beb;
-  --xe-blue-bright: #0533ff; /* primary CTA fill (from frame buttons) */
+  --xe-blue-bright: #0533ff;
   --xe-orange: #ff6e14;
   --xe-fuchsia-50: #fdf4ff;
   --xe-fuchsia-600: #c026d3;
   --xe-fuchsia-950: #4a044e;
+
+  /* radius */
+  --xe-radius-button: 6px;
+  --xe-radius-xl: 12px;
+  --xe-radius-card: 20px;
+
+  /* type scale (size + line-height) */
+  --xe-text-xs: 12px;
+  --xe-text-xs-lh: 16px;
+  --xe-text-sm: 14px;
+  --xe-text-sm-lh: 20px;
+  --xe-text-base: 16px;
+  --xe-text-base-lh: 24px;
+  --xe-text-lg: 18px;
+  --xe-text-lg-lh: 28px;
+  --xe-text-xl: 20px;
+  --xe-text-xl-lh: 28px;
+  --xe-text-2xl: 24px;
+  --xe-text-2xl-lh: 32px;
+  --xe-text-3xl: 30px;
+  --xe-text-3xl-lh: 34px;
+  --xe-text-4xl: 36px;
+  --xe-text-4xl-lh: 36px;
+
+  /* font weights */
+  --xe-weight-normal: 400;
+  --xe-weight-medium: 500;
+  --xe-weight-semibold: 600;
+
+  /* blur */
+  --xe-blur-md: 16px;
+  --xe-blur-2xl: 42px;
 }
 
 .dark {
@@ -63,11 +106,16 @@
   --xe-content-success-on-muted: #86efac;
   --xe-content-warning-on-muted: #fde047;
   --xe-content-danger-on-muted: #fca5a5;
+  --xe-content-brand-default: #3b82f6;
+  --xe-content-success-default: #4ade80;
+  --xe-content-danger-default: #f87171;
 
-  --xe-canvas: #000000; /* dark frame page reads pure black */
-  --xe-surface-base: #000000; /* cards sit flush on the canvas (like light mode); only the border defines them */
-  --xe-surface-1: #1f1f1f; /* nested chips / secondary fills */
-  --xe-surface-adaptive: #ffffff1a; /* white @ 10% */
+  --xe-canvas: #000000;
+  --xe-surface-base: #000000;
+  --xe-surface-1: #1f1f1f;
+  --xe-surface-2: #262626;
+  --xe-surface-3: #404040;
+  --xe-surface-adaptive: #ffffff1a;
   --xe-surface-info-muted: #1e3a8a;
   --xe-surface-success-muted: #14532d;
   --xe-surface-warning-muted: #78350f;
@@ -76,6 +124,7 @@
   --xe-stroke-base: #262626;
   --xe-stroke-brand: #2563eb;
 }
+/* @generated:tokens-end */
 
 /* ---------------------------------------------------------------------------
    Map tokens into Tailwind v4. These generate utilities automatically:
@@ -84,13 +133,16 @@
    --------------------------------------------------------------------------- */
 @theme inline {
   /* fonts (wired from next/font in layout.tsx)
-     --font-numeric (IBM Plex Sans) leads every stack: it only covers the digit
-     glyphs (U+0030–0039), so 0–9 render in IBM Plex and all other characters
-     fall through to Instrument Sans. */
+     --font-numeric (Roboto Mono) leads every stack: it only covers the digit
+     glyphs (U+0030–0039), so 0–9 render in Roboto Mono and all other characters
+     fall through to the body/title face.
+       · body    → Zalando Sans      (--font-sans)
+       · titles  → Instrument Sans   (--font-display)
+       · accent  → Instrument Serif  (--font-serif) */
   --font-sans: var(--font-numeric), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-numeric), var(--font-display), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-numeric), var(--font-serif), ui-serif, Georgia, serif;
-  /* Headings use Instrument Sans too (no separate display face). */
-  --font-display: var(--font-numeric), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-numeric), ui-monospace, monospace;
 
   /* content colors */
   --color-content: var(--xe-content-base);
@@ -99,20 +151,30 @@
   --color-content-reverse: var(--xe-content-reverse);
   --color-content-white: var(--xe-content-white);
   --color-brand-logo: var(--xe-content-brand-logo);
+  --color-on-brand: var(--xe-content-on-brand);
+  --color-on-action: var(--xe-content-on-action);
   --color-info-on-muted: var(--xe-content-info-on-muted);
   --color-success-on-muted: var(--xe-content-success-on-muted);
   --color-warning-on-muted: var(--xe-content-warning-on-muted);
   --color-danger-on-muted: var(--xe-content-danger-on-muted);
+  --color-brand-default: var(--xe-content-brand-default);
+  --color-success: var(--xe-content-success-default);
+  --color-danger: var(--xe-content-danger-default);
 
   /* surface colors */
   --color-canvas: var(--xe-canvas);
   --color-surface: var(--xe-surface-base);
   --color-surface-1: var(--xe-surface-1);
+  --color-surface-2: var(--xe-surface-2);
+  --color-surface-3: var(--xe-surface-3);
   --color-surface-adaptive: var(--xe-surface-adaptive);
   --color-info-muted: var(--xe-surface-info-muted);
   --color-success-muted: var(--xe-surface-success-muted);
   --color-warning-muted: var(--xe-surface-warning-muted);
   --color-danger-muted: var(--xe-surface-danger-muted);
+  --color-glass-white: var(--xe-surface-glass-white);
+  --color-glass-black: var(--xe-surface-glass-black);
+  --color-overlay-invert: var(--xe-surface-overlay-invert);
 
   /* stroke colors */
   --color-stroke: var(--xe-stroke-base);
@@ -126,36 +188,46 @@
   --color-fuchsia-600: var(--xe-fuchsia-600);
   --color-fuchsia-950: var(--xe-fuchsia-950);
 
-  /* radius (from Figma value/radius) */
-  --radius-xl: 12px;
-  --radius-card: 20px;
+  /* radius — reference raw vars so the editor can change them at runtime */
+  --radius-button: var(--xe-radius-button);
+  --radius-xl: var(--xe-radius-xl);
+  --radius-card: var(--xe-radius-card);
 
-  /* type scale (from Figma typography/base sizes — px / line-height) */
-  --text-xs: 12px;
-  --text-xs--line-height: 16px;
-  --text-sm: 14px;
-  --text-sm--line-height: 20px;
-  --text-base: 16px;
-  --text-base--line-height: 24px;
-  --text-lg: 18px;
-  --text-lg--line-height: 28px;
-  --text-xl: 20px;
-  --text-xl--line-height: 28px;
-  --text-2xl: 24px;
-  --text-2xl--line-height: 32px;
-  --text-3xl: 30px;
-  --text-3xl--line-height: 34px;
-  --text-4xl: 36px;
-  --text-4xl--line-height: 36px;
+  /* font weights */
+  --font-weight-normal: var(--xe-weight-normal);
+  --font-weight-medium: var(--xe-weight-medium);
+  --font-weight-semibold: var(--xe-weight-semibold);
+
+  /* type scale (size / line-height) — reference raw vars (editable) */
+  --text-xs: var(--xe-text-xs);
+  --text-xs--line-height: var(--xe-text-xs-lh);
+  --text-sm: var(--xe-text-sm);
+  --text-sm--line-height: var(--xe-text-sm-lh);
+  --text-base: var(--xe-text-base);
+  --text-base--line-height: var(--xe-text-base-lh);
+  --text-lg: var(--xe-text-lg);
+  --text-lg--line-height: var(--xe-text-lg-lh);
+  --text-xl: var(--xe-text-xl);
+  --text-xl--line-height: var(--xe-text-xl-lh);
+  --text-2xl: var(--xe-text-2xl);
+  --text-2xl--line-height: var(--xe-text-2xl-lh);
+  --text-3xl: var(--xe-text-3xl);
+  --text-3xl--line-height: var(--xe-text-3xl-lh);
+  --text-4xl: var(--xe-text-4xl);
+  --text-4xl--line-height: var(--xe-text-4xl-lh);
+
+  /* blur */
+  --blur-md: var(--xe-blur-md);
+  --blur-2xl: var(--xe-blur-2xl);
 }
 
 /* base */
 body {
   background: var(--xe-canvas);
   color: var(--xe-content-base);
-  /* --font-numeric (digits-only) first → numbers in IBM Plex, text in Instrument Sans. */
+  /* --font-numeric (digits-only) first → numbers in Roboto Mono, text in Zalando Sans. */
   font-family: var(--font-numeric), var(--font-sans);
-  /* Instrument Sans always sits at -2% tracking (per brand spec). */
+  /* Body sits at -2% tracking (per brand spec); titles (font-display) inherit it. */
   letter-spacing: -0.02em;
   /* smooth theme transition; disabled for reduced-motion below */
   transition: background-color 0.3s ease, color 0.3s ease;
