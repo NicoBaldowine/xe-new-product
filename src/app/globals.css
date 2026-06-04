@@ -1,26 +1,194 @@
 @import "tailwindcss";
 
+/* Class-based dark mode: make the `dark:` variant follow the `.dark` class on
+   <html> (toggled by ThemeToggle) instead of Tailwind v4's default
+   `prefers-color-scheme` media query — otherwise `dark:` utilities track the OS
+   theme, not the in-app toggle. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================================
+   XE Brand Bento — design tokens
+   Source of truth: Figma "Brand bento" (TEDuyTkrM8rQWswGR9R3uE)
+     · light frame 236-8092
+     · dark  frame 265-3542
+   Extracted live via Figma MCP. Light values live on :root, dark overrides on
+   .dark (class strategy → theme is toggled independently of OS preference).
+   Components must read these tokens only — no hardcoded colors.
+   ============================================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* content (text / icon) */
+  --xe-content-base: #0a0a0a;
+  --xe-content-secondary: #737373;
+  --xe-content-tertiary: #a3a3a3;
+  --xe-content-reverse: #ffffff;
+  --xe-content-white: #ffffff;
+  --xe-content-brand-logo: #ff6e14;
+  --xe-content-info-on-muted: #1d4ed8;
+  --xe-content-success-on-muted: #16a34a; /* TODO: confirm in Figma */
+  --xe-content-warning-on-muted: #a16207; /* TODO: confirm in Figma */
+  --xe-content-danger-on-muted: #dc2626; /* TODO: confirm in Figma */
+
+  /* surfaces */
+  --xe-canvas: #ffffff; /* page background behind the cards (frame is white) */
+  --xe-surface-base: #ffffff; /* card surface */
+  --xe-surface-1: #f5f5f5; /* nested chips / secondary fills */
+  --xe-surface-adaptive: #0a0a0a0d; /* black @ 5% */
+  --xe-surface-info-muted: #dbeafe;
+  --xe-surface-success-muted: #dcfce7; /* TODO: confirm in Figma */
+  --xe-surface-warning-muted: #fef3c7; /* TODO: confirm in Figma */
+  --xe-surface-danger-muted: #fee2e2; /* TODO: confirm in Figma */
+
+  /* strokes */
+  --xe-stroke-base: #e5e5e5;
+  --xe-stroke-brand: #2563eb;
+
+  /* brand / fixed (do not change between themes) */
+  --xe-blue: #002beb;
+  --xe-blue-bright: #0533ff; /* primary CTA fill (from frame buttons) */
+  --xe-orange: #ff6e14;
+  --xe-fuchsia-50: #fdf4ff;
+  --xe-fuchsia-600: #c026d3;
+  --xe-fuchsia-950: #4a044e;
 }
 
+.dark {
+  --xe-content-base: #ffffff;
+  --xe-content-secondary: #a3a3a3;
+  --xe-content-tertiary: #a3a3a3;
+  --xe-content-reverse: #0a0a0a;
+  --xe-content-white: #ffffff;
+  --xe-content-brand-logo: #ffffff;
+  --xe-content-info-on-muted: #bfdbfe;
+  --xe-content-success-on-muted: #86efac;
+  --xe-content-warning-on-muted: #fde047;
+  --xe-content-danger-on-muted: #fca5a5;
+
+  --xe-canvas: #000000; /* dark frame page reads pure black */
+  --xe-surface-base: #000000; /* cards sit flush on the canvas (like light mode); only the border defines them */
+  --xe-surface-1: #1f1f1f; /* nested chips / secondary fills */
+  --xe-surface-adaptive: #ffffff1a; /* white @ 10% */
+  --xe-surface-info-muted: #1e3a8a;
+  --xe-surface-success-muted: #14532d;
+  --xe-surface-warning-muted: #78350f;
+  --xe-surface-danger-muted: #7f1d1d;
+
+  --xe-stroke-base: #262626;
+  --xe-stroke-brand: #2563eb;
+}
+
+/* ---------------------------------------------------------------------------
+   Map tokens into Tailwind v4. These generate utilities automatically:
+     bg-surface, bg-surface-1, text-content, text-content-secondary,
+     border-stroke, bg-brand-blue, font-sans, font-serif, font-display, etc.
+   --------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* fonts (wired from next/font in layout.tsx)
+     --font-numeric (IBM Plex Sans) leads every stack: it only covers the digit
+     glyphs (U+0030–0039), so 0–9 render in IBM Plex and all other characters
+     fall through to Instrument Sans. */
+  --font-sans: var(--font-numeric), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-numeric), var(--font-serif), ui-serif, Georgia, serif;
+  /* Headings use Instrument Sans too (no separate display face). */
+  --font-display: var(--font-numeric), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* content colors */
+  --color-content: var(--xe-content-base);
+  --color-content-secondary: var(--xe-content-secondary);
+  --color-content-tertiary: var(--xe-content-tertiary);
+  --color-content-reverse: var(--xe-content-reverse);
+  --color-content-white: var(--xe-content-white);
+  --color-brand-logo: var(--xe-content-brand-logo);
+  --color-info-on-muted: var(--xe-content-info-on-muted);
+  --color-success-on-muted: var(--xe-content-success-on-muted);
+  --color-warning-on-muted: var(--xe-content-warning-on-muted);
+  --color-danger-on-muted: var(--xe-content-danger-on-muted);
+
+  /* surface colors */
+  --color-canvas: var(--xe-canvas);
+  --color-surface: var(--xe-surface-base);
+  --color-surface-1: var(--xe-surface-1);
+  --color-surface-adaptive: var(--xe-surface-adaptive);
+  --color-info-muted: var(--xe-surface-info-muted);
+  --color-success-muted: var(--xe-surface-success-muted);
+  --color-warning-muted: var(--xe-surface-warning-muted);
+  --color-danger-muted: var(--xe-surface-danger-muted);
+
+  /* stroke colors */
+  --color-stroke: var(--xe-stroke-base);
+  --color-stroke-brand: var(--xe-stroke-brand);
+
+  /* brand / fixed */
+  --color-brand-blue: var(--xe-blue);
+  --color-brand-blue-bright: var(--xe-blue-bright);
+  --color-brand-orange: var(--xe-orange);
+  --color-fuchsia-50: var(--xe-fuchsia-50);
+  --color-fuchsia-600: var(--xe-fuchsia-600);
+  --color-fuchsia-950: var(--xe-fuchsia-950);
+
+  /* radius (from Figma value/radius) */
+  --radius-xl: 12px;
+  --radius-card: 20px;
+
+  /* type scale (from Figma typography/base sizes — px / line-height) */
+  --text-xs: 12px;
+  --text-xs--line-height: 16px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-lg: 18px;
+  --text-lg--line-height: 28px;
+  --text-xl: 20px;
+  --text-xl--line-height: 28px;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 32px;
+  --text-3xl: 30px;
+  --text-3xl--line-height: 34px;
+  --text-4xl: 36px;
+  --text-4xl--line-height: 36px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* base */
+body {
+  background: var(--xe-canvas);
+  color: var(--xe-content-base);
+  /* --font-numeric (digits-only) first → numbers in IBM Plex, text in Instrument Sans. */
+  font-family: var(--font-numeric), var(--font-sans);
+  /* Instrument Sans always sits at -2% tracking (per brand spec). */
+  letter-spacing: -0.02em;
+  /* smooth theme transition; disabled for reduced-motion below */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Instrument Serif uses normal tracking. Placed in the base layer so explicit
+   `tracking-*` utilities still win where used. Headings are now Instrument Sans
+   and inherit the brand -2% tracking from `body`. */
+@layer base {
+  .font-serif {
+    letter-spacing: normal;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Rate chart end-dot reveal (after the line finishes drawing). */
+@keyframes rate-dot-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
