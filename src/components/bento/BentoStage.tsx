@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { containerVariants } from "@/lib/motion";
-import { cn } from "@/lib/cn";
 import { DrawStrokeContext } from "@/components/primitives/Card";
 import { ThemeToggle } from "./ThemeToggle";
 import { ViewToggle, type ViewMode } from "./ViewToggle";
@@ -79,32 +78,35 @@ export function BentoStage() {
                 variants={containerVariants}
                 initial={reduce ? false : "hidden"}
                 animate="visible"
-                className="grid grid-cols-1 gap-8 [grid-auto-flow:dense] sm:grid-cols-2 xl:grid-cols-3"
+                className="flex flex-col gap-8"
               >
-                {(
-                  [
-                    { key: "total", el: <TotalBalanceCard /> },
-                    { key: "rate", el: <RateChartCard /> },
-                    { key: "acct", el: <AccountBalanceCard /> },
-                    { key: "actions", el: <ActionBar />, span: true },
-                    { key: "again", el: <SendAgainCard count={2} /> },
-                    { key: "watch", el: <RateWatchCard /> },
-                    { key: "send", el: <SendInternationallyCard /> },
-                    { key: "tx", el: <TransactionsTableCard />, span: true },
-                    { key: "promo", el: <TravelPromoCard /> },
-                    { key: "accts", el: <AccountsListCard /> },
-                    { key: "empty", el: <ActivityEmptyCard /> },
-                    { key: "verify", el: <VerifyIdCard /> },
-                    { key: "recent", el: <RecentActivitiesCard /> },
-                  ] as const
-                ).map((it) => (
-                  <div
-                    key={it.key}
-                    className={cn("min-w-0", "span" in it && it.span && "sm:col-span-2")}
-                  >
-                    {it.el}
-                  </div>
-                ))}
+                {/* Full-width action bar on top. */}
+                <ActionBar />
+                {/* True masonry: cards pack into ~320px columns with no gaps,
+                    flowing to fill as space allows. */}
+                <div className="columns-[320px] gap-8 [column-fill:balance]">
+                  {(
+                    [
+                      { key: "total", el: <TotalBalanceCard /> },
+                      { key: "rate", el: <RateChartCard /> },
+                      { key: "send", el: <SendInternationallyCard /> },
+                      { key: "acct", el: <AccountBalanceCard /> },
+                      { key: "watch", el: <RateWatchCard /> },
+                      { key: "again", el: <SendAgainCard count={2} /> },
+                      { key: "promo", el: <TravelPromoCard /> },
+                      { key: "accts", el: <AccountsListCard /> },
+                      { key: "recent", el: <RecentActivitiesCard /> },
+                      { key: "empty", el: <ActivityEmptyCard /> },
+                      { key: "verify", el: <VerifyIdCard /> },
+                    ] as const
+                  ).map((it) => (
+                    <div key={it.key} className="mb-8 break-inside-avoid">
+                      {it.el}
+                    </div>
+                  ))}
+                </div>
+                {/* Full-width transactions table at the bottom. */}
+                <TransactionsTableCard />
               </motion.div>
             </DrawStrokeContext.Provider>
           )}

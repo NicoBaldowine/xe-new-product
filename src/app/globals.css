@@ -68,29 +68,11 @@
   --xe-radius-xl: 12px;
   --xe-radius-card: 20px;
 
-  /* type scale (size + line-height) */
-  --xe-size-xs: 12px;
-  --xe-size-xs-lh: 16px;
-  --xe-size-sm: 14px;
-  --xe-size-sm-lh: 20px;
-  --xe-size-base: 16px;
-  --xe-size-base-lh: 24px;
-  --xe-size-lg: 18px;
-  --xe-size-lg-lh: 28px;
-  --xe-size-xl: 20px;
-  --xe-size-xl-lh: 28px;
-  --xe-size-2xl: 24px;
-  --xe-size-2xl-lh: 32px;
-  --xe-size-3xl: 30px;
-  --xe-size-3xl-lh: 34px;
-  --xe-size-4xl: 36px;
-  --xe-size-4xl-lh: 36px;
-
-  /* semantic text styles (size + line-height) */
+  /* text styles (size + line-height) — the single typographic scale */
   --xe-title-h1: 36px;
-  --xe-title-h1-lh: 40px;
+  --xe-title-h1-lh: 36px;
   --xe-title-h2: 30px;
-  --xe-title-h2-lh: 36px;
+  --xe-title-h2-lh: 34px;
   --xe-title-h3: 24px;
   --xe-title-h3-lh: 32px;
   --xe-title-h4: 20px;
@@ -242,41 +224,40 @@
   --font-weight-medium: var(--xe-weight-medium);
   --font-weight-semibold: var(--xe-weight-semibold);
 
-  /* type scale (size / line-height) — reference raw vars (editable) */
-  --text-xs: var(--xe-size-xs);
-  --text-xs--line-height: var(--xe-size-xs-lh);
-  --text-sm: var(--xe-size-sm);
-  --text-sm--line-height: var(--xe-size-sm-lh);
-  --text-base: var(--xe-size-base);
-  --text-base--line-height: var(--xe-size-base-lh);
-  --text-lg: var(--xe-size-lg);
-  --text-lg--line-height: var(--xe-size-lg-lh);
-  --text-xl: var(--xe-size-xl);
-  --text-xl--line-height: var(--xe-size-xl-lh);
-  --text-2xl: var(--xe-size-2xl);
-  --text-2xl--line-height: var(--xe-size-2xl-lh);
-  --text-3xl: var(--xe-size-3xl);
-  --text-3xl--line-height: var(--xe-size-3xl-lh);
-  --text-4xl: var(--xe-size-4xl);
-  --text-4xl--line-height: var(--xe-size-4xl-lh);
-
-  /* semantic text styles → text-h1.. / text-body.. utilities */
+  /* text styles → semantic utilities (text-h1.. / text-body..) AND the generic
+     Tailwind sizes (text-xs..4xl) they replace — one source per step. */
   --text-h1: var(--xe-title-h1);
   --text-h1--line-height: var(--xe-title-h1-lh);
+  --text-4xl: var(--xe-title-h1);
+  --text-4xl--line-height: var(--xe-title-h1-lh);
   --text-h2: var(--xe-title-h2);
   --text-h2--line-height: var(--xe-title-h2-lh);
+  --text-3xl: var(--xe-title-h2);
+  --text-3xl--line-height: var(--xe-title-h2-lh);
   --text-h3: var(--xe-title-h3);
   --text-h3--line-height: var(--xe-title-h3-lh);
+  --text-2xl: var(--xe-title-h3);
+  --text-2xl--line-height: var(--xe-title-h3-lh);
   --text-h4: var(--xe-title-h4);
   --text-h4--line-height: var(--xe-title-h4-lh);
+  --text-xl: var(--xe-title-h4);
+  --text-xl--line-height: var(--xe-title-h4-lh);
   --text-body-lg: var(--xe-body-lg);
   --text-body-lg--line-height: var(--xe-body-lg-lh);
+  --text-lg: var(--xe-body-lg);
+  --text-lg--line-height: var(--xe-body-lg-lh);
   --text-body: var(--xe-body);
   --text-body--line-height: var(--xe-body-lh);
+  --text-base: var(--xe-body);
+  --text-base--line-height: var(--xe-body-lh);
   --text-body-sm: var(--xe-body-sm);
   --text-body-sm--line-height: var(--xe-body-sm-lh);
+  --text-sm: var(--xe-body-sm);
+  --text-sm--line-height: var(--xe-body-sm-lh);
   --text-caption: var(--xe-caption);
   --text-caption--line-height: var(--xe-caption-lh);
+  --text-xs: var(--xe-caption);
+  --text-xs--line-height: var(--xe-caption-lh);
 
   /* blur */
   --blur-md: var(--xe-blur-md);

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import type { TokenDef, Theme } from "@/lib/tokens/types";
 import { useTokens } from "./TokenProvider";
 import { ColorField } from "./ColorField";
@@ -42,11 +43,22 @@ function ContrastChip({ token, theme }: { token: TokenDef; theme: Theme }) {
 
 function UsagePopover({ token, onClose }: { token: TokenDef; onClose: () => void }) {
   const { getValue } = useTokens();
+  const ref = useRef<HTMLDivElement>(null);
   const isColor = token.type === "color";
   const fg = token.pairWith ? getValue(token.name, "light") : undefined;
   const bg = token.pairWith ? getValue(token.pairWith, "light") : undefined;
+
+  // Close when clicking anywhere outside the popover.
+  useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+    };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [onClose]);
+
   return (
-    <div className="absolute right-0 top-6 z-50 w-64 rounded-xl border border-stroke bg-surface p-3 shadow-xl">
+    <div ref={ref} className="absolute right-0 top-6 z-50 w-64 rounded-xl border border-stroke bg-surface p-3 shadow-xl">
       <div className="mb-2 flex items-start justify-between gap-2">
         <span className="font-mono text-xs text-content">{token.name}</span>
         <button type="button" aria-label="Close" onClick={onClose} className="text-content-tertiary hover:text-content">
