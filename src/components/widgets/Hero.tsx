@@ -8,7 +8,7 @@ import { Icon, type IconName } from "@/components/primitives/Icon";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { useWidgetContainer } from "@/components/primitives/WidgetShell";
 import { FlagStack } from "@/components/primitives/FlagStack";
-import { flagSrc, heroCardSrc } from "@/lib/assets";
+import { flagSrc, heroCardSrc, heroEsimSrc } from "@/lib/assets";
 import { cn } from "@/lib/cn";
 
 /**
@@ -188,9 +188,9 @@ function PromoHero({ variant, emblem, title, subtitle, cta, className }: HeroPro
   const container = useWidgetContainer();
   const d = DEFAULTS[variant === "esim" ? "esim" : "card"];
 
-  // The card promo ships a real exported illustration; eSIM/others fall back to
-  // an icon emblem until their illustrations are exported.
-  const illustration = variant === "card" ? heroCardSrc : null;
+  // Real exported Figma illustrations; others fall back to an icon emblem.
+  const ILLUSTRATIONS: Partial<Record<HeroVariant, string>> = { card: heroCardSrc, esim: heroEsimSrc };
+  const illustration = variant ? ILLUSTRATIONS[variant] : undefined;
 
   return (
     <div className={cn("flex flex-col items-center gap-8 px-2 py-4 text-center", className)}>
