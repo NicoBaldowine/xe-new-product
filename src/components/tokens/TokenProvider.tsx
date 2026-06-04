@@ -50,7 +50,9 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
   const [editingTheme, setEditingTheme] = useState<Theme>("light");
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Load persisted edits after mount.
+  // Load persisted edits after mount. Starting empty on the server + first
+  // client render keeps SSR markup identical; hydrating from localStorage here
+  // is the intended one-time sync (not a cascading-render loop).
   useEffect(() => {
     const stored = loadEdits();
     if (Object.keys(stored).length) setEdits(stored);

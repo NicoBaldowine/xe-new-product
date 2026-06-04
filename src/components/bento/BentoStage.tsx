@@ -6,6 +6,8 @@ import { containerVariants, groupVariants } from "@/lib/motion";
 import { DrawStrokeContext } from "@/components/primitives/Card";
 import { ThemeToggle } from "./ThemeToggle";
 import { ViewToggle, type ViewMode } from "./ViewToggle";
+import { EditorToggle } from "@/components/tokens/EditorToggle";
+import { TokenEditorPanel } from "@/components/tokens/TokenEditorPanel";
 import { MobileFrame } from "./MobileFrame";
 import { CorporateView } from "./CorporateView";
 import { ConsumerView } from "./ConsumerView";
@@ -36,6 +38,7 @@ function Group({ className, children }: { className?: string; children: React.Re
 export function BentoStage() {
   const reduce = useReducedMotion();
   const [view, setView] = useState<ViewMode>("bento");
+  const [editorOpen, setEditorOpen] = useState(false);
   const isMobile = view === "mobile";
   const isCorporate = view === "corporate";
   const isConsumer = view === "consumer";
@@ -45,7 +48,10 @@ export function BentoStage() {
       <div className="mx-auto flex max-w-[1760px] flex-col gap-8">
         <header className="flex items-center justify-between">
           <ViewToggle value={view} onChange={setView} />
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <EditorToggle open={editorOpen} onToggle={() => setEditorOpen((v) => !v)} />
+          </div>
         </header>
 
         <LayoutGroup>
@@ -110,6 +116,8 @@ export function BentoStage() {
           )}
         </LayoutGroup>
       </div>
+
+      <TokenEditorPanel open={editorOpen} onClose={() => setEditorOpen(false)} />
     </main>
   );
 }
