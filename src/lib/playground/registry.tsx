@@ -15,6 +15,16 @@ import { VerifyIdCard } from "@/components/bento/blocks/VerifyIdCard";
 import { ActivityEmptyCard } from "@/components/bento/blocks/ActivityEmptyCard";
 import { ActionBar } from "@/components/bento/blocks/ActionBar";
 
+// New Figma widgets (content components — rendered inside WidgetShell by the views).
+import { Hero } from "@/components/widgets/Hero";
+import { Charts } from "@/components/widgets/Charts";
+import { SendMoneyFlow } from "@/components/widgets/SendMoneyFlow";
+import { Convert } from "@/components/widgets/Convert";
+import { Transactions } from "@/components/widgets/Transactions";
+import { SendAgain } from "@/components/widgets/SendAgain";
+import { GettingStarted } from "@/components/widgets/GettingStarted";
+import { MktCard } from "@/components/widgets/MktCard";
+
 /**
  * Playground catalog. The ONLY file to touch to add a widget. Each entry is
  * prop-driven so controls map 1:1 to props; presets mirror Figma variants.
@@ -22,6 +32,162 @@ import { ActionBar } from "@/components/bento/blocks/ActionBar";
  * Figma widgets get added as they're built (source: "figma-widget").
  */
 export const WIDGETS: WidgetEntry[] = [
+  // ── Figma widgets (the new set, being migrated from the consumer designs) ──
+  {
+    id: "hero",
+    name: "Hero",
+    group: "Hero",
+    source: "figma-widget",
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "select", prop: "variant", label: "Variant", options: ["balance", "all-accounts", "card", "esim"], default: "balance" },
+      { kind: "text", prop: "label", label: "Label", default: "USD Account" },
+      { kind: "amount", prop: "amount", label: "Amount", default: "$380.00" },
+      { kind: "toggle", prop: "showOverflow", label: "Overflow tile", default: false },
+    ],
+    presets: [
+      { label: "Balance (USD)", props: { variant: "balance", label: "USD Account", amount: "$380.00" } },
+      { label: "All accounts", props: { variant: "all-accounts", label: "All accounts", amount: "$500.00", showOverflow: true } },
+      { label: "Card promo", props: { variant: "card" } },
+      { label: "eSIM promo", props: { variant: "esim" } },
+    ],
+    render: (p) => <Hero {...p} />,
+  },
+  {
+    id: "charts",
+    name: "Charts",
+    group: "Rates",
+    source: "figma-widget",
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "select", prop: "variant", label: "Variant", options: ["selector", "badge"], default: "selector" },
+      { kind: "currency", prop: "from", label: "From", default: "CA" },
+      { kind: "currency", prop: "to", label: "To", default: "US" },
+      { kind: "text", prop: "rate", label: "Rate", default: "0.7249" },
+      { kind: "text", prop: "delta", label: "Delta", default: "+0.07%" },
+      { kind: "select", prop: "trend", label: "Trend", options: ["up", "down"], default: "up" },
+      { kind: "toggle", prop: "showRanges", label: "Range tabs", default: true },
+    ],
+    presets: [
+      { label: "Selector (desktop)", props: { variant: "selector", from: "CA", to: "US", rate: "0.7249", delta: "+0.07%", trend: "up" } },
+      { label: "Badge (mobile)", props: { variant: "badge", from: "CA", to: "US", rate: "0.7249", delta: "+0.07%", trend: "up" } },
+      { label: "Down trend", props: { variant: "selector", from: "GB", to: "EU", rate: "1.1842", delta: "-0.31%", trend: "down" } },
+    ],
+    render: (p) => <Charts {...p} />,
+  },
+  {
+    id: "send-money-flow",
+    name: "Send Money Flow",
+    group: "Send",
+    source: "figma-widget",
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "text", prop: "title", label: "Title", default: "Send internationally" },
+      { kind: "text", prop: "subtitle", label: "Subtitle", default: "Live rates, low fees, arrives in seconds" },
+      { kind: "text", prop: "rateBadge", label: "Rate badge", default: "1 CAD = 0.72 USD" },
+      { kind: "text", prop: "cta", label: "CTA", default: "Send money" },
+      { kind: "toggle", prop: "showRate", label: "Rate badge", default: true },
+    ],
+    presets: [
+      { label: "CAD → USD", props: { send: { currency: "CAD", amount: "$50.00" }, receive: { currency: "USD", amount: "$36.17" }, rateBadge: "1 CAD = 0.72 USD", showRate: true } },
+      { label: "USD → EUR", props: { send: { currency: "USD", amount: "$1,000.00" }, receive: { currency: "EUR", amount: "€918.40" }, rateBadge: "1 USD = 0.92 EUR", showRate: true } },
+      { label: "No rate badge", props: { showRate: false } },
+    ],
+    render: (p) => <SendMoneyFlow {...p} />,
+  },
+  {
+    id: "convert",
+    name: "Convert / Rate",
+    group: "Rates",
+    source: "figma-widget",
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "select", prop: "variant", label: "Variant", options: ["First time - Default", "Max items", "First Time - Only Convert"], default: "First time - Default" },
+      { kind: "text", prop: "title", label: "Title", default: "Rate watch" },
+      { kind: "toggle", prop: "showRefresh", label: "Refresh", default: true },
+    ],
+    presets: [
+      { label: "First time", props: { variant: "First time - Default" } },
+      { label: "Max items", props: { variant: "Max items" } },
+    ],
+    render: (p) => <Convert {...p} />,
+  },
+  {
+    id: "transactions",
+    name: "Transactions",
+    group: "Activity",
+    source: "figma-widget",
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "select", prop: "variant", label: "Variant", options: ["All", "Empty", "Only Balance"], default: "All" },
+      { kind: "text", prop: "title", label: "Title", default: "Transactions" },
+      { kind: "toggle", prop: "showStatusPill", label: "Status pill", default: true },
+    ],
+    presets: [
+      { label: "All", props: { variant: "All" } },
+      { label: "Empty", props: { variant: "Empty" } },
+      { label: "Only balance", props: { variant: "Only Balance" } },
+    ],
+    render: (p) => <Transactions {...p} />,
+  },
+  {
+    id: "send-again",
+    name: "Send Again",
+    group: "Send",
+    source: "figma-widget",
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "toggle", prop: "pinned", label: "Pinned", default: false },
+      { kind: "select", prop: "rate", label: "Rate", options: ["normal", "higher"], default: "normal" },
+      { kind: "text", prop: "recipient", label: "Recipient", default: "To Javo Esquivel" },
+      { kind: "amount", prop: "amount", label: "Amount", default: "100" },
+      { kind: "currency", prop: "fromCurrency", label: "From", default: "US" },
+      { kind: "currency", prop: "toCurrency", label: "To", default: "EU" },
+      { kind: "text", prop: "theyGet", label: "They get", default: "€92,00" },
+    ],
+    presets: [
+      { label: "Regular", props: { pinned: false, rate: "normal" } },
+      { label: "Pinned + higher rate", props: { pinned: true, rate: "higher" } },
+    ],
+    render: (p) => <SendAgain {...p} />,
+  },
+  {
+    id: "getting-started",
+    name: "Getting Started",
+    group: "Identity",
+    source: "figma-widget",
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "select", prop: "variant", label: "Variant", options: ["first-time", "middle", "all-done"], default: "first-time" },
+      { kind: "text", prop: "title", label: "Title", default: "Getting started" },
+    ],
+    presets: [
+      { label: "First time", props: { variant: "first-time" } },
+      { label: "Middle", props: { variant: "middle" } },
+      { label: "All done", props: { variant: "all-done" } },
+    ],
+    render: (p) => <GettingStarted {...p} />,
+  },
+  {
+    id: "mkt-card",
+    name: "MKT Card",
+    group: "Promo",
+    source: "figma-widget",
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "select", prop: "variant", label: "Variant", options: ["Small", "Large"], default: "Small" },
+      { kind: "text", prop: "title", label: "Title", default: "Add a new currency in seconds" },
+      { kind: "text", prop: "subtitle", label: "Subtitle", default: "Open a new balance to save, spend and share." },
+      { kind: "toggle", prop: "dismissible", label: "Dismissible", default: false },
+    ],
+    presets: [
+      { label: "Small", props: { variant: "Small" } },
+      { label: "Large", props: { variant: "Large" } },
+    ],
+    render: (p) => <MktCard {...p} />,
+  },
+
+  // ── Legacy blocks (re-tokenized; kept until we decide what to retire) ──
   {
     id: "total-balance",
     name: "Total Balance",
