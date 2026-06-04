@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { TokenDef, Theme } from "@/lib/tokens/types";
 import { useTokens } from "./TokenProvider";
 import { ColorField } from "./ColorField";
@@ -90,9 +89,18 @@ function UsagePopover({ token, onClose }: { token: TokenDef; onClose: () => void
 }
 
 /** One editable token row: label + field(s) for the active theme(s) + reset + usage popover. */
-export function TokenRow({ token, mode }: { token: TokenDef; mode: EditMode }) {
+export function TokenRow({
+  token,
+  mode,
+  open,
+  onToggle,
+}: {
+  token: TokenDef;
+  mode: EditMode;
+  open: boolean;
+  onToggle: () => void;
+}) {
   const { resetToken, edits } = useTokens();
-  const [open, setOpen] = useState(false);
   const edited = token.name in edits;
   const invariant = token.dark == null;
   const showBoth = mode === "both" && !invariant;
@@ -107,7 +115,7 @@ export function TokenRow({ token, mode }: { token: TokenDef; mode: EditMode }) {
           <button
             type="button"
             aria-label={`About ${token.name}`}
-            onClick={() => setOpen((v) => !v)}
+            onClick={onToggle}
             className="cursor-help text-content-tertiary hover:text-content"
           >
             <Icon name="help" size={11} />
@@ -146,7 +154,7 @@ export function TokenRow({ token, mode }: { token: TokenDef; mode: EditMode }) {
         </div>
       )}
 
-      {open && <UsagePopover token={token} onClose={() => setOpen(false)} />}
+      {open && <UsagePopover token={token} onClose={onToggle} />}
     </div>
   );
 }

@@ -79,14 +79,14 @@ export function BentoStage() {
                 variants={containerVariants}
                 initial={reduce ? false : "hidden"}
                 animate="visible"
-                className="columns-[300px] gap-8 [column-fill:balance]"
+                className="grid grid-cols-1 gap-8 [grid-auto-flow:dense] sm:grid-cols-2 xl:grid-cols-3"
               >
                 {(
                   [
                     { key: "total", el: <TotalBalanceCard /> },
                     { key: "rate", el: <RateChartCard /> },
-                    { key: "actions", el: <ActionBar />, span: true },
                     { key: "acct", el: <AccountBalanceCard /> },
+                    { key: "actions", el: <ActionBar />, span: true },
                     { key: "again", el: <SendAgainCard count={2} /> },
                     { key: "watch", el: <RateWatchCard /> },
                     { key: "send", el: <SendInternationallyCard /> },
@@ -100,7 +100,7 @@ export function BentoStage() {
                 ).map((it) => (
                   <div
                     key={it.key}
-                    className={cn("mb-8 break-inside-avoid", "span" in it && it.span && "[column-span:all]")}
+                    className={cn("min-w-0", "span" in it && it.span && "sm:col-span-2")}
                   >
                     {it.el}
                   </div>

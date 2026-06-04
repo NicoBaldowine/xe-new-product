@@ -14,6 +14,8 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
   const { isDirty, resetAll } = useTokens();
   const [mode, setMode] = useState<EditMode>("both");
   const [showExport, setShowExport] = useState(false);
+  // Only one token's usage popover open at a time.
+  const [openToken, setOpenToken] = useState<string | null>(null);
 
   return (
     <>
@@ -93,7 +95,13 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
                     </h3>
                     <div className="divide-y divide-stroke">
                       {tokens.map((t) => (
-                        <TokenRow key={t.name} token={t} mode={mode} />
+                        <TokenRow
+                          key={t.name}
+                          token={t}
+                          mode={mode}
+                          open={openToken === t.name}
+                          onToggle={() => setOpenToken((cur) => (cur === t.name ? null : t.name))}
+                        />
                       ))}
                     </div>
                   </section>
