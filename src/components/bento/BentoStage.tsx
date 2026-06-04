@@ -11,6 +11,7 @@ import { TokenEditorPanel } from "@/components/tokens/TokenEditorPanel";
 import { MobileFrame } from "./MobileFrame";
 import { CorporateView } from "./CorporateView";
 import { ConsumerView } from "./ConsumerView";
+import { PlaygroundView } from "./PlaygroundView";
 
 import { TotalBalanceCard } from "./blocks/TotalBalanceCard";
 import { AccountBalanceCard } from "./blocks/AccountBalanceCard";
@@ -42,6 +43,7 @@ export function BentoStage() {
   const isMobile = view === "mobile";
   const isCorporate = view === "corporate";
   const isConsumer = view === "consumer";
+  const isPlayground = view === "playground";
 
   return (
     <main className="min-h-screen bg-canvas px-6 py-8 transition-colors lg:px-10">
@@ -55,7 +57,10 @@ export function BentoStage() {
         </header>
 
         <LayoutGroup>
-          {isMobile ? (
+          {isPlayground ? (
+            /* Interactive widget sandbox — stress widgets with live controls. */
+            <PlaygroundView />
+          ) : isMobile ? (
             /* Mobile: curated subset morphs into the phone reference frame. */
             <MobileFrame>
               <TotalBalanceCard />

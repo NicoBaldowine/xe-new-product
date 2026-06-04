@@ -5,7 +5,7 @@ import { Icon, type IconName } from "@/components/primitives/Icon";
 import { snappy } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
-export type ViewMode = "bento" | "mobile" | "consumer" | "corporate";
+export type ViewMode = "bento" | "mobile" | "consumer" | "corporate" | "playground";
 
 type Option = {
   value: ViewMode;
@@ -20,6 +20,7 @@ const OPTIONS: Option[] = [
   { value: "mobile", icon: "phone", label: "Mobile view" },
   { value: "consumer", icon: "monitor", label: "Desktop (consumer)" },
   { value: "corporate", icon: "building", label: "Desktop (corporate)" },
+  { value: "playground", icon: "layers", label: "Playground" },
 ];
 
 export function ViewToggle({
