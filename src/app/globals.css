@@ -22,8 +22,8 @@
   --xe-content-base: #0a0a0a;
   --xe-content-secondary: #737373;
   --xe-content-tertiary: #a3a3a3;
-  --xe-content-reverse: #ffffff;
-  --xe-content-white: #ffffff;
+  --xe-content-base-reverse: #ffffff;
+  --xe-content-stays-white: #ffffff;
   --xe-content-brand-logo: #0a146e;
   --xe-content-on-brand: #ffffff;
   --xe-content-on-action: #ffffff;
@@ -38,10 +38,11 @@
   /* surfaces */
   --xe-canvas: #ffffff;
   --xe-surface-base: #ffffff;
-  --xe-surface-1: #f5f5f5;
-  --xe-surface-2: #f5f5f5;
-  --xe-surface-3: #d4d4d4;
-  --xe-surface-adaptive: #0a0a0a0d;
+  --xe-surface-level-01: #f5f5f5;
+  --xe-surface-level-02: #f5f5f5;
+  --xe-surface-level-03: #d4d4d4;
+  --xe-surface-adaptive-gray: #0a0a0a0d;
+  --xe-surface-brand-default: #2563eb;
   --xe-surface-info-muted: #dbeafe;
   --xe-surface-success-muted: #dcfce7;
   --xe-surface-warning-muted: #fef3c7;
@@ -52,7 +53,7 @@
 
   /* strokes */
   --xe-stroke-base: #e5e5e5;
-  --xe-stroke-brand: #2563eb;
+  --xe-stroke-brand-default: #2563eb;
 
   /* brand / fixed */
   --xe-blue: #002beb;
@@ -102,12 +103,15 @@
 }
 
 .dark {
+  /* content */
   --xe-content-base: #ffffff;
   --xe-content-secondary: #a3a3a3;
   --xe-content-tertiary: #a3a3a3;
-  --xe-content-reverse: #0a0a0a;
-  --xe-content-white: #ffffff;
+  --xe-content-base-reverse: #0a0a0a;
+  --xe-content-stays-white: #ffffff;
   --xe-content-brand-logo: #ffffff;
+  --xe-content-on-brand: #ffffff;
+  --xe-content-on-action: #ffffff;
   --xe-content-info-on-muted: #bfdbfe;
   --xe-content-success-on-muted: #86efac;
   --xe-content-warning-on-muted: #fde047;
@@ -116,19 +120,33 @@
   --xe-content-success-default: #4ade80;
   --xe-content-danger-default: #f87171;
 
+  /* surfaces */
   --xe-canvas: #000000;
   --xe-surface-base: #000000;
-  --xe-surface-1: #1f1f1f;
-  --xe-surface-2: #262626;
-  --xe-surface-3: #404040;
-  --xe-surface-adaptive: #ffffff1a;
+  --xe-surface-level-01: #1f1f1f;
+  --xe-surface-level-02: #262626;
+  --xe-surface-level-03: #404040;
+  --xe-surface-adaptive-gray: #ffffff1a;
+  --xe-surface-brand-default: #3b82f6;
   --xe-surface-info-muted: #1e3a8a;
   --xe-surface-success-muted: #14532d;
   --xe-surface-warning-muted: #78350f;
   --xe-surface-danger-muted: #7f1d1d;
+  --xe-surface-glass-white: #ffffff33;
+  --xe-surface-glass-black: #0a0a0ab2;
+  --xe-surface-overlay-invert: #ffffff80;
 
+  /* strokes */
   --xe-stroke-base: #262626;
-  --xe-stroke-brand: #2563eb;
+  --xe-stroke-brand-default: #2563eb;
+
+  /* brand colours (dual — default identical to light, editable per theme) */
+  --xe-blue: #002beb;
+  --xe-blue-bright: #0533ff;
+  --xe-orange: #ff6e14;
+  --xe-fuchsia-50: #fdf4ff;
+  --xe-fuchsia-600: #c026d3;
+  --xe-fuchsia-950: #4a044e;
 }
 /* @generated:tokens-end */
 
@@ -155,8 +173,8 @@
   --color-content: var(--xe-content-base);
   --color-content-secondary: var(--xe-content-secondary);
   --color-content-tertiary: var(--xe-content-tertiary);
-  --color-content-reverse: var(--xe-content-reverse);
-  --color-content-white: var(--xe-content-white);
+  --color-content-reverse: var(--xe-content-base-reverse);
+  --color-content-white: var(--xe-content-stays-white);
   --color-brand-logo: var(--xe-content-brand-logo);
   --color-on-brand: var(--xe-content-on-brand);
   --color-on-action: var(--xe-content-on-action);
@@ -171,10 +189,11 @@
   /* surface colors */
   --color-canvas: var(--xe-canvas);
   --color-surface: var(--xe-surface-base);
-  --color-surface-1: var(--xe-surface-1);
-  --color-surface-2: var(--xe-surface-2);
-  --color-surface-3: var(--xe-surface-3);
-  --color-surface-adaptive: var(--xe-surface-adaptive);
+  --color-surface-1: var(--xe-surface-level-01);
+  --color-surface-2: var(--xe-surface-level-02);
+  --color-surface-3: var(--xe-surface-level-03);
+  --color-surface-adaptive: var(--xe-surface-adaptive-gray);
+  --color-surface-brand: var(--xe-surface-brand-default);
   --color-info-muted: var(--xe-surface-info-muted);
   --color-success-muted: var(--xe-surface-success-muted);
   --color-warning-muted: var(--xe-surface-warning-muted);
@@ -185,7 +204,7 @@
 
   /* stroke colors */
   --color-stroke: var(--xe-stroke-base);
-  --color-stroke-brand: var(--xe-stroke-brand);
+  --color-stroke-brand: var(--xe-stroke-brand-default);
 
   /* brand / fixed */
   --color-brand-blue: var(--xe-blue);
