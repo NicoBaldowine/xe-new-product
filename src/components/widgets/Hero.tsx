@@ -6,7 +6,7 @@ import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { Icon, type IconName } from "@/components/primitives/Icon";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { useWidgetContainer } from "@/components/primitives/WidgetShell";
-import { flagSrc } from "@/lib/assets";
+import { flagSrc, heroCardSrc } from "@/lib/assets";
 import { cn } from "@/lib/cn";
 
 /**
@@ -181,12 +181,27 @@ function PromoHero({ variant, emblem, title, subtitle, cta, className }: HeroPro
   const container = useWidgetContainer();
   const d = DEFAULTS[variant === "esim" ? "esim" : "card"];
 
+  // The card promo ships a real exported illustration; eSIM/others fall back to
+  // an icon emblem until their illustrations are exported.
+  const illustration = variant === "card" ? heroCardSrc : null;
+
   return (
     <div className={cn("flex flex-col items-center gap-8 px-2 py-4 text-center", className)}>
       <div className="flex flex-col items-center gap-4">
-        <Figure size={container === "mobile" ? 96 : 120} className="bg-surface-1">
-          <Icon name={emblem ?? d.emblem} size={48} className="text-brand-blue-bright" />
-        </Figure>
+        {illustration ? (
+          <div
+            aria-hidden
+            style={{ backgroundImage: `url(${illustration})` }}
+            className={cn(
+              "bg-contain bg-center bg-no-repeat",
+              container === "mobile" ? "h-24 w-28" : "h-32 w-36",
+            )}
+          />
+        ) : (
+          <Figure size={container === "mobile" ? 96 : 120} className="bg-surface-1">
+            <Icon name={emblem ?? d.emblem} size={48} className="text-brand-blue-bright" />
+          </Figure>
+        )}
         <div className="flex flex-col items-center gap-2">
           <h3 className="font-display text-2xl font-semibold tracking-[-0.01em] text-content">{title ?? d.title}</h3>
           <p className="text-sm text-content-secondary">{subtitle ?? d.subtitle}</p>

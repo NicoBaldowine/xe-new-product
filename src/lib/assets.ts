@@ -49,6 +49,8 @@ export function flagEmoji(code: string): string {
 /** Larger illustrations / media. */
 export const illustrationSrc = "/assets/Illustration.png";
 export const bannerSrc = "/assets/Banner.png";
+/** Hero promo illustrations (exported from Figma). */
+export const heroCardSrc = "/assets/hero-card.png";
 // XE wordmark — theme-specific. light = blue logo (light bg), dark = white logo (dark bg).
 export const logoLightSrc = "/assets/xelogo_light.svg";
 export const logoDarkSrc = "/assets/xelogo_dark.svg";
