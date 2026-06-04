@@ -48,7 +48,7 @@ export function Card({
         // The card's own grey border, drawn on. Normalized (pathLength 1) so it
         // traces regardless of size; rx matches --radius-card (20px).
         <svg
-          className="pointer-events-none absolute inset-0 h-full w-full"
+          className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
           aria-hidden="true"
           fill="none"
         >

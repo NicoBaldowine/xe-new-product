@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { containerVariants } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 import { DrawStrokeContext } from "@/components/primitives/Card";
 import { ThemeToggle } from "./ThemeToggle";
 import { ViewToggle, type ViewMode } from "./ViewToggle";
@@ -80,23 +81,28 @@ export function BentoStage() {
                 animate="visible"
                 className="columns-[300px] gap-8 [column-fill:balance]"
               >
-                {[
-                  <TotalBalanceCard key="total" />,
-                  <RateChartCard key="rate" />,
-                  <ActionBar key="actions" />,
-                  <AccountBalanceCard key="acct" />,
-                  <SendAgainCard key="again" count={2} />,
-                  <RateWatchCard key="watch" />,
-                  <SendInternationallyCard key="send" />,
-                  <TransactionsTableCard key="tx" />,
-                  <TravelPromoCard key="promo" />,
-                  <AccountsListCard key="accts" />,
-                  <ActivityEmptyCard key="empty" />,
-                  <VerifyIdCard key="verify" />,
-                  <RecentActivitiesCard key="recent" />,
-                ].map((el) => (
-                  <div key={el.key} className="mb-8 break-inside-avoid">
-                    {el}
+                {(
+                  [
+                    { key: "total", el: <TotalBalanceCard /> },
+                    { key: "rate", el: <RateChartCard /> },
+                    { key: "actions", el: <ActionBar />, span: true },
+                    { key: "acct", el: <AccountBalanceCard /> },
+                    { key: "again", el: <SendAgainCard count={2} /> },
+                    { key: "watch", el: <RateWatchCard /> },
+                    { key: "send", el: <SendInternationallyCard /> },
+                    { key: "tx", el: <TransactionsTableCard />, span: true },
+                    { key: "promo", el: <TravelPromoCard /> },
+                    { key: "accts", el: <AccountsListCard /> },
+                    { key: "empty", el: <ActivityEmptyCard /> },
+                    { key: "verify", el: <VerifyIdCard /> },
+                    { key: "recent", el: <RecentActivitiesCard /> },
+                  ] as const
+                ).map((it) => (
+                  <div
+                    key={it.key}
+                    className={cn("mb-8 break-inside-avoid", "span" in it && it.span && "[column-span:all]")}
+                  >
+                    {it.el}
                   </div>
                 ))}
               </motion.div>

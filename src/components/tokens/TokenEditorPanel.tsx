@@ -26,8 +26,9 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 400, damping: 40 }}
             className={cn(
-              "fixed right-0 top-0 z-50 flex h-full flex-col border-l border-stroke bg-surface shadow-xl transition-[width]",
-              mode === "both" ? "w-[500px]" : "w-[340px]",
+              // One fixed width across all modes so token names + contrast chips
+              // never clip when switching light/dark/both.
+              "fixed right-0 top-0 z-50 flex h-full w-[500px] flex-col border-l border-stroke bg-surface shadow-xl",
             )}
             aria-label="Token editor"
           >
