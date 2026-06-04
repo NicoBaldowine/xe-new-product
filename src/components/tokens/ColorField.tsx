@@ -22,7 +22,7 @@ export function ColorField({
 }) {
   return (
     <div className="flex items-center gap-2">
-      <label className="relative h-7 w-7 shrink-0 overflow-hidden rounded-md border border-stroke">
+      <label className="relative h-6 w-6 shrink-0 overflow-hidden rounded-md border border-stroke">
         <span
           aria-hidden
           className="absolute inset-0"
@@ -46,8 +46,8 @@ export function ColorField({
         spellCheck={false}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          "h-7 w-full min-w-0 rounded-md border border-stroke bg-surface-1 px-2",
-          "font-mono text-xs text-content tabular-nums outline-none",
+          "h-6 w-full min-w-0 rounded-md border border-stroke bg-surface-1 px-1.5",
+          "font-mono text-[11px] text-content tabular-nums outline-none",
           "focus:ring-2 focus:ring-stroke-brand",
         )}
       />

@@ -27,7 +27,7 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
             transition={{ type: "spring", stiffness: 400, damping: 40 }}
             className={cn(
               "fixed right-0 top-0 z-50 flex h-full flex-col border-l border-stroke bg-surface shadow-xl transition-[width]",
-              mode === "both" ? "w-[420px]" : "w-[340px]",
+              mode === "both" ? "w-[500px]" : "w-[340px]",
             )}
             aria-label="Token editor"
           >
@@ -75,9 +75,9 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
             {/* token groups */}
             <div className="flex-1 overflow-y-auto px-4 py-3">
               {mode === "both" && (
-                <div className="mb-2 flex items-center justify-end gap-1.5 pr-1 text-[10px] uppercase tracking-wide text-content-tertiary">
-                  <span className="w-[88px] text-center">Light</span>
-                  <span className="w-[88px] text-center">Dark</span>
+                <div className="mb-2 flex items-center justify-end gap-2 pr-1 text-[10px] uppercase tracking-wide text-content-tertiary">
+                  <span className="w-[112px] text-center">Light</span>
+                  <span className="w-[112px] text-center">Dark</span>
                 </div>
               )}
               {TOKEN_GROUPS.map((cat) => {

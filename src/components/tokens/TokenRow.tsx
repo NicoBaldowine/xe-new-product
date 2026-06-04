@@ -68,16 +68,16 @@ export function TokenRow({ token, mode }: { token: TokenDef; mode: EditMode }) {
         </div>
       </div>
       {showBoth ? (
-        <div className="flex w-48 shrink-0 gap-1.5">
-          <div className="flex-1" title="Light">
+        <div className="flex w-[232px] shrink-0 gap-2">
+          <div className="w-[112px]" title="Light">
             <Field token={token} theme="light" />
           </div>
-          <div className="flex-1" title="Dark">
+          <div className="w-[112px]" title="Dark">
             <Field token={token} theme="dark" />
           </div>
         </div>
       ) : (
-        <div className="w-40 shrink-0">
+        <div className="w-44 shrink-0">
           <Field token={token} theme={invariant ? "light" : (mode as Theme)} />
         </div>
       )}

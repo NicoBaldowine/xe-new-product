@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
-import { containerVariants, groupVariants } from "@/lib/motion";
+import { containerVariants } from "@/lib/motion";
 import { DrawStrokeContext } from "@/components/primitives/Card";
 import { ThemeToggle } from "./ThemeToggle";
 import { ViewToggle, type ViewMode } from "./ViewToggle";
@@ -28,15 +28,6 @@ import { VerifyIdCard } from "./blocks/VerifyIdCard";
 import { TravelPromoCard } from "./blocks/TravelPromoCard";
 import { AccountsListCard } from "./blocks/AccountsListCard";
 import { RecentActivitiesCard } from "./blocks/RecentActivitiesCard";
-
-/** A region/column wrapper that cascades the entrance stagger to its children. */
-function Group({ className, children }: { className?: string; children: React.ReactNode }) {
-  return (
-    <motion.div variants={groupVariants} className={className}>
-      {children}
-    </motion.div>
-  );
-}
 
 export function BentoStage() {
   const reduce = useReducedMotion();
@@ -79,47 +70,36 @@ export function BentoStage() {
             /* Corporate: web-app shell — sidebar + existing blocks. */
             <CorporateView />
           ) : (
-            /* Bento only: cards draw their grey border on entrance. */
+            /* Bento: a masonry of every block. Columns are min ~300px wide so
+               nothing squeezes/overlaps — cards flow and wrap as space allows.
+               Each block draws its grey border on entrance. */
             <DrawStrokeContext.Provider value={!reduce}>
-            <motion.div
-              variants={containerVariants}
-              initial={reduce ? false : "hidden"}
-              animate="visible"
-              className="flex flex-col gap-8 lg:flex-row"
-            >
-              {/* Left region: two card columns + a full-width transactions table */}
-              <Group className="flex min-w-0 flex-1 flex-col gap-8">
-                <div className="flex flex-col gap-8 sm:flex-row">
-                  <Group className="flex flex-1 flex-col gap-8">
-                    <TotalBalanceCard />
-                    <AccountBalanceCard />
-                    <SendAgainCard count={2} />
-                  </Group>
-                  <Group className="flex flex-1 flex-col gap-8">
-                    <RateChartCard />
-                    <ActivityEmptyCard />
-                  </Group>
-                </div>
-                <TransactionsTableCard />
-              </Group>
-
-              {/* Right region: action bar + two card columns */}
-              <Group className="flex min-w-0 flex-1 flex-col gap-8">
-                <ActionBar />
-                <div className="flex flex-col gap-8 sm:flex-row">
-                  <Group className="flex flex-1 flex-col gap-8">
-                    <RateWatchCard />
-                    <SendInternationallyCard />
-                    <VerifyIdCard />
-                  </Group>
-                  <Group className="flex flex-1 flex-col gap-8">
-                    <TravelPromoCard />
-                    <AccountsListCard />
-                    <RecentActivitiesCard />
-                  </Group>
-                </div>
-              </Group>
-            </motion.div>
+              <motion.div
+                variants={containerVariants}
+                initial={reduce ? false : "hidden"}
+                animate="visible"
+                className="columns-[300px] gap-8 [column-fill:balance]"
+              >
+                {[
+                  <TotalBalanceCard key="total" />,
+                  <RateChartCard key="rate" />,
+                  <ActionBar key="actions" />,
+                  <AccountBalanceCard key="acct" />,
+                  <SendAgainCard key="again" count={2} />,
+                  <RateWatchCard key="watch" />,
+                  <SendInternationallyCard key="send" />,
+                  <TransactionsTableCard key="tx" />,
+                  <TravelPromoCard key="promo" />,
+                  <AccountsListCard key="accts" />,
+                  <ActivityEmptyCard key="empty" />,
+                  <VerifyIdCard key="verify" />,
+                  <RecentActivitiesCard key="recent" />,
+                ].map((el) => (
+                  <div key={el.key} className="mb-8 break-inside-avoid">
+                    {el}
+                  </div>
+                ))}
+              </motion.div>
             </DrawStrokeContext.Provider>
           )}
         </LayoutGroup>

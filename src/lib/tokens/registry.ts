@@ -128,7 +128,7 @@ export const TOKEN_GROUPS: TokenCategory[] = [
 
 /** Human labels per category. */
 export const CATEGORY_LABEL: Record<TokenCategory, string> = {
-  content: "Content",
+  content: "Text",
   surface: "Surface",
   stroke: "Stroke",
   brand: "Brand / fixed",
