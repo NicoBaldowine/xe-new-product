@@ -12,6 +12,8 @@ import { MobileFrame } from "./MobileFrame";
 import { CorporateView } from "./CorporateView";
 import { ConsumerView } from "./ConsumerView";
 import { PlaygroundView } from "./PlaygroundView";
+import { WidgetShell } from "@/components/primitives/WidgetShell";
+import { MOBILE_ORDER } from "./consumer/widgets";
 
 import { TotalBalanceCard } from "./blocks/TotalBalanceCard";
 import { AccountBalanceCard } from "./blocks/AccountBalanceCard";
@@ -61,13 +63,14 @@ export function BentoStage() {
             /* Interactive widget sandbox — stress widgets with live controls. */
             <PlaygroundView />
           ) : isMobile ? (
-            /* Mobile: curated subset morphs into the phone reference frame. */
+            /* Mobile: the consumer widget set in the phone frame. Same widgets +
+               layoutIds as the desktop consumer view → they morph on toggle. */
             <MobileFrame>
-              <TotalBalanceCard />
-              <RateWatchCard />
-              <SendAgainCard count={2} />
-              <RecentActivitiesCard />
-              <SendInternationallyCard />
+              {MOBILE_ORDER.map((w) => (
+                <WidgetShell key={w.id} variant="mobile" layoutId={w.id}>
+                  {w.el}
+                </WidgetShell>
+              ))}
             </MobileFrame>
           ) : isConsumer ? (
             /* Consumer desktop: placeholder until the design reference lands. */
