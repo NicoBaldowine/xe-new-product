@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { Figure } from "@/components/primitives/Figure";
-import { Icon } from "@/components/primitives/Icon";
+import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { CurrencyRow } from "@/components/primitives/CurrencyRow";
 import { spring } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -93,11 +93,10 @@ export function Convert({
           {title}
         </Eyebrow>
         {showRefresh && (
-          <Icon
-            name="convert"
+          <AssetIcon
+            name="last-update"
             size={12}
             className="shrink-0 text-brand-blue-bright"
-            aria-label="Last updated"
           />
         )}
       </div>

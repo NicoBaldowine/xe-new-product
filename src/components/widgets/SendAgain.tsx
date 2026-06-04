@@ -1,14 +1,15 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { Icon, type IconName } from "@/components/primitives/Icon";
+import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { snappy } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
 /** A pay-with / send-via method: an icon + a short label. */
 type Method = {
-  icon: IconName;
+  /** AssetIcon name under /public/assets/icons/, e.g. "building-08". */
+  icon: string;
   label: string;
 };
 
@@ -43,8 +44,8 @@ const DEFAULTS = {
   fromCurrency: "USD",
   toCurrency: "EUR",
   recipient: "To Javo Esquivel",
-  payWith: { icon: "building", label: "Bank transfer" } as Method,
-  sendVia: { icon: "wallet", label: "Cash pickup" } as Method,
+  payWith: { icon: "building-08", label: "Bank transfer" } as Method,
+  sendVia: { icon: "coins-hand", label: "Cash pickup" } as Method,
   theyGet: "€92,00",
 };
 
@@ -106,7 +107,7 @@ export function SendAgain({
             />
             <span className="flex items-center gap-1 text-sm text-content-secondary">
               {fromCurrency}
-              <Icon name="convert" size={12} className="text-content-tertiary" />
+              <AssetIcon name="convert-arrows" size={12} className="text-content-tertiary" />
               {toCurrency}
             </span>
           </div>
@@ -126,21 +127,21 @@ export function SendAgain({
             "[touch-action:manipulation]",
           )}
         >
-          <Icon name="send" size={16} />
+          <AssetIcon name="send" size={16} />
         </motion.button>
       </div>
 
       {/* Meta row: pay-with / send-via / they-get. */}
       <div className="flex items-start gap-4">
         <MetaColumn label="Pay with">
-          <Icon name={payWith.icon} size={16} className="text-content-secondary" />
+          <AssetIcon name={payWith.icon} size={16} className="text-content-secondary" />
           <span className="truncate text-xs font-medium text-content-secondary">
             {payWith.label}
           </span>
         </MetaColumn>
 
         <MetaColumn label="Send via">
-          <Icon name={sendVia.icon} size={16} className="text-content-secondary" />
+          <AssetIcon name={sendVia.icon} size={16} className="text-content-secondary" />
           <span className="truncate text-xs font-medium text-content-secondary">
             {sendVia.label}
           </span>
@@ -150,8 +151,8 @@ export function SendAgain({
           <span className="truncate text-xs font-medium text-content-secondary">
             {theyGet}
           </span>
-          <Icon
-            name="arrowUp"
+          <AssetIcon
+            name="arrow-up"
             size={16}
             className={higher ? "text-success-on-muted" : "text-content-tertiary"}
           />

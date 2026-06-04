@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { Figure } from "@/components/primitives/Figure";
-import { Icon } from "@/components/primitives/Icon";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { RateAreaChart } from "@/components/primitives/RateAreaChart";
 import { useWidgetContainer } from "@/components/primitives/WidgetShell";
@@ -79,7 +79,7 @@ function RateItem({ code }: { code: string }) {
         <Figure flag={code} size={24} />
         <span className="font-display text-sm font-medium text-content">{code}</span>
       </span>
-      <Icon name="chevronDown" size={16} className="text-content-secondary" />
+      <AssetIcon name="chevron-down" size={16} className="text-content-secondary" />
     </button>
   );
 }
@@ -117,7 +117,7 @@ export function Charts({
     <span className="flex items-center">
       <Figure flag={from} size={24} ring />
       <span className="z-10 -mx-1 flex size-5 items-center justify-center rounded-full bg-surface text-content-secondary">
-        <Icon name="chevronRight" size={12} />
+        <AssetIcon name="arrow-right" size={12} />
       </span>
       <Figure flag={to} size={24} ring />
     </span>
@@ -136,7 +136,7 @@ export function Charts({
               "cursor-pointer text-content-secondary transition-colors hover:bg-surface-1",
             )}
           >
-            <Icon name="convert" size={16} />
+            <AssetIcon name="convert" size={16} />
           </button>
           <RateItem code={to} />
         </div>
@@ -155,11 +155,10 @@ export function Charts({
                 up ? "text-success-on-muted" : "text-warning-on-muted",
               )}
             >
-              <Icon
-                name="arrowUp"
+              <AssetIcon
+                name="arrow-up"
                 size={16}
                 className={cn(!up && "rotate-180")}
-                aria-hidden
               />
               {delta}
             </span>

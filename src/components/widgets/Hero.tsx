@@ -1,5 +1,6 @@
 "use client";
 
+import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { Button } from "@/components/primitives/Button";
 import { Figure } from "@/components/primitives/Figure";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
@@ -56,6 +57,20 @@ function FlagStack({ flags, overflow }: { flags: readonly string[]; overflow: bo
 export type HeroVariant = "balance" | "all-accounts" | "card" | "esim";
 
 type QuickAction = { icon: IconName; label: string; primary?: boolean };
+
+// Real Figma icon exports (mask-rendered via AssetIcon) for the quick-action
+// glyphs that have a 1:1 Figma asset. Anything not listed (e.g. "send") keeps
+// the inline stroke <Icon>.
+const ASSET_ACTION_ICONS: Partial<Record<IconName, string>> = {
+  plus: "plus",
+  convert: "convert",
+};
+
+/** Action glyph: real Figma asset when available, else inline <Icon>. */
+function ActionIcon({ icon, size }: { icon: IconName; size: number }) {
+  const asset = ASSET_ACTION_ICONS[icon];
+  return asset ? <AssetIcon name={asset} size={size} /> : <Icon name={icon} size={size} />;
+}
 
 const DEFAULTS = {
   balance: {
@@ -120,7 +135,7 @@ function QuickAccessButton({ icon, label, primary }: QuickAction) {
   return (
     <div className="flex w-20 flex-col items-center gap-2">
       <Button aria-label={label} variant={primary ? "primary" : "secondary"} className="h-12 w-12 rounded-full px-0">
-        <Icon name={icon} size={20} />
+        <ActionIcon icon={icon} size={20} />
       </Button>
       <span className="font-display text-xs font-medium text-content">{label}</span>
     </div>
@@ -134,7 +149,7 @@ function PillButton({ icon, label }: QuickAction) {
       type="button"
       className="flex h-10 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-surface-adaptive px-4 font-display text-sm font-semibold text-content transition-colors hover:brightness-95"
     >
-      <Icon name={icon} size={16} />
+      <ActionIcon icon={icon} size={16} />
       {label}
     </button>
   );
@@ -159,7 +174,7 @@ function BalanceHero({ variant, flags, showOverflow, label, amount, actions, cla
         <div className="flex flex-col items-center gap-1">
           <Eyebrow className="uppercase">
             {label ?? d.label}
-            <Icon name="help" size={16} className="text-content-secondary" />
+            <AssetIcon name="info-circle" size={16} className="text-content-secondary" />
           </Eyebrow>
           <RollingNumber
             value={amount ?? d.amount}

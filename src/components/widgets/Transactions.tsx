@@ -1,6 +1,7 @@
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { Figure } from "@/components/primitives/Figure";
 import { Icon, type IconName } from "@/components/primitives/Icon";
+import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { Pill } from "@/components/primitives/Pill";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { Button } from "@/components/primitives/Button";
@@ -69,12 +70,20 @@ const ONLY_BALANCE_ROWS: Transaction[] = Array.from({ length: 5 }, () => ({
   icon: "plus" as IconName,
 }));
 
+/** Widget IconName -> real Figma asset (downloaded under /public/assets/icons). */
+const ASSET_ICON: Partial<Record<IconName, string>> = {
+  bag: "shopping-bag",
+  plus: "plus",
+  building: "banknote",
+};
+
 function Emblem({ row }: { row: Transaction }) {
   if (row.initials) return <Figure size={40} initials={row.initials} />;
   const icon = row.icon ?? (row.status && row.status !== "neutral" ? STATUS_META[row.status].icon : "ledger");
+  const asset = ASSET_ICON[icon];
   return (
     <Figure size={40} className="bg-surface-1 text-content-secondary">
-      <Icon name={icon} size={20} />
+      {asset ? <AssetIcon name={asset} size={20} /> : <Icon name={icon} size={20} />}
     </Figure>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
+import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { Button } from "@/components/primitives/Button";
 import { Figure } from "@/components/primitives/Figure";
-import { Icon } from "@/components/primitives/Icon";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { cn } from "@/lib/cn";
 
@@ -60,7 +60,7 @@ function AmountField({ currency, amount }: Leg) {
         <span className="font-display text-base font-medium tracking-[-0.04em] text-content">
           {currency}
         </span>
-        <Icon name="chevronDown" size={16} className="text-content-secondary" />
+        <AssetIcon name="chevron-down" size={16} className="text-content-secondary" />
       </button>
       <RollingNumber
         value={amount}

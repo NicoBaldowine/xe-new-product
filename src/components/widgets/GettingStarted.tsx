@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { Figure } from "@/components/primitives/Figure";
 import { Icon, type IconName } from "@/components/primitives/Icon";
 import { spring } from "@/lib/motion";
@@ -75,8 +76,21 @@ type GettingStartedProps = {
   className?: string;
 };
 
+/**
+ * Maps the approximated inline <Icon> names used by the default steps to the
+ * real Figma icon SVGs (in /public/assets/icons/). Steps whose icon isn't
+ * mapped fall back to the inline <Icon> set.
+ */
+const STEP_ASSET_ICON: Partial<Record<IconName, string>> = {
+  users: "user-plus",
+  card: "credit-card-plus",
+  chart: "line-chart-up",
+  send: "send",
+};
+
 /** One checklist row — completed shows a filled success check + struck-through copy. */
 function StepRow({ step, done, reduce }: { step: GettingStartedStep; done: boolean; reduce: boolean }) {
+  const assetIcon = STEP_ASSET_ICON[step.icon];
   const emblem = done ? (
     <motion.span
       initial={reduce ? false : { scale: 0.6, opacity: 0 }}
@@ -89,7 +103,11 @@ function StepRow({ step, done, reduce }: { step: GettingStartedStep; done: boole
     </motion.span>
   ) : (
     <span className="inline-flex size-6 items-center justify-center">
-      <Icon name={step.icon} size={22} className="text-content" />
+      {assetIcon ? (
+        <AssetIcon name={assetIcon} size={22} className="text-content" />
+      ) : (
+        <Icon name={step.icon} size={22} className="text-content" />
+      )}
     </span>
   );
 
@@ -162,7 +180,7 @@ export function GettingStarted({
 
       {/* Help footer */}
       <div className="flex items-center gap-3">
-        <Icon name="help" size={20} className="text-content-secondary" />
+        <AssetIcon name="help-circle" size={20} className="text-content-secondary" />
         <span className="text-sm text-content-secondary">{helpLabel}</span>
         <a
           href="#"

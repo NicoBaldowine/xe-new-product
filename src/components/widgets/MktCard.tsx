@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Icon } from "@/components/primitives/Icon";
+import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { cn } from "@/lib/cn";
 import { illustrationSrc } from "@/lib/assets";
 
@@ -95,8 +95,7 @@ export function MktCard({
             "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue-bright",
           )}
         >
-          {/* No dedicated close glyph in the Icon registry — reuse `plus` rotated 45° to render an X. */}
-          <Icon name="plus" size={18} className="rotate-45" />
+          <AssetIcon name="x-close" size={18} />
         </button>
       )}
     </div>
