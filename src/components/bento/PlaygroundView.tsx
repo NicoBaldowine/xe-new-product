@@ -27,7 +27,7 @@ function Stage({ entry, props, variant }: { entry: WidgetEntry; props: Record<st
       </span>
       <div
         className={cn(
-          "bg-canvas p-5",
+          "flex flex-col bg-canvas p-5",
           variant === "mobile" ? "w-[360px]" : "w-full max-w-[520px]",
         )}
       >

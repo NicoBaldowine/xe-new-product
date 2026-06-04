@@ -257,8 +257,8 @@ export const WIDGETS: WidgetEntry[] = [
     render: (p) => <RateChartCard {...p} />,
   },
   {
-    id: "send-again",
-    name: "Send Again",
+    id: "send-again-block",
+    name: "Send Again (legacy)",
     group: "Send",
     source: "legacy-block",
     containers: ["mobile", "desktop"],

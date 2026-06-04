@@ -52,7 +52,7 @@ export function WidgetShell({ variant, layoutId, flush, className, children }: W
   }
   return (
     <WidgetContainerContext.Provider value="desktop">
-      <Card layoutId={layoutId} flush={flush} className={className}>
+      <Card layoutId={layoutId} flush={flush} className={cn("w-full", className)}>
         {children}
       </Card>
     </WidgetContainerContext.Provider>

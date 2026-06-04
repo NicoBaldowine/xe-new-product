@@ -6,8 +6,44 @@ import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { Icon, type IconName } from "@/components/primitives/Icon";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { useWidgetContainer } from "@/components/primitives/WidgetShell";
-import { flagSrc, heroCardSrc } from "@/lib/assets";
+import { flagSrc, flagEmoji, heroCardSrc } from "@/lib/assets";
 import { cn } from "@/lib/cn";
+
+const FLAG_SIZE = 48;
+const FLAG_OVERLAP = 16;
+// A real circular cutout where the previous (behind) flag overlaps — reveals a
+// clean gap through to the surface instead of faking separation with a ring.
+const CUTOUT = `radial-gradient(circle 27px at -8px ${FLAG_SIZE / 2}px, transparent 27px, #000 28px)`;
+
+type StackItem = { flag: string } | { overflow: true };
+
+/** Overlapping flag stack with a mask cutout (no border). */
+function FlagStack({ flags, overflow }: { flags: readonly string[]; overflow: boolean }) {
+  const items: StackItem[] = [...flags.map((f) => ({ flag: f })), ...(overflow ? [{ overflow: true as const }] : [])];
+  return (
+    <div className="flex">
+      {items.map((it, i) => {
+        const src = "flag" in it ? flagSrc(it.flag) : null;
+        return (
+          <div
+            key={i}
+            className="relative grid shrink-0 place-items-center overflow-hidden rounded-full bg-surface-1 bg-cover bg-center text-content"
+            style={{
+              width: FLAG_SIZE,
+              height: FLAG_SIZE,
+              marginLeft: i > 0 ? -FLAG_OVERLAP : 0,
+              ...(src ? { backgroundImage: `url(${src})` } : {}),
+              ...(i > 0 ? { WebkitMaskImage: CUTOUT, maskImage: CUTOUT } : {}),
+            }}
+          >
+            {"overflow" in it && <Icon name="plus" size={20} />}
+            {"flag" in it && !src && <span className="text-lg">{flagEmoji(it.flag)}</span>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 /**
  * Hero — top-of-screen widget. Two shapes share one component:
@@ -118,16 +154,7 @@ function BalanceHero({ variant, flags, showOverflow, label, amount, actions, cla
   const content = (
     <div className="relative flex w-full flex-col items-center gap-8">
       <div className="flex flex-col items-center gap-4">
-        <div className="flex items-center">
-          {resolvedFlags.map((f, i) => (
-            <Figure key={f} flag={f} size={48} ring className={i > 0 ? "-ml-3" : ""} />
-          ))}
-          {overflow && (
-            <Figure size={48} ring className="-ml-3">
-              <Icon name="plus" size={20} className="text-content" />
-            </Figure>
-          )}
-        </div>
+        <FlagStack flags={resolvedFlags} overflow={overflow} />
 
         <div className="flex flex-col items-center gap-1">
           <Eyebrow className="uppercase">
