@@ -159,7 +159,6 @@ export const WIDGETS: WidgetEntry[] = [
     source: "figma-widget",
     containers: ["mobile", "desktop"],
     controls: [
-      { kind: "toggle", prop: "pinned", label: "Pinned", default: false },
       { kind: "select", prop: "rate", label: "Rate", options: ["normal", "higher"], default: "normal" },
       { kind: "text", prop: "recipient", label: "Recipient", default: "To Javo Esquivel" },
       { kind: "amount", prop: "amount", label: "Amount", default: "100" },
@@ -168,8 +167,8 @@ export const WIDGETS: WidgetEntry[] = [
       { kind: "text", prop: "theyGet", label: "They get", default: "€92,00" },
     ],
     presets: [
-      { label: "Regular", props: { pinned: false, rate: "normal" } },
-      { label: "Pinned + higher rate", props: { pinned: true, rate: "higher" } },
+      { label: "Normal rate", props: { rate: "normal" } },
+      { label: "Higher rate", props: { rate: "higher" } },
     ],
     render: (p) => <SendAgain {...p} />,
   },

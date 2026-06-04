@@ -14,8 +14,6 @@ type Method = {
 };
 
 type SendAgainProps = {
-  /** Pinned cards get a subtle highlighted surface; regular cards are flat. */
-  pinned?: boolean;
   /**
    * Rate signal for the "They get" value. "higher" tints the trailing arrow
    * with the success token (a better-than-before rate); "normal" stays neutral.
@@ -74,7 +72,6 @@ function MetaColumn({
  * (8443:17020 / 8443:17018 / 8443:17019).
  */
 export function SendAgain({
-  pinned = true,
   rate = "normal",
   amount = DEFAULTS.amount,
   fromCurrency = DEFAULTS.fromCurrency,
@@ -89,14 +86,7 @@ export function SendAgain({
   const higher = rate === "higher";
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-2 rounded-xl p-1",
-        // Pinned cards sit on a subtle surface so they read as saved/favourited.
-        pinned && "bg-surface-1 p-3",
-        className,
-      )}
-    >
+    <div className={cn("flex flex-col gap-2", className)}>
       {/* Header: amount + currency pair, and a quick-send action. */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-1">

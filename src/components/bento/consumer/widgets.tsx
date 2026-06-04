@@ -35,7 +35,7 @@ export const PRIMARY_WIDGETS: ConsumerWidget[] = [
 
 /** Right desktop column / lower mobile stack. */
 export const SECONDARY_WIDGETS: ConsumerWidget[] = [
-  { id: "c-send-again", el: <SendAgain />, bare: true },
+  { id: "c-send-again", el: <SendAgain /> },
   { id: "c-getting-started", el: <GettingStarted /> },
   { id: "c-convert", el: <Convert /> },
   { id: "c-mkt", el: <MktCard variant="Large" /> },
