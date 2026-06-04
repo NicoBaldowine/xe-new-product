@@ -9,11 +9,12 @@ This is the canonical guide for building a widget in this repo. It exists so eve
 A widget is split in two:
 
 - **Content component** — the pure widget body (`HeroContent`, `ChartsContent`, …). It reads tokens + fixtures, accepts props, and contains **no outer surface, no margins, and no `layoutId`**. This is what the Playground renders and what gets stress-tested.
-- **Container** — supplied by `<WidgetShell variant="mobile" | "desktop">`:
-  - `desktop` → wraps the content in `<Card>` (rounded-card, `border-stroke`, `p-6`).
-  - `mobile` → the phone-cell surface used inside `MobileFrame` (edge-to-edge, mobile spacing rhythm).
+- **Container** — supplied by `<WidgetShell variant="mobile" | "desktop">` ([WidgetShell.tsx](src/components/primitives/WidgetShell.tsx)). The XE surface rule, applied to **every** widget:
+  - `desktop` → 24px padding · base surface (`bg-surface`) · base stroke (`border-stroke`) — the standard `<Card>`.
+  - `mobile` → 16px padding · surface level-1 (`bg-surface-1`) · **no border**.
+  - `bare` → self-contained widgets that bring their own surface (e.g. Send Again's pinned fill) opt out of the shell surface entirely (just the morph wrapper) so they don't end up card-in-card.
 
-The same content in two shells = **"same structure, different container."** A content component may read `WidgetContainerContext` (`"mobile" | "desktop"`) for *minor* responsive tweaks (e.g. inline vs stacked actions) — never fork the component.
+The same content in two shells = **"same structure, different container."** A content component may read `useWidgetContainer()` (`"mobile" | "desktop"`) for *minor* responsive tweaks (e.g. desktop pills vs mobile round actions) — never fork the component.
 
 ```tsx
 // ✅ content is pure; the view (or Playground) chooses the shell
@@ -42,7 +43,12 @@ Compose from these parts (most are optional):
 | Status badge | success/warning/info pill | `Pill` |
 | Footer CTA | primary/secondary action | `Button` |
 
-**Always reuse primitives** (`Card, Eyebrow, CurrencyRow, Figure, Button, Pill, RollingNumber, Icon, RateAreaChart`). Don't re-implement a row, badge, or animated number by hand. Need an icon? Add it to the `IconName`/`PATHS` registry in `Icon.tsx` — never inline a one-off SVG.
+**Always reuse primitives** (`Card, Eyebrow, CurrencyRow, Figure, Button, Pill, RollingNumber, Icon, RateAreaChart`). Don't re-implement a row, badge, or animated number by hand.
+
+Shared widget primitives:
+- **`FlagStack`** ([FlagStack.tsx](src/components/primitives/FlagStack.tsx)) — overlapping flags with a real circular **mask cutout** (no faux ring). Use it **everywhere flags stack** (Hero, Rate Watch, balances). A single flag has no border/cutout.
+- **`AssetIcon`** ([AssetIcon.tsx](src/components/primitives/AssetIcon.tsx)) — renders a real Figma icon SVG from `/public/assets/icons/<name>.svg` via a CSS mask painted with the current text colour (themes correctly). Use this for exact Figma-parity icons; the inline `<Icon>` set stays for generic UI glyphs. Exported icon SVGs are normalized to a centered square viewBox (~78% glyph fill) so the `size` prop drives a consistent visual size — keep new exports normalized.
+- Need a generic UI glyph not in either set? Add it to the `IconName`/`PATHS` registry in `Icon.tsx` — never inline a one-off SVG.
 
 ## 4. Tokens only — never hardcode
 

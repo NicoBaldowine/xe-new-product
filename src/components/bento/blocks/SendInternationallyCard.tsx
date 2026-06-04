@@ -28,7 +28,7 @@ export function SendInternationallyCard() {
 
       <div className="relative flex flex-col gap-2">
         <AmountBox currency={data.send.currency} amount={data.send.amount} />
-        <span className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#bcd6ff] to-[#c9f3bb] px-3 py-1.5 font-display text-sm font-semibold text-[#0a0a0a]">
+        <span className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-success-muted px-3 py-1.5 font-display text-sm font-semibold text-success-on-muted">
           {data.rateBadge}
         </span>
         <AmountBox currency={data.receive.currency} amount={data.receive.amount} />

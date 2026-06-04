@@ -88,6 +88,8 @@ Each view is a *configuration* (which blocks, what order/size) over the shared l
 
 This is a living showcase — new blocks, views, and (later) themes will keep landing. Follow the existing mold so additions stay reusable; if your case doesn't fit the mold, that's a discussion before code, not a new pattern invented inline.
 
+> **Building a widget?** Read [design.md](design.md) — the canonical authoring guide (content vs `WidgetShell` container, `FlagStack`/`AssetIcon`, tokens, motion, the pre-delivery QA checklist).
+
 ### Add a block
 
 Blocks are the unit of reuse — build them to compose into any view, not for one screen.
