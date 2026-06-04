@@ -47,6 +47,8 @@ const FLAG_FILE: Record<string, string> = {
   CH: "flags/ch.svg",
   CHF: "flags/ch.svg",
   NL: "flags/nl.svg",
+  CL: "flags/cl.svg",
+  CLP: "flags/cl.svg",
 };
 
 /** Resolve a flag image src, or null if we don't have one (caller falls back). */
