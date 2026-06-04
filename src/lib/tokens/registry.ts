@@ -65,21 +65,21 @@ export const TOKENS: TokenDef[] = [
   { name: "radius-card", cssVar: "--xe-radius-card", category: "radius", type: "dimension", light: "20px", description: "Card radius.", themeKeys: ["--radius-card"] },
 
   // ── type scale (theme-invariant; size + line-height pairs) ─────────────
-  { name: "text-xs", cssVar: "--xe-text-xs", category: "typography", type: "dimension", light: "12px", description: "xs size.", themeKeys: ["--text-xs"] },
+  { name: "text-xs", cssVar: "--xe-text-xs", category: "typography", type: "dimension", light: "12px", description: "Caption / eyebrow / badge size (12px).", themeKeys: ["--text-xs"] },
   { name: "text-xs-lh", cssVar: "--xe-text-xs-lh", category: "typography", type: "dimension", light: "16px", description: "xs line-height.", themeKeys: ["--text-xs--line-height"] },
-  { name: "text-sm", cssVar: "--xe-text-sm", category: "typography", type: "dimension", light: "14px", description: "sm size.", themeKeys: ["--text-sm"] },
+  { name: "text-sm", cssVar: "--xe-text-sm", category: "typography", type: "dimension", light: "14px", description: "Body small — list rows, secondary text (14px).", themeKeys: ["--text-sm"] },
   { name: "text-sm-lh", cssVar: "--xe-text-sm-lh", category: "typography", type: "dimension", light: "20px", description: "sm line-height.", themeKeys: ["--text-sm--line-height"] },
-  { name: "text-base", cssVar: "--xe-text-base", category: "typography", type: "dimension", light: "16px", description: "base size.", themeKeys: ["--text-base"] },
+  { name: "text-base", cssVar: "--xe-text-base", category: "typography", type: "dimension", light: "16px", description: "Body — default paragraph (16px).", themeKeys: ["--text-base"] },
   { name: "text-base-lh", cssVar: "--xe-text-base-lh", category: "typography", type: "dimension", light: "24px", description: "base line-height.", themeKeys: ["--text-base--line-height"] },
-  { name: "text-lg", cssVar: "--xe-text-lg", category: "typography", type: "dimension", light: "18px", description: "lg size.", themeKeys: ["--text-lg"] },
+  { name: "text-lg", cssVar: "--xe-text-lg", category: "typography", type: "dimension", light: "18px", description: "Body large / small heading (18px).", themeKeys: ["--text-lg"] },
   { name: "text-lg-lh", cssVar: "--xe-text-lg-lh", category: "typography", type: "dimension", light: "28px", description: "lg line-height.", themeKeys: ["--text-lg--line-height"] },
-  { name: "text-xl", cssVar: "--xe-text-xl", category: "typography", type: "dimension", light: "20px", description: "xl size (≈ title-h4).", themeKeys: ["--text-xl"] },
+  { name: "text-xl", cssVar: "--xe-text-xl", category: "typography", type: "dimension", light: "20px", description: "Title h4 — small section headings (20px).", themeKeys: ["--text-xl"] },
   { name: "text-xl-lh", cssVar: "--xe-text-xl-lh", category: "typography", type: "dimension", light: "28px", description: "xl line-height.", themeKeys: ["--text-xl--line-height"] },
-  { name: "text-2xl", cssVar: "--xe-text-2xl", category: "typography", type: "dimension", light: "24px", description: "2xl size (≈ title-h3).", themeKeys: ["--text-2xl"] },
+  { name: "text-2xl", cssVar: "--xe-text-2xl", category: "typography", type: "dimension", light: "24px", description: "Title h3 — card headings, greetings (24px).", themeKeys: ["--text-2xl"] },
   { name: "text-2xl-lh", cssVar: "--xe-text-2xl-lh", category: "typography", type: "dimension", light: "32px", description: "2xl line-height.", themeKeys: ["--text-2xl--line-height"] },
-  { name: "text-3xl", cssVar: "--xe-text-3xl", category: "typography", type: "dimension", light: "30px", description: "3xl size (≈ title-h2).", themeKeys: ["--text-3xl"] },
+  { name: "text-3xl", cssVar: "--xe-text-3xl", category: "typography", type: "dimension", light: "30px", description: "Title h2 — balances, big numbers (30px).", themeKeys: ["--text-3xl"] },
   { name: "text-3xl-lh", cssVar: "--xe-text-3xl-lh", category: "typography", type: "dimension", light: "34px", description: "3xl line-height.", themeKeys: ["--text-3xl--line-height"] },
-  { name: "text-4xl", cssVar: "--xe-text-4xl", category: "typography", type: "dimension", light: "36px", description: "4xl size (≈ title-h1).", themeKeys: ["--text-4xl"] },
+  { name: "text-4xl", cssVar: "--xe-text-4xl", category: "typography", type: "dimension", light: "36px", description: "Title h1 — hero / display (36px).", themeKeys: ["--text-4xl"] },
   { name: "text-4xl-lh", cssVar: "--xe-text-4xl-lh", category: "typography", type: "dimension", light: "36px", description: "4xl line-height.", themeKeys: ["--text-4xl--line-height"] },
 
   // ── font weights (theme-invariant) ────────────────────────────────────
@@ -90,6 +90,22 @@ export const TOKENS: TokenDef[] = [
   // ── blur (theme-invariant) ────────────────────────────────────────────
   { name: "blur-md", cssVar: "--xe-blur-md", category: "blur", type: "dimension", light: "16px", description: "backdrop-blur md.", themeKeys: ["--blur-md"] },
   { name: "blur-2xl", cssVar: "--xe-blur-2xl", category: "blur", type: "dimension", light: "42px", description: "backdrop-blur 2xl.", themeKeys: ["--blur-2xl"] },
+
+  // ── font families (theme-invariant role → face) ───────────────────────
+  { name: "font-title", cssVar: "--xe-font-title", category: "fontFamily", type: "fontFamily", light: "var(--font-instrument-sans)", description: "Titles / headings (h1–h4). Default Instrument Sans.", themeKeys: ["--font-display"] },
+  { name: "font-body", cssVar: "--xe-font-body", category: "fontFamily", type: "fontFamily", light: "var(--font-zalando)", description: "Body / UI text. Default Zalando Sans.", themeKeys: ["--font-sans"] },
+  { name: "font-accent", cssVar: "--xe-font-accent", category: "fontFamily", type: "fontFamily", light: "var(--font-instrument-serif)", description: "Editorial accent (italic, e.g. “Limits”). Default Instrument Serif.", themeKeys: ["--font-serif"] },
+  { name: "font-numeric", cssVar: "--xe-font-numeric", category: "fontFamily", type: "fontFamily", light: "var(--font-roboto-mono)", description: "Numerals (balances / rates). Default Roboto Mono (digits-only).", themeKeys: ["--font-mono"] },
+];
+
+/** Selectable font faces for the family editor (label → CSS value). */
+export const FONT_OPTIONS: { label: string; value: string }[] = [
+  { label: "Instrument Sans", value: "var(--font-instrument-sans)" },
+  { label: "Zalando Sans", value: "var(--font-zalando)" },
+  { label: "Instrument Serif", value: "var(--font-instrument-serif)" },
+  { label: "Roboto Mono", value: "var(--font-roboto-mono)" },
+  { label: "Inter", value: "var(--font-inter)" },
+  { label: "System", value: "ui-sans-serif, system-ui, sans-serif" },
 ];
 
 /** name → TokenDef lookup. */
@@ -103,9 +119,10 @@ export const TOKEN_GROUPS: TokenCategory[] = [
   "surface",
   "stroke",
   "brand",
-  "radius",
+  "fontFamily",
   "typography",
   "fontWeight",
+  "radius",
   "blur",
 ];
 
@@ -117,6 +134,7 @@ export const CATEGORY_LABEL: Record<TokenCategory, string> = {
   brand: "Brand / fixed",
   radius: "Radius",
   typography: "Type scale",
+  fontFamily: "Font family",
   fontWeight: "Font weight",
   blur: "Blur",
 };

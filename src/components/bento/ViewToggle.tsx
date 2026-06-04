@@ -46,6 +46,7 @@ export function ViewToggle({
             aria-selected={active}
             aria-label={opt.label}
             disabled={opt.disabled}
+            title={opt.label}
             onClick={() => !opt.disabled && onChange(opt.value)}
             className={cn(
               "relative grid h-9 w-9 place-items-center rounded-full transition-colors",

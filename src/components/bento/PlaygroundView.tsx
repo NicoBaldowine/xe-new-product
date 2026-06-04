@@ -21,8 +21,9 @@ type ContainerMode = "mobile" | "desktop" | "both";
 function Stage({ entry, props, variant }: { entry: WidgetEntry; props: Record<string, unknown>; variant: "mobile" | "desktop" }) {
   return (
     <div className="flex flex-col items-center gap-2">
-      <span className="font-display text-xs font-medium uppercase tracking-wide text-content-tertiary">
-        {variant}
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-1 px-2.5 py-1 font-display text-[11px] font-medium uppercase tracking-wide text-content-secondary">
+        <Icon name={variant === "mobile" ? "phone" : "monitor"} size={12} />
+        {variant} container
       </span>
       <div
         className={cn(
@@ -160,10 +161,10 @@ function ContainerSwitch({
   onChange: (m: ContainerMode) => void;
   entry: WidgetEntry;
 }) {
-  const opts: { id: ContainerMode; label: string; icon: "phone" | "monitor" | "grid" }[] = [
-    { id: "mobile", label: "Mobile", icon: "phone" },
-    { id: "desktop", label: "Desktop", icon: "monitor" },
-    { id: "both", label: "Both", icon: "grid" },
+  const opts: { id: ContainerMode; label: string; title: string; icon: "phone" | "monitor" | "grid" }[] = [
+    { id: "mobile", label: "Mobile", title: "Show the widget in the mobile (phone-cell) container", icon: "phone" },
+    { id: "desktop", label: "Desktop", title: "Show the widget in the desktop (card) container", icon: "monitor" },
+    { id: "both", label: "Both", title: "Show mobile and desktop side by side — same widget, different container", icon: "grid" },
   ];
   const supportsBoth = entry.containers.length > 1;
   return (
@@ -180,6 +181,7 @@ function ContainerSwitch({
             disabled={disabled}
             onClick={() => onChange(o.id)}
             aria-label={o.label}
+            title={disabled ? `${o.label} — not available for this widget` : o.title}
             className={cn(
               "grid h-7 w-7 place-items-center rounded-full transition-colors",
               disabled

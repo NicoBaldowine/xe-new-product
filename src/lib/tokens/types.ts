@@ -21,6 +21,7 @@ export type TokenCategory =
   | "brand"
   | "radius"
   | "typography"
+  | "fontFamily"
   | "fontWeight"
   | "blur";
 
