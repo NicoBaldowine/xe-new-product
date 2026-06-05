@@ -5,7 +5,7 @@ import { snappy } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { Icon, type IconName } from "./Icon";
 
-type Variant = "primary" | "secondary" | "outline" | "ghost";
+type Variant = "primary" | "secondary" | "outline" | "ghost" | "danger";
 
 type ButtonProps = Omit<HTMLMotionProps<"button">, "children"> & {
   variant?: Variant;
@@ -14,13 +14,17 @@ type ButtonProps = Omit<HTMLMotionProps<"button">, "children"> & {
   children?: React.ReactNode;
 };
 
+// Each variant carries its hover + pressed (active) states from the token set,
+// so interaction feedback is driven by the design system, not ad-hoc brightness.
 const VARIANTS: Record<Variant, string> = {
-  primary: "bg-action text-on-action",
+  primary: "bg-action text-on-action hover:bg-action-hover active:bg-action-pressed",
+  // Destructive — solid danger fill with its own state tokens.
+  danger: "bg-surface-danger text-content-white hover:bg-surface-danger-hover active:bg-surface-danger-pressed",
   // Filled, no border — for chips / round icon tiles / subtle actions.
-  secondary: "bg-surface-1 text-content",
+  secondary: "bg-surface-1 text-content hover:bg-surface-2 active:bg-surface-3",
   // Bordered — the standard rectangular secondary CTA (e.g. "Create account").
-  outline: "border border-stroke bg-surface-1 text-content",
-  ghost: "bg-transparent text-content hover:bg-surface-1",
+  outline: "border border-stroke bg-surface-1 text-content hover:bg-surface-2 active:bg-surface-3",
+  ghost: "bg-transparent text-content hover:bg-surface-1 active:bg-surface-2",
 };
 
 export function Button({
