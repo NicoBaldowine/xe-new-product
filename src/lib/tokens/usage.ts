@@ -30,6 +30,8 @@ for (const t of TOKENS) {
       byUtility.set("font-" + key.slice("--font-weight-".length), t.name);
     } else if (key.startsWith("--font-")) {
       byUtility.set("font-" + key.slice("--font-".length), t.name);
+    } else if (key.startsWith("--tracking-")) {
+      byUtility.set("tracking-" + key.slice("--tracking-".length), t.name);
     } else if (key.startsWith("--blur-")) {
       const x = key.slice("--blur-".length);
       byUtility.set("blur-" + x, t.name);

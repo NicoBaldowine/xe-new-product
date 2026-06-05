@@ -102,12 +102,12 @@ export const TOKENS: TokenDef[] = [
   { name: "leading-9", cssVar: "--xe-leading-9", category: "lineHeight", type: "dimension", light: "36px", description: "Line-height 36 (Figma leading-9)." },
   { name: "leading-34", cssVar: "--xe-leading-34", category: "lineHeight", type: "dimension", light: "34px", description: "Line-height 34 — H2 only (deviation: not in Figma's leading scale)." },
   // letter-spacing — Figma value/font/letter-spacing/* (em equivalents of the px@16 scale)
-  { name: "tracking-tighter", cssVar: "--xe-tracking-tighter", category: "letterSpacing", type: "dimension", light: "-0.05em", description: "Tracking tighter (Figma letter-spacing/tighter)." },
-  { name: "tracking-tight", cssVar: "--xe-tracking-tight", category: "letterSpacing", type: "dimension", light: "-0.025em", description: "Tracking tight (Figma letter-spacing/tight)." },
-  { name: "tracking-normal", cssVar: "--xe-tracking-normal", category: "letterSpacing", type: "dimension", light: "0em", description: "Tracking normal (Figma letter-spacing/normal)." },
-  { name: "tracking-wide", cssVar: "--xe-tracking-wide", category: "letterSpacing", type: "dimension", light: "0.025em", description: "Tracking wide (Figma letter-spacing/wide)." },
-  { name: "tracking-wider", cssVar: "--xe-tracking-wider", category: "letterSpacing", type: "dimension", light: "0.05em", description: "Tracking wider (Figma letter-spacing/wider)." },
-  { name: "tracking-widest", cssVar: "--xe-tracking-widest", category: "letterSpacing", type: "dimension", light: "0.1em", description: "Tracking widest (Figma letter-spacing/widest)." },
+  { name: "tracking-tighter", cssVar: "--xe-tracking-tighter", category: "letterSpacing", type: "dimension", light: "-0.05em", description: "Tracking tighter (Figma letter-spacing/tighter).", themeKeys: ["--tracking-tighter"] },
+  { name: "tracking-tight", cssVar: "--xe-tracking-tight", category: "letterSpacing", type: "dimension", light: "-0.025em", description: "Tracking tight (Figma letter-spacing/tight).", themeKeys: ["--tracking-tight"] },
+  { name: "tracking-normal", cssVar: "--xe-tracking-normal", category: "letterSpacing", type: "dimension", light: "0em", description: "Tracking normal (Figma letter-spacing/normal).", themeKeys: ["--tracking-normal"] },
+  { name: "tracking-wide", cssVar: "--xe-tracking-wide", category: "letterSpacing", type: "dimension", light: "0.025em", description: "Tracking wide (Figma letter-spacing/wide).", themeKeys: ["--tracking-wide"] },
+  { name: "tracking-wider", cssVar: "--xe-tracking-wider", category: "letterSpacing", type: "dimension", light: "0.05em", description: "Tracking wider (Figma letter-spacing/wider).", themeKeys: ["--tracking-wider"] },
+  { name: "tracking-widest", cssVar: "--xe-tracking-widest", category: "letterSpacing", type: "dimension", light: "0.1em", description: "Tracking widest (Figma letter-spacing/widest).", themeKeys: ["--tracking-widest"] },
 
   // ── text styles → composite "typesets" ────────────────────────────────
   //   Each typeset bundles size + line-height + font-weight + letter-spacing

@@ -295,6 +295,14 @@
   --font-weight-medium: var(--xe-weight-medium);
   --font-weight-semibold: var(--xe-weight-semibold);
 
+  /* letter-spacing scale → tracking-* utilities (foundations) */
+  --tracking-tighter: var(--xe-tracking-tighter);
+  --tracking-tight: var(--xe-tracking-tight);
+  --tracking-normal: var(--xe-tracking-normal);
+  --tracking-wide: var(--xe-tracking-wide);
+  --tracking-wider: var(--xe-tracking-wider);
+  --tracking-widest: var(--xe-tracking-widest);
+
   /* text styles → composite typeset utilities (text-h1.. / text-body..) that
      bundle size + line-height + font-weight + letter-spacing in one class. The
      size + line-height also feed the generic Tailwind sizes (text-xs..4xl) so
