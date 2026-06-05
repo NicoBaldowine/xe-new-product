@@ -64,11 +64,11 @@ export function Masonry({
         w.style.width = `${colWidth * spans[i] + gap * (spans[i] - 1)}px`;
         w.style.height = "auto";
       });
-      const tileHeights = els.map((w) => {
-        const natural = (w.firstElementChild as HTMLElement | null)?.offsetHeight ?? rowUnit;
+      const naturals = els.map((w) => (w.firstElementChild as HTMLElement | null)?.offsetHeight ?? rowUnit);
+      const tileHeights = els.map((w, i) => {
         const cap = Number(w.dataset.maxRows) || 0;
-        if (cap > 0) return Math.min(natural, cap * rowUnit + (cap - 1) * gap);
-        return natural;
+        if (cap > 0) return Math.min(naturals[i], cap * rowUnit + (cap - 1) * gap);
+        return naturals[i];
       });
 
       // Pass 2 — best-fit packing. Each step fills the lowest frontier with the
@@ -80,9 +80,16 @@ export function Masonry({
       const remaining = els.map((_, i) => i);
       const place = (idx: number, col: number, sp: number) => {
         const top = Math.max(...colTops.slice(col, col + sp));
-        els[idx].style.left = `${col * (colWidth + gap)}px`;
-        els[idx].style.top = `${top}px`;
-        els[idx].style.height = `${tileHeights[idx]}px`;
+        const el = els[idx];
+        el.style.left = `${col * (colWidth + gap)}px`;
+        el.style.top = `${top}px`;
+        el.style.height = `${tileHeights[idx]}px`;
+        // Clip + round ONLY when the tile actually caps content. Otherwise the
+        // rounded-card mask would slice the corners of edge-to-edge content like
+        // the action bar's buttons.
+        const clipped = tileHeights[idx] < naturals[idx] - 0.5;
+        el.style.overflow = clipped ? "hidden" : "";
+        el.style.borderRadius = clipped ? "var(--radius-card)" : "";
         for (let k = col; k < col + sp; k++) colTops[k] = top + tileHeights[idx] + gap;
       };
 
@@ -140,9 +147,9 @@ export function Masonry({
           key={it.key}
           data-cols={it.cols ?? 1}
           data-max-rows={it.maxRows ?? 0}
-          // Clip only capped content; round the clip to the card radius. The
-          // child takes its own (content) height — no forced h-full padding.
-          className="overflow-hidden rounded-card"
+          // overflow/border-radius are set per-tile in the layout effect — only
+          // capped tiles clip (rounded), so edge-to-edge content (e.g. the action
+          // bar's buttons) isn't masked by the card radius.
           style={{ position: "absolute", top: 0, left: 0 }}
         >
           {it.node}
