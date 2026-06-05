@@ -17,7 +17,7 @@ export function TravelPromoCard() {
         <p className="whitespace-pre-line text-body-sm text-content-white">{data.body}</p>
         <button
           type="button"
-          className="mt-1 w-fit rounded-button bg-glass-white px-4 py-2 font-display text-body-sm font-medium text-content-white backdrop-blur-sm transition-[filter] hover:brightness-110"
+          className="mt-1 w-fit rounded-button bg-glass-white px-4 py-2 font-display text-body-sm font-medium text-content-white backdrop-blur-md transition-[filter] hover:brightness-110"
         >
           {data.cta}
         </button>

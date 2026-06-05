@@ -61,10 +61,16 @@
   /* brand / fixed */
   --xe-blue: #002beb;
   --xe-blue-bright: #0533ff;
-  --xe-orange: #ff6e14;
-  --xe-fuchsia-50: #fdf4ff;
-  --xe-fuchsia-600: #c026d3;
-  --xe-fuchsia-950: #4a044e;
+
+  /* utility (categorical — transaction/category emblems) */
+  --xe-utility-01: #0891b2;
+  --xe-utility-01-muted: #67e8f9;
+  --xe-utility-02: #7c3aed;
+  --xe-utility-02-muted: #c4b5fd;
+  --xe-utility-03: #059669;
+  --xe-utility-03-muted: #6ee7b7;
+  --xe-utility-04: #c026d3;
+  --xe-utility-04-muted: #f0abfc;
 
   /* radius */
   --xe-radius-button: 6px;
@@ -165,10 +171,16 @@
   /* brand colours (dual — default identical to light, editable per theme) */
   --xe-blue: #002beb;
   --xe-blue-bright: #0533ff;
-  --xe-orange: #ff6e14;
-  --xe-fuchsia-50: #fdf4ff;
-  --xe-fuchsia-600: #c026d3;
-  --xe-fuchsia-950: #4a044e;
+
+  /* utility (categorical) — dark variants */
+  --xe-utility-01: #06b6d4;
+  --xe-utility-01-muted: #083344;
+  --xe-utility-02: #8b5cf6;
+  --xe-utility-02-muted: #2e1065;
+  --xe-utility-03: #10b981;
+  --xe-utility-03-muted: #022c22;
+  --xe-utility-04: #d946ef;
+  --xe-utility-04-muted: #4a044e;
 }
 /* @generated:tokens-end */
 
@@ -234,10 +246,16 @@
   /* brand / fixed */
   --color-brand-blue: var(--xe-blue);
   --color-brand-blue-bright: var(--xe-blue-bright);
-  --color-brand-orange: var(--xe-orange);
-  --color-fuchsia-50: var(--xe-fuchsia-50);
-  --color-fuchsia-600: var(--xe-fuchsia-600);
-  --color-fuchsia-950: var(--xe-fuchsia-950);
+
+  /* utility (categorical) */
+  --color-utility-01: var(--xe-utility-01);
+  --color-utility-01-muted: var(--xe-utility-01-muted);
+  --color-utility-02: var(--xe-utility-02);
+  --color-utility-02-muted: var(--xe-utility-02-muted);
+  --color-utility-03: var(--xe-utility-03);
+  --color-utility-03-muted: var(--xe-utility-03-muted);
+  --color-utility-04: var(--xe-utility-04);
+  --color-utility-04-muted: var(--xe-utility-04-muted);
 
   /* radius — reference raw vars so the editor can change them at runtime */
   --radius-button: var(--xe-radius-button);

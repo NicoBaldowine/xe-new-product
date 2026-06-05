@@ -19,6 +19,7 @@ export type TokenCategory =
   | "surface"
   | "stroke"
   | "brand"
+  | "utility"
   | "radius"
   | "typography"
   | "textStyle"

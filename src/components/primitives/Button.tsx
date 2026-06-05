@@ -15,7 +15,7 @@ type ButtonProps = Omit<HTMLMotionProps<"button">, "children"> & {
 };
 
 const VARIANTS: Record<Variant, string> = {
-  primary: "bg-brand-blue-bright text-content-white",
+  primary: "bg-brand-blue-bright text-on-action",
   // Filled, no border — for chips / round icon tiles / subtle actions.
   secondary: "bg-surface-1 text-content",
   // Bordered — the standard rectangular secondary CTA (e.g. "Create account").

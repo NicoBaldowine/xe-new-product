@@ -61,10 +61,19 @@ export const TOKENS: TokenDef[] = [
   // ── brand / fixed colours (dual: editable per theme, default identical) ──
   { name: "blue", cssVar: "--xe-blue", category: "brand", type: "color", light: "#002beb", dark: "#002beb", description: "Brand blue (Figma “Main Blue”).", themeKeys: ["--color-brand-blue"] },
   { name: "blue-bright", cssVar: "--xe-blue-bright", category: "brand", type: "color", light: "#0533ff", dark: "#0533ff", description: "Primary CTA fill (Figma “Primary blue”).", themeKeys: ["--color-brand-blue-bright"], usage: ["Primary Button", "Send money CTA", "active range tab", "links"] },
-  { name: "orange", cssVar: "--xe-orange", category: "brand", type: "color", light: "#ff6e14", dark: "#ff6e14", description: "Brand orange.", themeKeys: ["--color-brand-orange"] },
-  { name: "fuchsia-50", cssVar: "--xe-fuchsia-50", category: "brand", type: "color", light: "#fdf4ff", dark: "#fdf4ff", description: "Fuchsia 50.", themeKeys: ["--color-fuchsia-50"] },
-  { name: "fuchsia-600", cssVar: "--xe-fuchsia-600", category: "brand", type: "color", light: "#c026d3", dark: "#c026d3", description: "Fuchsia 600.", themeKeys: ["--color-fuchsia-600"] },
-  { name: "fuchsia-950", cssVar: "--xe-fuchsia-950", category: "brand", type: "color", light: "#4a044e", dark: "#4a044e", description: "Fuchsia 950.", themeKeys: ["--color-fuchsia-950"] },
+
+  // ── utility (categorical) — for transaction / category emblems. Each has a
+  //    base (icon/text) + a muted (fill); light & dark per Figma (Tailwind
+  //    cyan / violet / emerald / fuchsia). Utilities: bg-utility-01, text-utility-01,
+  //    bg-utility-01-muted, … ──────────────────────────────────────────────
+  { name: "utility-01", cssVar: "--xe-utility-01", category: "utility", type: "color", light: "#0891b2", dark: "#06b6d4", description: "Utility 01 — cyan (base / icon).", themeKeys: ["--color-utility-01"], pairWith: "utility-01-muted", usage: ["Transaction category emblem (e.g. added)"] },
+  { name: "utility-01-muted", cssVar: "--xe-utility-01-muted", category: "utility", type: "color", light: "#67e8f9", dark: "#083344", description: "Utility 01 muted — cyan (fill).", themeKeys: ["--color-utility-01-muted"] },
+  { name: "utility-02", cssVar: "--xe-utility-02", category: "utility", type: "color", light: "#7c3aed", dark: "#8b5cf6", description: "Utility 02 — violet (base / icon).", themeKeys: ["--color-utility-02"], pairWith: "utility-02-muted", usage: ["Transaction category emblem (e.g. in-progress)"] },
+  { name: "utility-02-muted", cssVar: "--xe-utility-02-muted", category: "utility", type: "color", light: "#c4b5fd", dark: "#2e1065", description: "Utility 02 muted — violet (fill).", themeKeys: ["--color-utility-02-muted"] },
+  { name: "utility-03", cssVar: "--xe-utility-03", category: "utility", type: "color", light: "#059669", dark: "#10b981", description: "Utility 03 — emerald (base / icon).", themeKeys: ["--color-utility-03"], pairWith: "utility-03-muted", usage: ["Transaction category emblem (e.g. received)"] },
+  { name: "utility-03-muted", cssVar: "--xe-utility-03-muted", category: "utility", type: "color", light: "#6ee7b7", dark: "#022c22", description: "Utility 03 muted — emerald (fill).", themeKeys: ["--color-utility-03-muted"] },
+  { name: "utility-04", cssVar: "--xe-utility-04", category: "utility", type: "color", light: "#c026d3", dark: "#d946ef", description: "Utility 04 — fuchsia (base / icon).", themeKeys: ["--color-utility-04"], pairWith: "utility-04-muted", usage: ["Transaction category emblem (e.g. card / merchant)"] },
+  { name: "utility-04-muted", cssVar: "--xe-utility-04-muted", category: "utility", type: "color", light: "#f0abfc", dark: "#4a044e", description: "Utility 04 muted — fuchsia (fill).", themeKeys: ["--color-utility-04-muted"] },
 
   // ── radius (theme-invariant) ──────────────────────────────────────────
   { name: "radius-button", cssVar: "--xe-radius-button", category: "radius", type: "dimension", light: "6px", description: "Button radius (Figma value/border-radius/button).", themeKeys: ["--radius-button"], usage: ["Buttons (Button primitive — all variants)", "Travel promo CTA", "rounded-button"] },
@@ -157,6 +166,7 @@ export const TOKEN_GROUPS: TokenCategory[] = [
   "surface",
   "stroke",
   "brand",
+  "utility",
   "fontFamily",
   "textStyle",
   "fontWeight",
@@ -170,6 +180,7 @@ export const CATEGORY_LABEL: Record<TokenCategory, string> = {
   surface: "Surface",
   stroke: "Stroke",
   brand: "Brand / fixed",
+  utility: "Utility (categorical)",
   radius: "Radius",
   typography: "Type scale",
   textStyle: "Text styles",

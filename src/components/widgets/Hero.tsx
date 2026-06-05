@@ -172,7 +172,7 @@ function BalanceHero({ variant, flags, showOverflow, label, amount, actions, cla
           <div
             aria-hidden
             style={{ backgroundImage: `url(${bgFlag})` }}
-            className="pointer-events-none absolute left-1/2 top-1/2 size-[392px] -translate-x-1/2 -translate-y-1/2 bg-contain bg-center bg-no-repeat opacity-20 blur-[37px]"
+            className="pointer-events-none absolute left-1/2 top-1/2 size-[392px] -translate-x-1/2 -translate-y-1/2 bg-contain bg-center bg-no-repeat opacity-20 blur-2xl"
           />
         )}
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-surface" />

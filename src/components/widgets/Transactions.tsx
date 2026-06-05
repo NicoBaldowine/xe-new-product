@@ -77,12 +77,22 @@ const ASSET_ICON: Partial<Record<IconName, string>> = {
   building: "banknote",
 };
 
+/** Category emblem tint per status (utility palette). Literal strings so Tailwind
+ *  detects the classes. People rows use avatar initials instead. */
+const EMBLEM_TONE: Record<Exclude<TxStatus, "neutral">, string> = {
+  "in-progress": "bg-utility-02-muted text-utility-02",
+  received: "bg-utility-03-muted text-utility-03",
+  added: "bg-utility-01-muted text-utility-01",
+  card: "bg-utility-04-muted text-utility-04",
+};
+
 function Emblem({ row }: { row: Transaction }) {
   if (row.initials) return <Figure size={40} initials={row.initials} />;
   const icon = row.icon ?? (row.status && row.status !== "neutral" ? STATUS_META[row.status].icon : "ledger");
   const asset = ASSET_ICON[icon];
+  const tone = row.status && row.status !== "neutral" ? EMBLEM_TONE[row.status] : "bg-surface-1 text-content-secondary";
   return (
-    <Figure size={40} className="bg-surface-1 text-content-secondary">
+    <Figure size={40} className={tone}>
       {asset ? <AssetIcon name={asset} size={20} /> : <Icon name={icon} size={20} />}
     </Figure>
   );

@@ -18,7 +18,7 @@ export function RecentActivitiesCard() {
             amount={a.amount}
             emblem={
               a.kind === "card" ? (
-                <Figure size={36} className="bg-fuchsia-50 text-fuchsia-600">
+                <Figure size={36} className="bg-utility-04-muted text-utility-04">
                   <Icon name="bag" size={18} />
                 </Figure>
               ) : (
