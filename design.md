@@ -55,9 +55,10 @@ Shared widget primitives:
 Every visual value comes from a token (see the registry in `src/lib/tokens/` and `globals.css`). Use the generated utilities:
 
 - **Text:** `text-content` / `text-content-secondary` / `text-content-tertiary`; status `text-success-on-muted` etc.
-- **Titles:** `font-display` (Instrument Sans). **Body:** `font-sans` (Zalando). **Numerals** render in Roboto Mono automatically (digits-only font). **Accent:** `font-serif` (Instrument Serif italic).
+- **Type styles:** use the composite typesets — `text-h1`…`text-h4`, `text-body-lg`/`text-body`/`text-body-sm`, `text-caption` (each bundles size + line-height + weight + letter-spacing, aliasing the `size-*`/`leading-*`/`weight-*`/`tracking-*` foundations). **Titles:** `font-display` (Instrument Sans). **Body:** `font-sans` (Zalando). **Numerals** render in IBM Plex Sans automatically (digits-only font). **Accent:** `font-serif` (Instrument Serif italic).
 - **Surface:** `bg-surface` / `bg-surface-1` / `bg-surface-adaptive`; status `bg-success-muted` etc.
-- **Stroke:** `border-stroke`. **Radius:** `rounded-card` / `rounded-xl` / `rounded-full`. **Brand:** `bg-brand-blue-bright` (primary CTA).
+- **Stroke:** `border-stroke`. **Radius:** `rounded-card` / `rounded-xl` / `rounded-full`.
+- **Action (brand CTA):** `bg-action` + `hover:bg-action-hover` / `active:bg-action-pressed` — the `Button` primitive applies these, so prefer it over inline buttons. Solid status fills carry the same states: `bg-surface-{success,warning,danger}` (+ `-hover`/`-pressed`); a destructive button is `Button variant="danger"`.
 - **Spacing:** the 4/8px scale (`gap-2/3/4/6`, `p-6`). No raw px.
 
 If you reach for a raw hex or px, a token is missing — add it to the registry instead. A token change must look right in **both light and dark** (dark values are desaturated tonal variants, never inverted).

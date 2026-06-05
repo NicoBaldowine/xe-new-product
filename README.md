@@ -63,7 +63,7 @@ You can change the brand and see it everywhere, instantly — no code.
 
 ### Stack & fonts
 
-Next.js 16 (App Router, Turbopack) · React 19 · Tailwind v4 (CSS-first `@theme`, no config file) · `motion/react`. Fonts: **Instrument Sans** (titles) · **Zalando Sans** (body) · **Instrument Serif** (accent) · **IBM Plex Mono** (numerals — digits-only via `unicode-range`, so numbers render mono and text falls through).
+Next.js 16 (App Router, Turbopack) · React 19 · Tailwind v4 (CSS-first `@theme`, no config file) · `motion/react`. Fonts: **Instrument Sans** (titles) · **Zalando Sans** (body) · **Instrument Serif** (accent) · **IBM Plex Sans** (numerals — digits-only via `unicode-range`, so only 0–9 use it and text falls through to the body face).
 
 ### Commands
 
