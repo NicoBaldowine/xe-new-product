@@ -112,7 +112,7 @@ function PillButton({ icon, label }: QuickAction) {
   return (
     <button
       type="button"
-      className="flex h-10 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-surface-adaptive px-4 font-display text-sm font-semibold text-content transition-colors hover:brightness-95"
+      className="flex h-10 flex-1 cursor-pointer items-center justify-center gap-2 rounded-button bg-surface-adaptive px-4 font-display text-sm font-semibold text-content transition-colors hover:brightness-95"
     >
       <ActionIcon icon={icon} size={16} />
       {label}

@@ -12,15 +12,16 @@ export type MasonryItem = {
 };
 
 /**
- * Bento grid: a fixed responsive column count + **row-quantised, best-fit**
+ * Bento grid: a fixed responsive column count + **best-fit, order-preserving**
  * packing.
  *
- * Heights are measured then snapped up to a fixed `rowUnit`, so tiles align to a
- * shared row grid (the deliberate "bento" look) and `maxRows` can cap content-
- * heavy widgets so nothing grows unbounded. Placement uses a best-fit packer
- * (fill the lowest frontier with the widest fitting item) so there are no gaps —
- * CSS `grid-auto-flow: dense` can't guarantee this. Items are absolutely
- * positioned; the tile clips overflow and its child fills it (`h-full`).
+ * Tiles take their natural content height; a per-widget `maxRows` cap (× the row
+ * unit) stops content-heavy widgets growing unbounded — the excess is clipped.
+ * Placement fills the lowest frontier with the FIRST item (in the given/shuffled
+ * order) that fits the gap there: filling the lowest gap keeps it gap-free, and
+ * honouring order (rather than always grabbing the widest) keeps wide widgets
+ * from clustering at the top and lets the layout vary with the shuffle. Items are
+ * absolutely positioned; the tile clips only when capped.
  */
 export function Masonry({
   items,
@@ -33,7 +34,7 @@ export function Masonry({
   minColWidth?: number;
   maxCols?: number;
   gap?: number;
-  /** Height grid: tile heights snap to a multiple of this (+ gaps). */
+  /** Row unit used only to size the per-widget height cap (maxRows × rowUnit). */
   rowUnit?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -55,21 +56,26 @@ export function Masonry({
       const colWidth = (width - (cols - 1) * gap) / cols;
       const spans = els.map((w) => Math.min(cols, Math.max(1, Number(w.dataset.cols) || 1)));
 
-      // Pass 1 — set widths, then measure natural content height and snap it up
-      // to a whole number of row units (capped per item).
+      // Pass 1 — set widths, then measure natural content height. A tile takes
+      // its content height (no extra padding); a per-widget cap (maxRows × row
+      // unit) keeps content-heavy cards from growing unbounded — the excess is
+      // clipped by the tile's overflow.
       els.forEach((w, i) => {
         w.style.width = `${colWidth * spans[i] + gap * (spans[i] - 1)}px`;
         w.style.height = "auto";
       });
       const tileHeights = els.map((w) => {
         const natural = (w.firstElementChild as HTMLElement | null)?.offsetHeight ?? rowUnit;
-        let rows = Math.max(1, Math.ceil((natural + gap) / (rowUnit + gap)));
         const cap = Number(w.dataset.maxRows) || 0;
-        if (cap > 0) rows = Math.min(rows, cap);
-        return rows * rowUnit + (rows - 1) * gap;
+        if (cap > 0) return Math.min(natural, cap * rowUnit + (cap - 1) * gap);
+        return natural;
       });
 
-      // Pass 2 — best-fit packing on the quantised heights.
+      // Pass 2 — best-fit packing. Each step fills the lowest frontier with the
+      // FIRST item (in the given/shuffled order) that fits the gap there — not
+      // the widest. Filling the lowest gap keeps it gap-free; honouring order
+      // (instead of grabbing the widest) stops all the wide widgets clustering
+      // at the top and lets the layout vary with the shuffle.
       const colTops = new Array(cols).fill(0);
       const remaining = els.map((_, i) => i);
       const place = (idx: number, col: number, sp: number) => {
@@ -87,15 +93,14 @@ export function Masonry({
         while (c0 + run < cols && colTops[c0 + run] <= minTop + 0.5) run++;
 
         let pick = -1;
-        let pickSpan = 0;
         for (const idx of remaining) {
-          if (spans[idx] <= run && spans[idx] > pickSpan) {
+          if (spans[idx] <= run) {
             pick = idx;
-            pickSpan = spans[idx];
+            break;
           }
         }
         if (pick >= 0) {
-          place(pick, c0, pickSpan);
+          place(pick, c0, spans[pick]);
         } else {
           let narrow = remaining[0];
           for (const idx of remaining) if (spans[idx] < spans[narrow]) narrow = idx;
@@ -135,8 +140,9 @@ export function Masonry({
           key={it.key}
           data-cols={it.cols ?? 1}
           data-max-rows={it.maxRows ?? 0}
-          // The tile clips to the card radius; its child (the Card) fills it.
-          className="overflow-hidden rounded-card [&>*]:h-full"
+          // Clip only capped content; round the clip to the card radius. The
+          // child takes its own (content) height — no forced h-full padding.
+          className="overflow-hidden rounded-card"
           style={{ position: "absolute", top: 0, left: 0 }}
         >
           {it.node}
