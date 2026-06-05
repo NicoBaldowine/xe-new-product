@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { bannerImage } from "@/lib/assets";
 import { cn } from "@/lib/cn";
 
@@ -51,9 +50,13 @@ export function Banner({ variant = "image", title, accent, subtitle, cta, classN
 
   return (
     <div className={cn("relative flex min-h-[208px] items-stretch overflow-hidden rounded-card p-6", className)}>
-      {/* ── backgrounds (absolute, painted before the content; content sits above via z-10) ── */}
+      {/* ── backgrounds (absolute CSS layers; content sits above via z-10) ── */}
       {v === "image" && (
-        <Image src={bannerImage.esimBg} alt="" fill sizes="(min-width: 768px) 400px, 90vw" className="object-cover" />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${bannerImage.esimBg})` }}
+        />
       )}
       {v === "gradient" && (
         <>
@@ -69,7 +72,11 @@ export function Banner({ variant = "image", title, accent, subtitle, cta, classN
       )}
       {v === "light" && (
         <>
-          <Image src={bannerImage.largeTransfer} alt="" fill sizes="(min-width: 768px) 400px, 90vw" className="object-cover object-right" />
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-cover bg-right"
+            style={{ backgroundImage: `url(${bannerImage.largeTransfer})` }}
+          />
           {/* White scrim so the dark copy reads over the photo (fixed, not themed). */}
           <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-white from-45% to-transparent" />
         </>
