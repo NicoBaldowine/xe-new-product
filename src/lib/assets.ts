@@ -61,11 +61,17 @@ export function flagEmoji(code: string): string {
   return FLAG_EMOJI[code.toUpperCase()] ?? "🏳️";
 }
 
-/** Larger illustrations / media. */
-export const illustrationSrc = "/assets/Illustration.png";
-export const bannerSrc = "/assets/Banner.png";
+/** Larger illustrations / media (all promo/marketing imagery lives in /marketing). */
+export const illustrationSrc = "/assets/marketing/illustration.png";
+export const bannerSrc = "/assets/marketing/banner-placeholder.png";
 /** Marketing promo cover (currency pills banner) — rendered object-cover/center. */
 export const mktCoverSrc = "/assets/marketing/currencies.png";
+/** Banner widget imagery (Figma 8443:36638). */
+export const bannerImage = {
+  esimBg: "/assets/marketing/esim-bg.jpg",
+  esimCutout: "/assets/marketing/esim-cutout.png",
+  largeTransfer: "/assets/marketing/large-transfer.jpg",
+} as const;
 /** Hero promo illustrations (exported from Figma as transparent SVGs). */
 export const heroIllustration: Record<string, string> = {
   rate: "/assets/hero/rate.svg",

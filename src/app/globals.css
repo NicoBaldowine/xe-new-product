@@ -24,6 +24,7 @@
   --xe-content-tertiary: #a3a3a3;
   --xe-content-base-reverse: #ffffff;
   --xe-content-stays-white: #ffffff;
+  --xe-content-stays-black: #0a0a0a;
   --xe-content-brand-logo: #0a146e;
   --xe-content-on-brand: #ffffff;
   --xe-content-on-action: #ffffff;
@@ -157,6 +158,7 @@
   --xe-content-tertiary: #a3a3a3;
   --xe-content-base-reverse: #0a0a0a;
   --xe-content-stays-white: #ffffff;
+  --xe-content-stays-black: #0a0a0a;
   --xe-content-brand-logo: #ffffff;
   --xe-content-on-brand: #ffffff;
   --xe-content-on-action: #ffffff;
@@ -232,6 +234,7 @@
   --color-content-tertiary: var(--xe-content-tertiary);
   --color-content-reverse: var(--xe-content-base-reverse);
   --color-content-white: var(--xe-content-stays-white);
+  --color-content-black: var(--xe-content-stays-black);
   --color-brand-logo: var(--xe-content-brand-logo);
   --color-on-brand: var(--xe-content-on-brand);
   --color-on-action: var(--xe-content-on-action);

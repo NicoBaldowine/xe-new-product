@@ -24,6 +24,7 @@ import { Transactions } from "@/components/widgets/Transactions";
 import { SendAgain } from "@/components/widgets/SendAgain";
 import { GettingStarted } from "@/components/widgets/GettingStarted";
 import { MktCard } from "@/components/widgets/MktCard";
+import { Banner } from "@/components/widgets/Banner";
 import { InProgress } from "@/components/widgets/InProgress";
 
 /**
@@ -237,6 +238,30 @@ export const WIDGETS: WidgetEntry[] = [
       { label: "Large", props: { variant: "Large" } },
     ],
     render: (p) => <MktCard {...p} />,
+  },
+  {
+    id: "banner",
+    name: "Banner",
+    group: "Promo",
+    source: "figma-widget",
+    inBento: false,
+    bentoSpan: 2,
+    bentoCols: [2],
+    bentoMaxRows: 2,
+    containers: ["mobile", "desktop"],
+    controls: [
+      { kind: "select", prop: "variant", label: "Variant", options: ["Image", "Gradient", "Light"], default: "Image" },
+      { kind: "text", prop: "title", label: "Title", default: "Travel without" },
+      { kind: "text", prop: "accent", label: "Accent (serif)", default: "Limits" },
+      { kind: "text", prop: "subtitle", label: "Subtitle", default: "Get instant data in 190+\nNo roaming fees" },
+      { kind: "text", prop: "cta", label: "CTA", default: "Get it now" },
+    ],
+    presets: [
+      { label: "eSIM · image", props: { variant: "Image", title: "Travel without", accent: "Limits", subtitle: "Get instant data in 190+\nNo roaming fees", cta: "Get it now" } },
+      { label: "eSIM · gradient", props: { variant: "Gradient", title: "Travel without", accent: "Limits", subtitle: "Get instant data in 190+\nNo roaming fees", cta: "Get it now" } },
+      { label: "Large transfer", props: { variant: "Light", title: "Large transfer?", accent: "Talk to an expert.", subtitle: "24/5 dedicated support for transfers over $50K", cta: "Transfer now" } },
+    ],
+    render: (p) => <Banner {...p} />,
   },
 
   // ── Legacy blocks (re-tokenized; kept until we decide what to retire) ──
