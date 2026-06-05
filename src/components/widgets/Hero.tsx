@@ -191,13 +191,20 @@ function PillButton({ icon, label }: QuickAction) {
 }
 
 /**
- * Default hero gradient (Figma node 8491:11740): a brand-blue-bright scrim at
- * the top fading to transparent. Used by `all-accounts`, which has no single
- * currency to theme on — over `surface`/`canvas` it reads blue-on-white in light
- * and deep-blue in dark (brand-blue-bright is theme-invariant, the base flips).
+ * Default hero gradient for `all-accounts` (no single currency to theme on).
+ * Same brand-blue-bright tint, but it behaves differently per container (Figma):
+ *  · mobile (8491:11740) — a strong 30% scrim fading to transparent over the
+ *    full-bleed height, so it blends into the device.
+ *  · desktop (8571:21498) — a subtle 10% tint only at the top, fading to solid
+ *    surface by ~63% of the card (Figma layers a flat 10% blue under a
+ *    transparent→surface fade; the composite equals surface+10%blue → surface).
+ * brand-blue-bright is theme-invariant; the base (canvas/surface) flips, so the
+ * same definitions read blue-on-white in light and deep-blue in dark.
  */
-const DEFAULT_GRADIENT =
+const MOBILE_GRADIENT =
   "linear-gradient(180deg, color-mix(in srgb, var(--color-brand-blue-bright) 30%, transparent) 0%, transparent 100%)";
+const DESKTOP_GRADIENT =
+  "linear-gradient(180deg, color-mix(in srgb, var(--color-brand-blue-bright) 10%, var(--color-surface)) 0%, var(--color-surface) 63%)";
 
 function BalanceHero({ variant, flags, flag, showOverflow, label, amount, actions, className }: HeroProps) {
   const container = useWidgetContainer();
@@ -254,7 +261,7 @@ function BalanceHero({ variant, flags, flag, showOverflow, label, amount, action
     return (
       <div className={cn("relative isolate overflow-hidden", className)}>
         {isAllAccounts ? (
-          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: DEFAULT_GRADIENT }} />
+          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: MOBILE_GRADIENT }} />
         ) : (
           <>
             {bgFlag && (
@@ -284,7 +291,7 @@ function BalanceHero({ variant, flags, flag, showOverflow, label, amount, action
     return (
       <div className={cn("relative -m-6 flex min-h-[224px] flex-col justify-between overflow-hidden rounded-card p-6", className)}>
         {isAllAccounts ? (
-          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: DEFAULT_GRADIENT }} />
+          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: DESKTOP_GRADIENT }} />
         ) : (
           <>
             {bgFlag && (
