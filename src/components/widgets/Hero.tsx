@@ -105,6 +105,8 @@ const PROMO_VARIANTS: HeroVariant[] = ["rate", "card", "esim", "send", "send-qui
 export type HeroProps = {
   variant?: HeroVariant;
   flags?: string[];
+  /** Single-flag override (e.g. the Playground flag picker) — wins over `flags`. */
+  flag?: string;
   showOverflow?: boolean;
   label?: string;
   amount?: string;
@@ -150,11 +152,13 @@ function PillButton({ icon, label }: QuickAction) {
   );
 }
 
-function BalanceHero({ variant, flags, showOverflow, label, amount, actions, className }: HeroProps) {
+function BalanceHero({ variant, flags, flag, showOverflow, label, amount, actions, className }: HeroProps) {
   const container = useWidgetContainer();
   const isDesktop = container === "desktop";
   const d = DEFAULTS[variant === "all-accounts" ? "all-accounts" : "balance"];
-  const resolvedFlags = flags ?? d.flags;
+  // A single-flag override (the Playground picker) wins, so you can swap the flag
+  // and see its blurred backdrop; otherwise use the multi-flag set.
+  const resolvedFlags = flag ? [flag] : (flags ?? d.flags);
   const resolvedActions = actions ?? d.actions;
   const overflow = showOverflow ?? variant === "all-accounts";
   // Desktop drops the round "Send money" (it lives in the top nav) → Top up + Exchange pills.

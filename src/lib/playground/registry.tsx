@@ -44,6 +44,7 @@ export const WIDGETS: WidgetEntry[] = [
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["balance", "all-accounts", "rate", "card", "esim", "send", "send-quick"], default: "balance" },
+      { kind: "currency", prop: "flag", label: "Flag", default: "US" },
       { kind: "text", prop: "label", label: "Label", default: "USD Account" },
       { kind: "amount", prop: "amount", label: "Amount", default: "$380.00" },
       { kind: "toggle", prop: "showOverflow", label: "Overflow tile", default: false },

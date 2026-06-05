@@ -63,4 +63,4 @@ export function defaultProps(entry: WidgetEntry): Record<string, unknown> {
 }
 
 /** Flag/currency codes available in the demo (match src/lib/assets.ts). */
-export const CURRENCIES = ["US", "CA", "EU", "GB", "MX", "AE", "CN"];
+export const CURRENCIES = ["US", "GB", "EU", "MX", "JP", "CA", "AU", "HK", "CL", "AE", "CN"];

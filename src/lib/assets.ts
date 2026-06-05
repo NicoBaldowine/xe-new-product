@@ -49,6 +49,8 @@ const FLAG_FILE: Record<string, string> = {
   NL: "flags/nl.svg",
   CL: "flags/cl.svg",
   CLP: "flags/cl.svg",
+  HK: "flags/hk.svg",
+  HKD: "flags/hk.svg",
 };
 
 /** Resolve a flag image src, or null if we don't have one (caller falls back). */
