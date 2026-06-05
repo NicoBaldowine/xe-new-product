@@ -18,6 +18,8 @@ export function buildBaseCss(tokens: TokenDef[] = TOKENS): string {
 /** Resolve a token's value for a theme = edit ?? registry default. */
 export function resolveValue(name: string, theme: Theme, edits: Edits): string {
   const def = TOKEN_BY_NAME[name];
+  // Unknown token name (e.g. a stale pairWith) → no value rather than a crash.
+  if (!def) return "";
   const edit = edits[name];
   if (theme === "dark") {
     return edit?.dark ?? def.dark ?? edit?.light ?? def.light;
