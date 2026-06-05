@@ -41,6 +41,12 @@ interface TokenContextValue {
   resetAll: () => void;
   /** Merge an imported set of edits over the current ones. */
   applyEdits: (partial: Edits) => void;
+  /**
+   * Dev only: write the current edits into the source of truth (registry.ts +
+   * the generated block in globals.css) and clear the override layer, so the
+   * edited values become the new global defaults.
+   */
+  promoteToSource: () => Promise<{ ok: boolean; count?: number; error?: string }>;
   /** Full resolved snapshot for the exporters. */
   snapshot: () => ResolvedTokens;
   /** Saved named+dated snapshots (sources of truth). */
@@ -133,6 +139,27 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
 
   const snapshot = useCallback(() => buildResolved(edits), [edits]);
 
+  const promoteToSource = useCallback(async () => {
+    if (!Object.keys(edits).length) return { ok: true, count: 0 };
+    try {
+      const res = await fetch("/api/tokens/promote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ edits }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.ok) {
+        return { ok: false, error: data?.error ?? `Request failed (${res.status})` };
+      }
+      // The values now live in registry.ts + globals.css → drop the override
+      // layer so we read the new defaults, not a stale parallel copy.
+      setEdits({});
+      return { ok: true, count: data.count as number };
+    } catch (e) {
+      return { ok: false, error: e instanceof Error ? e.message : "Network error" };
+    }
+  }, [edits]);
+
   const persistVersions = useCallback((next: TokenVersion[]) => {
     setVersions(next);
     saveVersions(next);
@@ -178,13 +205,14 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
       resetToken,
       resetAll,
       applyEdits,
+      promoteToSource,
       snapshot,
       versions,
       saveVersion,
       applyVersion,
       deleteVersion,
     }),
-    [edits, editingTheme, getValue, setValue, resetToken, resetAll, applyEdits, snapshot, versions, saveVersion, applyVersion, deleteVersion],
+    [edits, editingTheme, getValue, setValue, resetToken, resetAll, applyEdits, promoteToSource, snapshot, versions, saveVersion, applyVersion, deleteVersion],
   );
 
   return <TokenContext.Provider value={value}>{children}</TokenContext.Provider>;

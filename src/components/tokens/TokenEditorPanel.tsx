@@ -7,6 +7,7 @@ import { useTokens } from "./TokenProvider";
 import { TokenRow, type EditMode } from "./TokenRow";
 import { ExportDialog } from "./ExportDialog";
 import { ImportDialog } from "./ImportDialog";
+import { PromoteBar } from "./PromoteBar";
 import { Icon } from "@/components/primitives/Icon";
 import { cn } from "@/lib/cn";
 
@@ -86,6 +87,8 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
             </div>
 
             <VersionsSection />
+
+            <PromoteBar className="mx-4 mt-3" />
 
             {/* token groups */}
             <div className="flex-1 overflow-y-auto px-4 py-3">

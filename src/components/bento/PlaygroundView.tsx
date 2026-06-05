@@ -32,6 +32,7 @@ const TOKEN_GROUP_ORDER: TokenCategory[] = [
   "blur",
 ];
 import { TokenRow } from "@/components/tokens/TokenRow";
+import { PromoteBar } from "@/components/tokens/PromoteBar";
 import { ControlsPanel } from "./playground/ControlsPanel";
 
 /** Short, human label for a bento instance: widget name + its variant/first prop. */
@@ -479,6 +480,7 @@ export function PlaygroundView({
               Tokens this widget uses — editing the <b className="capitalize">{previewTheme}</b> value
               (toggle theme above the stage) applies everywhere.
             </p>
+            <PromoteBar />
             {usedTokens.length === 0 ? (
               <p className="rounded-lg bg-surface-1 p-3 text-xs text-content-secondary">
                 No tokenised styles detected for this widget.
