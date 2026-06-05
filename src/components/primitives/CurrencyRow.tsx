@@ -21,12 +21,12 @@ export function CurrencyRow({
     <div className="flex items-center gap-3">
       {emblem ?? <Figure flag={flag} initials={initials} size={36} />}
       <div className="min-w-0 flex-1">
-        <p className="truncate font-display text-sm font-medium text-content">{name}</p>
+        <p className="truncate font-display text-body-sm font-medium text-content">{name}</p>
         {sub && <p className="truncate text-xs text-content-secondary">{sub}</p>}
       </div>
       <RollingNumber
         value={amount}
-        className="font-sans text-sm font-semibold whitespace-nowrap text-content"
+        className="font-sans text-body-sm font-semibold whitespace-nowrap text-content"
       />
     </div>
   );

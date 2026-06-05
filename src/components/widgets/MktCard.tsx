@@ -66,8 +66,8 @@ export function MktCard({
         large ? "w-full" : "h-[88px] flex-1",
       )}
     >
-      <h3 className="font-display text-base font-semibold text-content">{title}</h3>
-      <p className="text-sm text-content-secondary">{subtitle}</p>
+      <h3 className="font-display text-body font-semibold text-content">{title}</h3>
+      <p className="text-body-sm text-content-secondary">{subtitle}</p>
     </div>
   );
 

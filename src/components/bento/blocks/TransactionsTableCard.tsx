@@ -47,16 +47,16 @@ export function TransactionsTableCard() {
               <StatusBadge status={tx.status} />
             </span>
             <div className="min-w-0">
-              <p className="truncate font-display text-sm font-medium text-content">{tx.name}</p>
+              <p className="truncate font-display text-body-sm font-medium text-content">{tx.name}</p>
               <p className="truncate text-xs text-content-secondary">{tx.date}</p>
             </div>
           </div>
           <Pill tone={tx.status === "completed" ? "success" : "warning"}>{tx.statusLabel}</Pill>
-          <span className="flex items-center justify-end gap-1.5 font-sans text-sm font-semibold text-content">
+          <span className="flex items-center justify-end gap-1.5 font-sans text-body-sm font-semibold text-content">
             <RollingNumber value={formatAmount(tx.recipientGets)} />
             <Figure flag={tx.recipientCurrency} size={20} />
           </span>
-          <span className="flex items-center justify-end gap-1.5 font-sans text-sm font-semibold text-content">
+          <span className="flex items-center justify-end gap-1.5 font-sans text-body-sm font-semibold text-content">
             <RollingNumber value={formatAmount(youSell)} />
             <Figure flag={tx.youSellCurrency} size={20} />
           </span>

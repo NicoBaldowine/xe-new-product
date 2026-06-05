@@ -40,7 +40,7 @@ function Dot({ state }: { state: StepState }) {
     // Solid amber fill (not the *-on-muted text token) so the white "!" stays
     // legible in both themes.
     return (
-      <span className={cn(base, "bg-surface-warning text-content-white font-display text-xs font-semibold")} aria-hidden>
+      <span className={cn(base, "bg-surface-warning text-content-white font-display text-caption font-semibold")} aria-hidden>
         !
       </span>
     );
@@ -81,10 +81,10 @@ export function InProgress({
       {/* content row */}
       <div className="flex items-center gap-4">
         <div className="flex min-w-0 flex-1 flex-col">
-          <p className="truncate font-display text-base font-medium text-content">{recipient}</p>
+          <p className="truncate font-display text-body font-medium text-content">{recipient}</p>
           <p
             className={cn(
-              "truncate text-sm",
+              "truncate text-body-sm",
               spec.tone === "warning" ? "text-warning-on-muted" : "text-content-secondary",
             )}
           >
@@ -92,11 +92,11 @@ export function InProgress({
           </p>
         </div>
         {spec.trailing === "amount" ? (
-          <span className="shrink-0 font-display text-base font-medium text-content">{amount}</span>
+          <span className="shrink-0 font-display text-body font-medium text-content">{amount}</span>
         ) : (
           <button
             type="button"
-            className="shrink-0 cursor-pointer rounded-xl bg-surface-1 px-3 py-1.5 font-display text-xs font-semibold text-content transition-colors hover:bg-surface-adaptive"
+            className="shrink-0 cursor-pointer rounded-xl bg-surface-1 px-3 py-1.5 font-display text-caption font-semibold text-content transition-colors hover:bg-surface-adaptive"
           >
             {spec.trailing === "add-funds" ? "Add funds" : "View info"}
           </button>

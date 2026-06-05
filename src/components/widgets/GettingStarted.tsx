@@ -115,7 +115,7 @@ function StepRow({ step, done, reduce }: { step: GettingStartedStep; done: boole
       <div className="min-w-0 flex-1">
         <p
           className={cn(
-            "truncate font-display text-base font-medium",
+            "truncate font-display text-body font-medium",
             done ? "text-content-tertiary line-through" : "text-content",
           )}
         >
@@ -123,7 +123,7 @@ function StepRow({ step, done, reduce }: { step: GettingStartedStep; done: boole
         </p>
         <p
           className={cn(
-            "truncate text-sm",
+            "truncate text-body-sm",
             done ? "text-content-tertiary line-through" : "text-content-secondary",
           )}
         >
@@ -152,13 +152,13 @@ export function GettingStarted({
     <div className={cn("flex flex-col gap-4", className)}>
       {/* Header: title + counter (or a success check once everything's done). */}
       <div className="flex items-center justify-between gap-3">
-        <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] text-content">
+        <h3 className="font-display text-h3 text-content">
           {title}
         </h3>
         {allDone ? (
           <Icon name="check" size={20} className="text-success" aria-label="All steps complete" />
         ) : (
-          <p className="font-display text-xl font-medium tabular-nums text-content-tertiary">
+          <p className="font-display text-h4 font-medium tabular-nums text-content-tertiary">
             {doneCount}/{total}
           </p>
         )}
@@ -179,10 +179,10 @@ export function GettingStarted({
       {/* Help footer */}
       <div className="flex items-center gap-3">
         <AssetIcon name="help-circle" size={20} className="text-content-secondary" />
-        <span className="text-sm text-content-secondary">{helpLabel}</span>
+        <span className="text-body-sm text-content-secondary">{helpLabel}</span>
         <a
           href="#"
-          className="text-sm font-medium text-brand-blue-bright underline underline-offset-2 hover:opacity-80"
+          className="text-body-sm font-medium text-brand-blue-bright underline underline-offset-2 hover:opacity-80"
         >
           {helpLinkLabel}
         </a>

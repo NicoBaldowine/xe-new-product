@@ -102,7 +102,7 @@ function QuickAccessButton({ icon, label, primary }: QuickAction) {
       <Button aria-label={label} variant={primary ? "primary" : "secondary"} className="h-12 w-12 rounded-full px-0">
         <ActionIcon icon={icon} size={20} />
       </Button>
-      <span className="font-display text-xs font-medium text-content">{label}</span>
+      <span className="font-display text-caption text-content">{label}</span>
     </div>
   );
 }
@@ -112,7 +112,7 @@ function PillButton({ icon, label }: QuickAction) {
   return (
     <button
       type="button"
-      className="flex h-10 flex-1 cursor-pointer items-center justify-center gap-2 rounded-button bg-surface-adaptive px-4 font-display text-sm font-semibold text-content transition-colors hover:brightness-95"
+      className="flex h-10 flex-1 cursor-pointer items-center justify-center gap-2 rounded-button bg-surface-adaptive px-4 font-display text-body-sm font-semibold text-content transition-colors hover:brightness-95"
     >
       <ActionIcon icon={icon} size={16} />
       {label}
@@ -143,7 +143,7 @@ function BalanceHero({ variant, flags, showOverflow, label, amount, actions, cla
           </Eyebrow>
           <RollingNumber
             value={amount ?? d.amount}
-            className="font-display text-4xl font-semibold leading-none tracking-[-0.02em] text-content"
+            className="font-display text-h1 leading-none text-content"
           />
         </div>
       </div>
@@ -210,8 +210,8 @@ function PromoHero({ variant, emblem, title, subtitle, cta, className }: HeroPro
           </Figure>
         )}
         <div className="flex flex-col items-center gap-2">
-          <h3 className="font-display text-2xl font-semibold tracking-[-0.01em] text-content">{title ?? d.title}</h3>
-          <p className="text-sm text-content-secondary">{subtitle ?? d.subtitle}</p>
+          <h3 className="font-display text-h3 tracking-[-0.01em] text-content">{title ?? d.title}</h3>
+          <p className="text-body-sm text-content-secondary">{subtitle ?? d.subtitle}</p>
         </div>
       </div>
       <Button variant="primary">{cta ?? d.cta}</Button>

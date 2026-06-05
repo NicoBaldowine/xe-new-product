@@ -77,7 +77,7 @@ function RateItem({ code }: { code: string }) {
     >
       <span className="flex items-center gap-2">
         <Figure flag={code} size={24} />
-        <span className="font-display text-sm font-medium text-content">{code}</span>
+        <span className="font-display text-body-sm font-medium text-content">{code}</span>
       </span>
       <AssetIcon name="chevron-down" size={16} className="text-content-secondary" />
     </button>
@@ -147,11 +147,11 @@ export function Charts({
           <div className="flex items-baseline gap-2">
             <RollingNumber
               value={rate}
-              className="font-display text-3xl font-semibold tracking-[-0.02em] text-content"
+              className="font-display text-h2 text-content"
             />
             <span
               className={cn(
-                "flex items-center gap-0.5 text-sm font-medium",
+                "flex items-center gap-0.5 text-body-sm font-medium",
                 up ? "text-success-on-muted" : "text-warning-on-muted",
               )}
             >
@@ -184,7 +184,7 @@ export function Charts({
                 aria-selected={selected}
                 onClick={() => setActive(r)}
                 className={cn(
-                  "flex-1 rounded-full py-1.5 font-display text-xs font-medium",
+                  "flex-1 rounded-full py-1.5 font-display text-caption",
                   "cursor-pointer select-none transition-colors",
                   selected
                     ? "bg-surface-1 text-content"

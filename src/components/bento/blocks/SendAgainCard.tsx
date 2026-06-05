@@ -20,7 +20,7 @@ export function SendAgainCard({ count }: { count?: number } = {}) {
           >
             <Figure initials={r.initials} flag={undefined} size={32} />
             <div className="min-w-0">
-              <p className="truncate font-display text-sm font-medium text-content">{r.name}</p>
+              <p className="truncate font-display text-body-sm font-medium text-content">{r.name}</p>
               <p className="truncate text-xs text-content-secondary">{r.sub}</p>
             </div>
           </div>

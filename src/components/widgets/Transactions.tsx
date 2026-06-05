@@ -95,18 +95,18 @@ function TransactionRow({ row, showStatusPill }: { row: Transaction; showStatusP
       <Emblem row={row} />
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex min-w-0 items-center gap-2">
-          <p className="truncate font-display text-base font-medium text-content">{row.name}</p>
+          <p className="truncate font-display text-body font-medium text-content">{row.name}</p>
           {showStatusPill && meta && (
             <span className="shrink-0">
               <Pill tone={meta.tone}>{meta.label}</Pill>
             </span>
           )}
         </div>
-        <p className="truncate text-sm text-content-secondary">{row.sub}</p>
+        <p className="truncate text-body-sm text-content-secondary">{row.sub}</p>
       </div>
       <RollingNumber
         value={row.amount}
-        className="shrink-0 font-display text-base font-medium whitespace-nowrap text-content"
+        className="shrink-0 font-display text-body font-medium whitespace-nowrap text-content"
       />
     </div>
   );
@@ -134,8 +134,8 @@ export function Transactions({
             <Icon name="clock" size={20} />
           </Figure>
           <div className="flex flex-col gap-0.5">
-            <p className="font-display text-lg font-medium text-content">{emptyTitle}</p>
-            <p className="text-sm text-content-secondary">{emptySubtitle}</p>
+            <p className="font-display text-body-lg font-medium text-content">{emptyTitle}</p>
+            <p className="text-body-sm text-content-secondary">{emptySubtitle}</p>
           </div>
           <Button variant="secondary" className="h-8 rounded-full bg-surface-adaptive px-3 text-xs">
             {emptyCta}

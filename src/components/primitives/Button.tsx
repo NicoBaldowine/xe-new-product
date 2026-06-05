@@ -37,7 +37,7 @@ export function Button({
       whileTap={{ scale: 0.97, transition: snappy }}
       className={cn(
         "inline-flex h-10 items-center justify-center gap-2 rounded-button px-4",
-        "font-display text-sm font-medium whitespace-nowrap",
+        "font-display text-body-sm font-medium whitespace-nowrap",
         "cursor-pointer select-none transition-colors",
         full && "w-full",
         VARIANTS[variant],

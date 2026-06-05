@@ -9,15 +9,15 @@ export function TravelPromoCard() {
       {/* scrim for legible white text over the photo */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/85 via-brand-blue/45 to-transparent" />
       <div className="relative flex flex-col gap-3 p-6 text-content-white">
-        <h3 className="font-display text-2xl font-semibold leading-tight">
+        <h3 className="font-display text-h3 leading-tight">
           {data.title}
           <br />
-          <span className="font-serif text-3xl font-normal italic">{data.titleAccent}</span>
+          <span className="font-serif text-h2 font-normal italic">{data.titleAccent}</span>
         </h3>
-        <p className="whitespace-pre-line text-sm text-content-white">{data.body}</p>
+        <p className="whitespace-pre-line text-body-sm text-content-white">{data.body}</p>
         <button
           type="button"
-          className="mt-1 w-fit rounded-button bg-glass-white px-4 py-2 font-display text-sm font-medium text-content-white backdrop-blur-sm transition-[filter] hover:brightness-110"
+          className="mt-1 w-fit rounded-button bg-glass-white px-4 py-2 font-display text-body-sm font-medium text-content-white backdrop-blur-sm transition-[filter] hover:brightness-110"
         >
           {data.cta}
         </button>

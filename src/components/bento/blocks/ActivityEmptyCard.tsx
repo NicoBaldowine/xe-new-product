@@ -11,8 +11,8 @@ export function ActivityEmptyCard() {
         <Icon name="clock" size={22} />
       </span>
       <div className="flex flex-col gap-1">
-        <p className="font-display text-base font-semibold text-content">No activity yet</p>
-        <p className="text-sm text-content-secondary">Your transfers will show up here</p>
+        <p className="font-display text-body font-semibold text-content">No activity yet</p>
+        <p className="text-body-sm text-content-secondary">Your transfers will show up here</p>
       </div>
     </Card>
   );

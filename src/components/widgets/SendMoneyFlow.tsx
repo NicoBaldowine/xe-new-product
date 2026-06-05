@@ -57,14 +57,14 @@ function AmountField({ currency, amount }: Leg) {
         className="flex items-center gap-2 cursor-pointer select-none"
       >
         <Figure flag={currency} size={24} />
-        <span className="font-display text-base font-medium tracking-[-0.04em] text-content">
+        <span className="font-display text-body font-medium tracking-[-0.04em] text-content">
           {currency}
         </span>
         <AssetIcon name="chevron-down" size={16} className="text-content-secondary" />
       </button>
       <RollingNumber
         value={amount}
-        className="font-display text-xl font-semibold tracking-[-0.02em] text-content"
+        className="font-display text-h4 text-content"
       />
     </div>
   );
@@ -84,16 +84,16 @@ export function SendMoneyFlow({
     <div className={cn("flex flex-col gap-3", className)}>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col items-start gap-0.5 text-left">
-          <h3 className="w-full font-display text-xl font-medium tracking-[-0.02em] text-content">
+          <h3 className="w-full font-display text-h4 font-medium text-content">
             {title}
           </h3>
-          <p className="w-full text-sm text-content-secondary">{subtitle}</p>
+          <p className="w-full text-body-sm text-content-secondary">{subtitle}</p>
         </div>
 
         <div className="relative flex flex-col gap-1">
           <AmountField currency={send.currency} amount={send.amount} />
           {showRate && (
-            <span className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-success-muted px-4 py-1 font-display text-sm font-semibold whitespace-nowrap text-success-on-muted">
+            <span className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-success-muted px-4 py-1 font-display text-body-sm font-semibold whitespace-nowrap text-success-on-muted">
               {rateBadge}
             </span>
           )}

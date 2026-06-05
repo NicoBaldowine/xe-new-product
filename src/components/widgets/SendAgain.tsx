@@ -93,15 +93,15 @@ export function SendAgain({
           <div className="flex items-baseline gap-2">
             <RollingNumber
               value={amount}
-              className="font-display text-4xl leading-none font-semibold tracking-[-0.02em] text-content"
+              className="font-display text-h1 leading-none text-content"
             />
-            <span className="flex items-center gap-1 text-sm text-content-secondary">
+            <span className="flex items-center gap-1 text-body-sm text-content-secondary">
               {fromCurrency}
               <AssetIcon name="convert-arrows" size={12} className="text-content-tertiary" />
               {toCurrency}
             </span>
           </div>
-          <p className="truncate font-display text-lg font-semibold text-content">
+          <p className="truncate font-display text-body-lg font-semibold text-content">
             {recipient}
           </p>
         </div>
@@ -125,20 +125,20 @@ export function SendAgain({
       <div className="flex items-start gap-4">
         <MetaColumn label="Pay with">
           <AssetIcon name={payWith.icon} size={16} className="text-content-secondary" />
-          <span className="truncate text-xs font-medium text-content-secondary">
+          <span className="truncate text-caption text-content-secondary">
             {payWith.label}
           </span>
         </MetaColumn>
 
         <MetaColumn label="Send via">
           <AssetIcon name={sendVia.icon} size={16} className="text-content-secondary" />
-          <span className="truncate text-xs font-medium text-content-secondary">
+          <span className="truncate text-caption text-content-secondary">
             {sendVia.label}
           </span>
         </MetaColumn>
 
         <MetaColumn label="They get">
-          <span className="truncate text-xs font-medium text-content-secondary">
+          <span className="truncate text-caption text-content-secondary">
             {theyGet}
           </span>
           <AssetIcon
