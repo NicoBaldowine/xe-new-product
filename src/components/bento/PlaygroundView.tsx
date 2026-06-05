@@ -16,7 +16,7 @@ import { defaultProps, type WidgetEntry, type WidgetSource } from "@/lib/playgro
 import { FULL_SPAN, bentoColsFor, type BentoInstance } from "@/lib/playground/bentoConfig";
 import { TOKEN_BY_NAME } from "@/lib/tokens/registry";
 import { scanTokenUsage } from "@/lib/tokens/usage";
-import { TokenRow, type EditMode } from "@/components/tokens/TokenRow";
+import { TokenRow } from "@/components/tokens/TokenRow";
 import { ControlsPanel } from "./playground/ControlsPanel";
 
 /** Short, human label for a bento instance: widget name + its variant/first prop. */
@@ -97,7 +97,9 @@ export function PlaygroundView({
   const [leftTab, setLeftTab] = useState<"widgets" | "bento">("widgets");
   // Right panel tab: live controls (data) or the tokens the widget uses (style).
   const [rightTab, setRightTab] = useState<"controls" | "tokens">("controls");
-  const [tokenMode, setTokenMode] = useState<EditMode>("light");
+  // Preview theme — themes ONLY the stage (not the site) and drives which theme
+  // the Tokens panel edits.
+  const [previewTheme, setPreviewTheme] = useState<"light" | "dark">("light");
   const [openToken, setOpenToken] = useState<string | null>(null);
   const [usedTokens, setUsedTokens] = useState<string[]>([]);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -397,13 +399,32 @@ export function PlaygroundView({
                 <Icon name="plus" size={13} /> Add config
               </button>
             )}
+            <div
+              className="flex items-center gap-0.5 rounded-full border border-stroke bg-surface-1 p-0.5 text-[11px]"
+              title="Preview theme — themes this stage only, not the whole site"
+            >
+              {(["light", "dark"] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setPreviewTheme(m)}
+                  className={cn(
+                    "rounded-full px-2 py-0.5 font-medium capitalize transition-colors",
+                    previewTheme === m ? "bg-surface text-content shadow-sm" : "text-content-secondary",
+                  )}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
             <ContainerSwitch value={container} onChange={setContainer} entry={entry} />
           </div>
         </div>
         <div
           ref={stageRef}
           className={cn(
-            "flex flex-1 flex-wrap items-start justify-center gap-8 rounded-xl bg-surface-1 p-8",
+            "flex flex-1 flex-wrap items-start justify-center gap-8 rounded-xl bg-surface-1 p-8 transition-colors",
+            previewTheme === "dark" && "dark",
           )}
         >
           {showMobile && <Stage entry={entry} props={props} variant="mobile" />}
@@ -439,26 +460,10 @@ export function PlaygroundView({
           />
         ) : (
           <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-[11px] leading-relaxed text-content-tertiary">
-                Tokens this widget uses — edits apply everywhere.
-              </p>
-              <div className="flex shrink-0 items-center gap-0.5 rounded-full border border-stroke bg-surface-1 p-0.5">
-                {(["light", "dark"] as const).map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() => setTokenMode(m)}
-                    className={cn(
-                      "rounded-full px-2 py-0.5 text-[10px] font-medium capitalize transition-colors",
-                      tokenMode === m ? "bg-surface text-content shadow-sm" : "text-content-secondary",
-                    )}
-                  >
-                    {m}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <p className="text-[11px] leading-relaxed text-content-tertiary">
+              Tokens this widget uses — editing the <b className="capitalize">{previewTheme}</b> value
+              (toggle theme above the stage) applies everywhere.
+            </p>
             {usedTokens.length === 0 ? (
               <p className="rounded-lg bg-surface-1 p-3 text-xs text-content-secondary">
                 No tokenised styles detected for this widget.
@@ -471,7 +476,8 @@ export function PlaygroundView({
                     <TokenRow
                       key={name}
                       token={tok}
-                      mode={tokenMode}
+                      mode={previewTheme}
+                      stacked
                       open={openToken === name}
                       onToggle={() => setOpenToken((c) => (c === name ? null : name))}
                     />

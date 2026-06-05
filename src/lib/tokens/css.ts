@@ -56,6 +56,8 @@ export function buildOverrideCss(edits: Edits): string {
   }
   const blocks: string[] = [];
   if (rootLines.length) blocks.push(`:root{${rootLines.join("")}}`);
-  if (darkLines.length) blocks.push(`html.dark{${darkLines.join("")}}`);
+  // `.dark` (not `html.dark`) so dark edits also apply to a locally-themed
+  // subtree (e.g. the Playground's per-stage preview theme), not only site dark.
+  if (darkLines.length) blocks.push(`.dark{${darkLines.join("")}}`);
   return blocks.join("\n");
 }

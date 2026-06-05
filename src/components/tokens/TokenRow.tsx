@@ -106,66 +106,82 @@ export function TokenRow({
   mode,
   open,
   onToggle,
+  stacked = false,
 }: {
   token: TokenDef;
   mode: EditMode;
   open: boolean;
   onToggle: () => void;
+  /** Name on its own line + full-width field below — for narrow panels. */
+  stacked?: boolean;
 }) {
   const { resetToken, edits } = useTokens();
   const edited = token.name in edits;
   const invariant = token.dark == null;
   const showBoth = mode === "both" && !invariant;
 
+  const nameRow = (
+    <div className="flex items-center gap-1">
+      <span className="truncate font-mono text-xs text-content" title={token.name}>
+        {token.name}
+      </span>
+      <button
+        type="button"
+        aria-label={`About ${token.name}`}
+        onClick={onToggle}
+        className="cursor-help text-content-tertiary hover:text-content"
+      >
+        <Icon name="help" size={11} />
+      </button>
+      {token.pairWith && !showBoth && <ContrastChip token={token} theme={invariant ? "light" : (mode as Theme)} />}
+      {invariant && (
+        <span className="rounded bg-surface-1 px-1 text-[10px] text-content-tertiary" title="Theme-invariant — same in light and dark.">
+          fixed
+        </span>
+      )}
+      {edited && (
+        <button
+          type="button"
+          aria-label={`Reset ${token.name}`}
+          title="Reset to default"
+          onClick={() => resetToken(token.name)}
+          className="ml-auto grid h-4 w-4 place-items-center rounded text-content-tertiary hover:text-content"
+        >
+          <Icon name="convert" size={12} />
+        </button>
+      )}
+    </div>
+  );
+
+  const fieldArea = showBoth ? (
+    <div className={cn("flex gap-2", stacked ? "w-full" : "w-[232px] shrink-0")}>
+      <div className={stacked ? "flex-1" : "w-[112px]"} title="Light">
+        <Field token={token} theme="light" />
+      </div>
+      <div className={stacked ? "flex-1" : "w-[112px]"} title="Dark">
+        <Field token={token} theme="dark" />
+      </div>
+    </div>
+  ) : (
+    <div className={stacked ? "w-full" : "w-44 shrink-0"}>
+      <Field token={token} theme={invariant ? "light" : (mode as Theme)} />
+    </div>
+  );
+
+  if (stacked) {
+    return (
+      <div className="relative flex flex-col gap-1.5 py-2">
+        {nameRow}
+        {fieldArea}
+        {open && <UsagePopover token={token} onClose={onToggle} />}
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex items-center gap-2 py-1.5">
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-1">
-          <span className="truncate font-mono text-xs text-content" title={token.name}>
-            {token.name}
-          </span>
-          <button
-            type="button"
-            aria-label={`About ${token.name}`}
-            onClick={onToggle}
-            className="cursor-help text-content-tertiary hover:text-content"
-          >
-            <Icon name="help" size={11} />
-          </button>
-          {token.pairWith && !showBoth && <ContrastChip token={token} theme={invariant ? "light" : (mode as Theme)} />}
-          {invariant && (
-            <span className="rounded bg-surface-1 px-1 text-[10px] text-content-tertiary" title="Theme-invariant — same in light and dark.">
-              fixed
-            </span>
-          )}
-          {edited && (
-            <button
-              type="button"
-              aria-label={`Reset ${token.name}`}
-              title="Reset to default"
-              onClick={() => resetToken(token.name)}
-              className="ml-auto grid h-4 w-4 place-items-center rounded text-content-tertiary hover:text-content"
-            >
-              <Icon name="convert" size={12} />
-            </button>
-          )}
-        </div>
-      </div>
-      {showBoth ? (
-        <div className="flex w-[232px] shrink-0 gap-2">
-          <div className="w-[112px]" title="Light">
-            <Field token={token} theme="light" />
-          </div>
-          <div className="w-[112px]" title="Dark">
-            <Field token={token} theme="dark" />
-          </div>
-        </div>
-      ) : (
-        <div className="w-44 shrink-0">
-          <Field token={token} theme={invariant ? "light" : (mode as Theme)} />
-        </div>
-      )}
-
+      <div className="min-w-0 flex-1">{nameRow}</div>
+      {fieldArea}
       {open && <UsagePopover token={token} onClose={onToggle} />}
     </div>
   );
