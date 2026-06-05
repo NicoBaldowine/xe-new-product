@@ -60,7 +60,15 @@ export function WidgetShell({ variant, layoutId, flush, bare, className, childre
             className,
           )}
         >
-          {children}
+          {/* The mobile shell IS level-1, so nested level-1 fills (amount fields,
+              selectors, chips) would blend in. Re-map surface-1 → surface-2 for
+              the content only (the shell keeps its own level-1 background), so
+              nested fills step up one level. */}
+          <div
+            style={{ display: "contents", ["--color-surface-1" as string]: "var(--color-surface-2)" } as React.CSSProperties}
+          >
+            {children}
+          </div>
         </motion.div>
       </WidgetContainerContext.Provider>
     );
