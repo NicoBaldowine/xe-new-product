@@ -87,6 +87,8 @@ export function PlaygroundView({
   const [bentoWidth, setBentoWidth] = useState<number>(() => bentoColsFor(WIDGETS[0].id)[0]);
   // When set, the stage is editing that bento instance (the header CTA becomes Update).
   const [editingKey, setEditingKey] = useState<string | null>(null);
+  // Left panel tab: the widget picker, or the bento config (instances).
+  const [leftTab, setLeftTab] = useState<"widgets" | "bento">("widgets");
 
   const entry = useMemo(() => WIDGETS.find((w) => w.id === selectedId)!, [selectedId]);
 
@@ -152,8 +154,27 @@ export function PlaygroundView({
       transition={spring}
       className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_minmax(0,1fr)_280px]"
     >
-      {/* Left — widget picker */}
+      {/* Left — widget picker / bento config */}
       <aside className="flex flex-col gap-3 rounded-card border border-stroke bg-surface p-4">
+        {/* Top tab: switch the panel between the widget catalog and the bento config. */}
+        <div className="flex items-center gap-1 rounded-full border border-stroke bg-surface-1 p-0.5 text-xs">
+          {(["widgets", "bento"] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setLeftTab(t)}
+              className={cn(
+                "flex-1 rounded-full px-1 py-1 font-medium transition-colors",
+                leftTab === t ? "bg-surface text-content shadow-sm" : "text-content-secondary",
+              )}
+            >
+              {t === "widgets" ? "Widgets" : `Bento (${instances.length})`}
+            </button>
+          ))}
+        </div>
+
+        {leftTab === "widgets" && (
+        <>
         <div className="flex items-center gap-1 rounded-full border border-stroke bg-surface-1 p-0.5 text-xs">
           {(["all", "legacy-block", "figma-widget"] as const).map((s) => (
             <button
@@ -201,13 +222,20 @@ export function PlaygroundView({
             );
           })}
         </div>
+        </>
+        )}
 
-        {instances.length > 0 && (
-          <div className="border-t border-stroke pt-2">
-            <h3 className="mb-1 font-display text-[11px] font-semibold uppercase tracking-wide text-content-tertiary">
-              In bento ({instances.length}) <span className="font-normal normal-case">· click to edit</span>
-            </h3>
-            <div className="flex max-h-44 flex-col gap-0.5 overflow-y-auto">
+        {leftTab === "bento" && (
+        <>
+          <p className="px-0.5 text-[11px] leading-relaxed text-content-tertiary">
+            Click an item to edit its config · ✕ to remove. Add a variant with “+ Add config” in the stage.
+          </p>
+          {instances.length === 0 ? (
+            <p className="rounded-lg bg-surface-1 p-3 text-xs text-content-secondary">
+              Nothing in the bento yet. Go to <b>Widgets</b>, configure one, then “+ Add config”.
+            </p>
+          ) : (
+            <div className="flex flex-1 flex-col gap-0.5 overflow-y-auto">
               {instances.map((inst) => {
                 const cols = inst.cols ?? bentoColsFor(inst.widgetId)[0];
                 return (
@@ -243,8 +271,7 @@ export function PlaygroundView({
                 );
               })}
             </div>
-          </div>
-        )}
+          )}
 
         <div className="mt-1 flex gap-1.5">
           <button
@@ -299,6 +326,8 @@ export function PlaygroundView({
               </button>
             </div>
           </div>
+        )}
+        </>
         )}
       </aside>
 
