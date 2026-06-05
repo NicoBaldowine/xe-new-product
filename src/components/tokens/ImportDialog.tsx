@@ -60,7 +60,7 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
             setText(e.target.value);
             setError(null);
           }}
-          placeholder={'Paste an exported token file here…\n\n{\n  "Text": { "text-base": { "$type": "color", "$value": "#0a0a0a" } }\n}'}
+          placeholder={'Paste an exported token file here…\n\n{\n  "Content": { "content-base": { "$type": "color", "$value": "#0a0a0a" } }\n}'}
           spellCheck={false}
           className="m-0 h-72 w-full resize-none bg-surface-1 p-4 font-mono text-xs leading-relaxed text-content outline-none"
         />

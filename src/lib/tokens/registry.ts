@@ -15,21 +15,21 @@ import type { TokenCategory, TokenDef } from "./types";
  */
 export const TOKENS: TokenDef[] = [
   // ── content (text / icon) — names mirror the Figma "hola mundo" variables ──
-  { name: "text-base", cssVar: "--xe-text-base", category: "content", type: "color", light: "#0a0a0a", dark: "#ffffff", description: "Primary text / icon.", themeKeys: ["--color-content"], pairWith: "surface-base", usage: ["Titles & body copy", "Icons", "text-content"] },
-  { name: "text-secondary", cssVar: "--xe-text-secondary", category: "content", type: "color", light: "#737373", dark: "#a3a3a3", description: "Secondary text.", themeKeys: ["--color-content-secondary"], pairWith: "surface-base", usage: ["Subtitles, helper text", "Eyebrow labels", "text-content-secondary"] },
-  { name: "text-tertiary", cssVar: "--xe-text-tertiary", category: "content", type: "color", light: "#a3a3a3", dark: "#a3a3a3", description: "Tertiary text / hints.", themeKeys: ["--color-content-tertiary"], usage: ["Timestamps, counters, disabled hints"] },
-  { name: "text-base-reverse", cssVar: "--xe-text-base-reverse", category: "content", type: "color", light: "#ffffff", dark: "#0a0a0a", description: "Text on inverted surfaces.", themeKeys: ["--color-content-reverse"] },
-  { name: "text-stays-white", cssVar: "--xe-text-stays-white", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Always white — the foreground for solid coloured fills (brand / success / warning / danger) and text on photos.", themeKeys: ["--color-content-white"], usage: ["Check/“!” on status emblems", "Primary CTA label", "text-content-white"] },
-  { name: "text-brand-logo", cssVar: "--xe-text-brand-logo", category: "content", type: "color", light: "#0a146e", dark: "#ffffff", description: "Logo colour (Figma navy in light, white in dark).", themeKeys: ["--color-brand-logo"] },
-  { name: "text-on-brand", cssVar: "--xe-text-on-brand", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on brand surfaces.", themeKeys: ["--color-on-brand"], pairWith: "surface-brand-default", usage: ["Text/icons on brand-blue fills"] },
-  { name: "text-on-action", cssVar: "--xe-text-on-action", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on action buttons.", themeKeys: ["--color-on-action"], pairWith: "blue-bright", usage: ["Primary Button label", "Send money CTA"] },
-  { name: "text-info-on-muted", cssVar: "--xe-text-info-on-muted", category: "content", type: "color", light: "#1d4ed8", dark: "#bfdbfe", description: "Info text on muted bg.", themeKeys: ["--color-info-on-muted"], pairWith: "surface-info-muted", usage: ["Info Pill text", "status badges"] },
-  { name: "text-success-on-muted", cssVar: "--xe-text-success-on-muted", category: "content", type: "color", light: "#16a34a", dark: "#86efac", description: "Success text on muted bg.", themeKeys: ["--color-success-on-muted"], pairWith: "surface-success-muted", usage: ["Positive rate delta", "rate badge", "Completed pill"] },
-  { name: "text-warning-on-muted", cssVar: "--xe-text-warning-on-muted", category: "content", type: "color", light: "#a16207", dark: "#fde047", description: "Warning text on muted bg.", themeKeys: ["--color-warning-on-muted"], pairWith: "surface-warning-muted", usage: ["Action-required pill", "In-progress warnings"] },
-  { name: "text-danger-on-muted", cssVar: "--xe-text-danger-on-muted", category: "content", type: "color", light: "#dc2626", dark: "#fca5a5", description: "Danger text on muted bg.", themeKeys: ["--color-danger-on-muted"], pairWith: "surface-danger-muted", usage: ["Negative rate delta", "error pills"] },
-  { name: "text-brand-default", cssVar: "--xe-text-brand-default", category: "content", type: "color", light: "#2563eb", dark: "#3b82f6", description: "Brand default (accent text/icon).", themeKeys: ["--color-brand-default"] },
-  { name: "text-success-default", cssVar: "--xe-text-success-default", category: "content", type: "color", light: "#15803d", dark: "#4ade80", description: "Success default.", themeKeys: ["--color-success"] },
-  { name: "text-danger-default", cssVar: "--xe-text-danger-default", category: "content", type: "color", light: "#dc2626", dark: "#f87171", description: "Danger / error default.", themeKeys: ["--color-danger"] },
+  { name: "content-base", cssVar: "--xe-content-base", category: "content", type: "color", light: "#0a0a0a", dark: "#ffffff", description: "Primary text / icon.", themeKeys: ["--color-content"], pairWith: "surface-base", usage: ["Titles & body copy", "Icons", "text-content"] },
+  { name: "content-secondary", cssVar: "--xe-content-secondary", category: "content", type: "color", light: "#737373", dark: "#a3a3a3", description: "Secondary text.", themeKeys: ["--color-content-secondary"], pairWith: "surface-base", usage: ["Subtitles, helper text", "Eyebrow labels", "text-content-secondary"] },
+  { name: "content-tertiary", cssVar: "--xe-content-tertiary", category: "content", type: "color", light: "#a3a3a3", dark: "#a3a3a3", description: "Tertiary text / hints.", themeKeys: ["--color-content-tertiary"], usage: ["Timestamps, counters, disabled hints"] },
+  { name: "content-base-reverse", cssVar: "--xe-content-base-reverse", category: "content", type: "color", light: "#ffffff", dark: "#0a0a0a", description: "Text on inverted surfaces.", themeKeys: ["--color-content-reverse"] },
+  { name: "content-stays-white", cssVar: "--xe-content-stays-white", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Always white — the foreground for solid coloured fills (brand / success / warning / danger) and text on photos.", themeKeys: ["--color-content-white"], usage: ["Check/“!” on status emblems", "Primary CTA label", "text-content-white"] },
+  { name: "content-brand-logo", cssVar: "--xe-content-brand-logo", category: "content", type: "color", light: "#0a146e", dark: "#ffffff", description: "Logo colour (Figma navy in light, white in dark).", themeKeys: ["--color-brand-logo"] },
+  { name: "content-on-brand", cssVar: "--xe-content-on-brand", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on brand surfaces.", themeKeys: ["--color-on-brand"], pairWith: "surface-brand-default", usage: ["Text/icons on brand-blue fills"] },
+  { name: "content-on-action", cssVar: "--xe-content-on-action", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on action buttons.", themeKeys: ["--color-on-action"], pairWith: "blue-bright", usage: ["Primary Button label", "Send money CTA"] },
+  { name: "content-info-on-muted", cssVar: "--xe-content-info-on-muted", category: "content", type: "color", light: "#1d4ed8", dark: "#bfdbfe", description: "Info text on muted bg.", themeKeys: ["--color-info-on-muted"], pairWith: "surface-info-muted", usage: ["Info Pill text", "status badges"] },
+  { name: "content-success-on-muted", cssVar: "--xe-content-success-on-muted", category: "content", type: "color", light: "#16a34a", dark: "#86efac", description: "Success text on muted bg.", themeKeys: ["--color-success-on-muted"], pairWith: "surface-success-muted", usage: ["Positive rate delta", "rate badge", "Completed pill"] },
+  { name: "content-warning-on-muted", cssVar: "--xe-content-warning-on-muted", category: "content", type: "color", light: "#a16207", dark: "#fde047", description: "Warning text on muted bg.", themeKeys: ["--color-warning-on-muted"], pairWith: "surface-warning-muted", usage: ["Action-required pill", "In-progress warnings"] },
+  { name: "content-danger-on-muted", cssVar: "--xe-content-danger-on-muted", category: "content", type: "color", light: "#dc2626", dark: "#fca5a5", description: "Danger text on muted bg.", themeKeys: ["--color-danger-on-muted"], pairWith: "surface-danger-muted", usage: ["Negative rate delta", "error pills"] },
+  { name: "content-brand-default", cssVar: "--xe-content-brand-default", category: "content", type: "color", light: "#2563eb", dark: "#3b82f6", description: "Brand default (accent text/icon).", themeKeys: ["--color-brand-default"] },
+  { name: "content-success-default", cssVar: "--xe-content-success-default", category: "content", type: "color", light: "#15803d", dark: "#4ade80", description: "Success default.", themeKeys: ["--color-success"] },
+  { name: "content-danger-default", cssVar: "--xe-content-danger-default", category: "content", type: "color", light: "#dc2626", dark: "#f87171", description: "Danger / error default.", themeKeys: ["--color-danger"] },
 
   // ── surfaces ──────────────────────────────────────────────────────────
   { name: "canvas", cssVar: "--xe-canvas", category: "surface", type: "color", light: "#ffffff", dark: "#000000", description: "Page background behind cards.", themeKeys: ["--color-canvas"] },
@@ -137,7 +137,7 @@ export const TOKEN_GROUPS: TokenCategory[] = [
 
 /** Human labels per category. */
 export const CATEGORY_LABEL: Record<TokenCategory, string> = {
-  content: "Text",
+  content: "Content",
   surface: "Surface",
   stroke: "Stroke",
   brand: "Brand / fixed",

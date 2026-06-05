@@ -19,21 +19,21 @@
 /* @generated:tokens-start — mirror of src/lib/tokens/registry.ts */
 :root {
   /* content */
-  --xe-text-base: #0a0a0a;
-  --xe-text-secondary: #737373;
-  --xe-text-tertiary: #a3a3a3;
-  --xe-text-base-reverse: #ffffff;
-  --xe-text-stays-white: #ffffff;
-  --xe-text-brand-logo: #0a146e;
-  --xe-text-on-brand: #ffffff;
-  --xe-text-on-action: #ffffff;
-  --xe-text-info-on-muted: #1d4ed8;
-  --xe-text-success-on-muted: #16a34a;
-  --xe-text-warning-on-muted: #a16207;
-  --xe-text-danger-on-muted: #dc2626;
-  --xe-text-brand-default: #2563eb;
-  --xe-text-success-default: #15803d;
-  --xe-text-danger-default: #dc2626;
+  --xe-content-base: #0a0a0a;
+  --xe-content-secondary: #737373;
+  --xe-content-tertiary: #a3a3a3;
+  --xe-content-base-reverse: #ffffff;
+  --xe-content-stays-white: #ffffff;
+  --xe-content-brand-logo: #0a146e;
+  --xe-content-on-brand: #ffffff;
+  --xe-content-on-action: #ffffff;
+  --xe-content-info-on-muted: #1d4ed8;
+  --xe-content-success-on-muted: #16a34a;
+  --xe-content-warning-on-muted: #a16207;
+  --xe-content-danger-on-muted: #dc2626;
+  --xe-content-brand-default: #2563eb;
+  --xe-content-success-default: #15803d;
+  --xe-content-danger-default: #dc2626;
 
   /* surfaces */
   --xe-canvas: #ffffff;
@@ -107,21 +107,21 @@
 
 .dark {
   /* content */
-  --xe-text-base: #ffffff;
-  --xe-text-secondary: #a3a3a3;
-  --xe-text-tertiary: #a3a3a3;
-  --xe-text-base-reverse: #0a0a0a;
-  --xe-text-stays-white: #ffffff;
-  --xe-text-brand-logo: #ffffff;
-  --xe-text-on-brand: #ffffff;
-  --xe-text-on-action: #ffffff;
-  --xe-text-info-on-muted: #bfdbfe;
-  --xe-text-success-on-muted: #86efac;
-  --xe-text-warning-on-muted: #fde047;
-  --xe-text-danger-on-muted: #fca5a5;
-  --xe-text-brand-default: #3b82f6;
-  --xe-text-success-default: #4ade80;
-  --xe-text-danger-default: #f87171;
+  --xe-content-base: #ffffff;
+  --xe-content-secondary: #a3a3a3;
+  --xe-content-tertiary: #a3a3a3;
+  --xe-content-base-reverse: #0a0a0a;
+  --xe-content-stays-white: #ffffff;
+  --xe-content-brand-logo: #ffffff;
+  --xe-content-on-brand: #ffffff;
+  --xe-content-on-action: #ffffff;
+  --xe-content-info-on-muted: #bfdbfe;
+  --xe-content-success-on-muted: #86efac;
+  --xe-content-warning-on-muted: #fde047;
+  --xe-content-danger-on-muted: #fca5a5;
+  --xe-content-brand-default: #3b82f6;
+  --xe-content-success-default: #4ade80;
+  --xe-content-danger-default: #f87171;
 
   /* surfaces */
   --xe-canvas: #000000;
@@ -176,21 +176,21 @@
   --font-mono: var(--xe-font-numeric), ui-monospace, monospace;
 
   /* content colors */
-  --color-content: var(--xe-text-base);
-  --color-content-secondary: var(--xe-text-secondary);
-  --color-content-tertiary: var(--xe-text-tertiary);
-  --color-content-reverse: var(--xe-text-base-reverse);
-  --color-content-white: var(--xe-text-stays-white);
-  --color-brand-logo: var(--xe-text-brand-logo);
-  --color-on-brand: var(--xe-text-on-brand);
-  --color-on-action: var(--xe-text-on-action);
-  --color-info-on-muted: var(--xe-text-info-on-muted);
-  --color-success-on-muted: var(--xe-text-success-on-muted);
-  --color-warning-on-muted: var(--xe-text-warning-on-muted);
-  --color-danger-on-muted: var(--xe-text-danger-on-muted);
-  --color-brand-default: var(--xe-text-brand-default);
-  --color-success: var(--xe-text-success-default);
-  --color-danger: var(--xe-text-danger-default);
+  --color-content: var(--xe-content-base);
+  --color-content-secondary: var(--xe-content-secondary);
+  --color-content-tertiary: var(--xe-content-tertiary);
+  --color-content-reverse: var(--xe-content-base-reverse);
+  --color-content-white: var(--xe-content-stays-white);
+  --color-brand-logo: var(--xe-content-brand-logo);
+  --color-on-brand: var(--xe-content-on-brand);
+  --color-on-action: var(--xe-content-on-action);
+  --color-info-on-muted: var(--xe-content-info-on-muted);
+  --color-success-on-muted: var(--xe-content-success-on-muted);
+  --color-warning-on-muted: var(--xe-content-warning-on-muted);
+  --color-danger-on-muted: var(--xe-content-danger-on-muted);
+  --color-brand-default: var(--xe-content-brand-default);
+  --color-success: var(--xe-content-success-default);
+  --color-danger: var(--xe-content-danger-default);
 
   /* surface colors */
   --color-canvas: var(--xe-canvas);
@@ -276,7 +276,7 @@
 /* base */
 body {
   background: var(--xe-canvas);
-  color: var(--xe-text-base);
+  color: var(--xe-content-base);
   /* numeric role (digits-only) first → numbers in Roboto Mono, text in the body face. */
   font-family: var(--xe-font-numeric), var(--xe-font-body);
   /* Body sits at -2% tracking (per brand spec); titles (font-display) inherit it. */
