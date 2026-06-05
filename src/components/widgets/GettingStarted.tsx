@@ -95,7 +95,7 @@ function StepRow({ step, done, reduce }: { step: GettingStartedStep; done: boole
       initial={reduce ? false : { scale: 0.6, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={spring}
-      className="grid size-6 shrink-0 place-items-center rounded-full bg-success text-content-white"
+      className="grid size-6 shrink-0 place-items-center rounded-full bg-surface-success text-content-white"
     >
       <Icon name="check" size={14} />
     </motion.span>

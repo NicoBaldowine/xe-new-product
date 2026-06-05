@@ -35,10 +35,12 @@ function Dot({ state }: { state: StepState }) {
   if (state === "future") {
     return <span className="size-2 shrink-0 rounded-full bg-surface-3" aria-hidden />;
   }
-  const base = "grid size-5 shrink-0 place-items-center rounded-full text-content-white";
+  const base = "grid size-5 shrink-0 place-items-center rounded-full";
   if (state === "warning") {
+    // Solid amber fill (not the *-on-muted text token) so the white "!" stays
+    // legible in both themes.
     return (
-      <span className={cn(base, "bg-warning-on-muted font-display text-xs font-semibold")} aria-hidden>
+      <span className={cn(base, "bg-surface-warning text-content-white font-display text-xs font-semibold")} aria-hidden>
         !
       </span>
     );
@@ -50,8 +52,10 @@ function Dot({ state }: { state: StepState }) {
       </span>
     );
   }
+  // done | clock — neutral fill (inverts with theme); the glyph uses the reverse
+  // content colour so it never washes out (white-on-white) in dark.
   return (
-    <span className={cn(base, "bg-content")} aria-hidden>
+    <span className={cn(base, "bg-content text-content-reverse")} aria-hidden>
       <Icon name={state === "clock" ? "clock" : "check"} size={12} />
     </span>
   );

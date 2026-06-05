@@ -47,6 +47,9 @@
   --xe-surface-success-muted: #dcfce7;
   --xe-surface-warning-muted: #fef3c7;
   --xe-surface-danger-muted: #fee2e2;
+  --xe-surface-success: #16a34a;
+  --xe-surface-warning: #ca8a04;
+  --xe-surface-danger: #dc2626;
   --xe-surface-glass-white: #ffffff33;
   --xe-surface-glass-black: #0a0a0ab2;
   --xe-surface-overlay-invert: #ffffff80;
@@ -132,6 +135,9 @@
   --xe-surface-success-muted: #14532d;
   --xe-surface-warning-muted: #78350f;
   --xe-surface-danger-muted: #7f1d1d;
+  --xe-surface-success: #16a34a;
+  --xe-surface-warning: #ca8a04;
+  --xe-surface-danger: #dc2626;
   --xe-surface-glass-white: #ffffff33;
   --xe-surface-glass-black: #0a0a0ab2;
   --xe-surface-overlay-invert: #ffffff80;
@@ -198,6 +204,9 @@
   --color-success-muted: var(--xe-surface-success-muted);
   --color-warning-muted: var(--xe-surface-warning-muted);
   --color-danger-muted: var(--xe-surface-danger-muted);
+  --color-surface-success: var(--xe-surface-success);
+  --color-surface-warning: var(--xe-surface-warning);
+  --color-surface-danger: var(--xe-surface-danger);
   --color-glass-white: var(--xe-surface-glass-white);
   --color-glass-black: var(--xe-surface-glass-black);
   --color-overlay-invert: var(--xe-surface-overlay-invert);
