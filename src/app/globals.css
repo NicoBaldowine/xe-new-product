@@ -36,6 +36,8 @@
   --xe-content-brand-default: #2563eb;
   --xe-content-success-default: #15803d;
   --xe-content-danger-default: #dc2626;
+  --xe-content-warning-default: #a16207;
+  --xe-content-info-default: #2563eb;
 
   /* surfaces */
   --xe-canvas: #ffffff;
@@ -179,6 +181,8 @@
   --xe-content-brand-default: #3b82f6;
   --xe-content-success-default: #4ade80;
   --xe-content-danger-default: #f87171;
+  --xe-content-warning-default: #facc15;
+  --xe-content-info-default: #60a5fa;
 
   /* surfaces */
   --xe-canvas: #000000;
@@ -263,6 +267,8 @@
   --color-brand-default: var(--xe-content-brand-default);
   --color-success: var(--xe-content-success-default);
   --color-danger: var(--xe-content-danger-default);
+  --color-warning: var(--xe-content-warning-default);
+  --color-info: var(--xe-content-info-default);
 
   /* surface colors */
   --color-canvas: var(--xe-canvas);

@@ -31,6 +31,8 @@ export const TOKENS: TokenDef[] = [
   { name: "content-brand-default", cssVar: "--xe-content-brand-default", category: "content", type: "color", light: "#2563eb", dark: "#3b82f6", description: "Brand default (accent text/icon).", themeKeys: ["--color-brand-default"] },
   { name: "content-success-default", cssVar: "--xe-content-success-default", category: "content", type: "color", light: "#15803d", dark: "#4ade80", description: "Standalone success text / icon (not a fill — see surface-success).", themeKeys: ["--color-success"], usage: ["All-done check (Getting started)", "text-success"] },
   { name: "content-danger-default", cssVar: "--xe-content-danger-default", category: "content", type: "color", light: "#dc2626", dark: "#f87171", description: "Danger / error default.", themeKeys: ["--color-danger"] },
+  { name: "content-warning-default", cssVar: "--xe-content-warning-default", category: "content", type: "color", light: "#a16207", dark: "#facc15", description: "Standalone warning text / icon (not on a muted bg — see content-warning-on-muted).", themeKeys: ["--color-warning"], usage: ["Warning text / icon", "text-warning"] },
+  { name: "content-info-default", cssVar: "--xe-content-info-default", category: "content", type: "color", light: "#2563eb", dark: "#60a5fa", description: "Standalone info text / icon.", themeKeys: ["--color-info"], usage: ["Info text / icon", "text-info"] },
 
   // ── surfaces ──────────────────────────────────────────────────────────
   { name: "canvas", cssVar: "--xe-canvas", category: "surface", type: "color", light: "#ffffff", dark: "#000000", description: "Page background behind cards.", themeKeys: ["--color-canvas"] },
