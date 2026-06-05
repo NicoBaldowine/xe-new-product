@@ -28,7 +28,8 @@ export type IconName =
   | "grid"
   | "external"
   | "sliders"
-  | "layers";
+  | "layers"
+  | "shuffle";
 
 const PATHS: Record<IconName, React.ReactNode> = {
   send: <path d="M7 17 17 7M9 7h8v8" />,
@@ -163,6 +164,14 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M12 3 3 8l9 5 9-5-9-5Z" />
       <path d="m3 13 9 5 9-5M3 18l9 5 9-5" />
+    </>
+  ),
+  shuffle: (
+    <>
+      <path d="M2 18h2.5c1.3 0 2.5-.7 3.2-1.8l4.6-7.4c.7-1.1 1.9-1.8 3.2-1.8H22" />
+      <path d="m18 2 4 4-4 4" />
+      <path d="M2 6h2.5c1.3 0 2.5.7 3.2 1.8l.8 1.3M14.5 14.9l1 1.3c.7 1.1 1.9 1.8 3.2 1.8H22" />
+      <path d="m18 14 4 4-4 4" />
     </>
   ),
 };

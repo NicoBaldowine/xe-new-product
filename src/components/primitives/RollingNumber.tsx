@@ -15,22 +15,31 @@ function DigitColumn({
   rollFromZero: boolean;
   delay: number;
 }) {
+  // The outer span is NOT overflow-hidden — an in-flow invisible digit gives it a
+  // real text baseline (so adjacent text/currency baseline-aligns to the number).
+  // The odometer is an absolutely-positioned overlay, so its clip can't break the
+  // baseline.
   return (
-    <span className="relative block h-[1em] w-[1ch] overflow-hidden">
-      <motion.span
-        className="absolute inset-x-0 top-0 flex flex-col"
-        // On mount, roll up from 0 (like the chart's rate). `false` keeps the
-        // value-change behaviour: animate from whatever digit was showing.
-        initial={rollFromZero ? { y: "0em" } : false}
-        animate={{ y: `${-digit}em` }}
-        transition={{ ...SPRING, delay }}
-      >
-        {Array.from({ length: 10 }).map((_, n) => (
-          <span key={n} className="flex h-[1em] items-end justify-center leading-none">
-            {n}
-          </span>
-        ))}
-      </motion.span>
+    <span className="relative inline-block w-[1ch]">
+      <span className="invisible leading-none" aria-hidden>
+        {digit}
+      </span>
+      <span className="absolute inset-0 overflow-hidden">
+        <motion.span
+          className="flex flex-col"
+          // On mount, roll up from 0 (like the chart's rate). `false` keeps the
+          // value-change behaviour: animate from whatever digit was showing.
+          initial={rollFromZero ? { y: "0em" } : false}
+          animate={{ y: `${-digit}em` }}
+          transition={{ ...SPRING, delay }}
+        >
+          {Array.from({ length: 10 }).map((_, n) => (
+            <span key={n} className="block h-[1em] text-center leading-none">
+              {n}
+            </span>
+          ))}
+        </motion.span>
+      </span>
     </span>
   );
 }
@@ -59,7 +68,7 @@ export function RollingNumber({
   const rollFromZero = rollOnMount && !reduce;
   return (
     <span
-      className={cn("inline-flex items-end tabular-nums leading-none", className)}
+      className={cn("inline-flex items-baseline tabular-nums leading-none", className)}
       role="text"
       aria-label={value}
     >
@@ -67,7 +76,7 @@ export function RollingNumber({
         /\d/.test(ch) ? (
           <DigitColumn key={i} digit={Number(ch)} rollFromZero={rollFromZero} delay={delay} />
         ) : (
-          <span key={i} aria-hidden className="flex h-[1em] items-end leading-none">
+          <span key={i} aria-hidden className="leading-none">
             {ch}
           </span>
         ),

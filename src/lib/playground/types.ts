@@ -42,6 +42,17 @@ export interface WidgetEntry {
    * 99 = full row. Overridable live in the Playground (see bentoConfig.ts).
    */
   bentoSpan?: number;
+  /**
+   * Allowed column widths for the bento — the layout randomiser picks one of
+   * these per refresh to vary the composition. Defaults to `[bentoSpan ?? 1]`.
+   */
+  bentoCols?: number[];
+  /**
+   * Cap on the widget's height in the bento, in row units (the grid quantises
+   * heights to a fixed row so tiles align). Prevents content-heavy widgets
+   * (transactions, long lists) from growing unbounded; excess is clipped.
+   */
+  bentoMaxRows?: number;
 }
 
 /** Default props object derived from a widget's control defaults. */

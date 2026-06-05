@@ -1,37 +1,43 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
-export type MasonryItem = { key: string; span?: number; node: ReactNode };
+export type MasonryItem = {
+  key: string;
+  /** Column footprint (clamped to the live column count). */
+  cols?: number;
+  /** Cap on the tile's height in row units (clips overflow). */
+  maxRows?: number;
+  node: ReactNode;
+};
 
 /**
- * Bento masonry on CSS grid.
+ * Bento grid: a fixed responsive column count + **row-quantised, best-fit**
+ * packing.
  *
- * Columns are a **fixed, responsive count** (as many `minColWidth`-wide columns
- * as fit, capped at `maxCols`) rather than `auto-fill` — a stable count makes
- * `col-span` predictable, so wide widgets (tables, action bars, charts) reliably
- * occupy 2 columns and read as deliberate instead of breaking the rhythm. Each
- * item's `span` is clamped to the current column count (so a 2-wide widget
- * becomes a single full-width column on mobile).
- *
- * Vertical packing keeps the row-span technique: 1px auto-rows + a measured
- * `grid-row-end` per item, with `grid-auto-flow: dense` backfilling the gaps a
- * wide item leaves — the "flowing, no-gaps" look.
+ * Heights are measured then snapped up to a fixed `rowUnit`, so tiles align to a
+ * shared row grid (the deliberate "bento" look) and `maxRows` can cap content-
+ * heavy widgets so nothing grows unbounded. Placement uses a best-fit packer
+ * (fill the lowest frontier with the widest fitting item) so there are no gaps —
+ * CSS `grid-auto-flow: dense` can't guarantee this. Items are absolutely
+ * positioned; the tile clips overflow and its child fills it (`h-full`).
  */
 export function Masonry({
   items,
   minColWidth = 340,
   maxCols = 4,
-  gap = 32,
+  gap = 24,
+  rowUnit = 72,
 }: {
   items: MasonryItem[];
-  /** Target column width — drives how many fixed columns fit. */
   minColWidth?: number;
-  /** Hard cap on column count on wide screens. */
   maxCols?: number;
   gap?: number;
+  /** Height grid: tile heights snap to a multiple of this (+ gaps). */
+  rowUnit?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number>();
 
   useEffect(() => {
     const grid = ref.current;
@@ -39,54 +45,100 @@ export function Masonry({
 
     const layout = () => {
       const width = grid.clientWidth;
-      // As many target-width columns as fit, capped — a stable integer count.
+      if (!width) return;
+      const els = Array.from(grid.children) as HTMLElement[];
+
       const cols = Math.max(
         1,
         Math.min(maxCols, Math.floor((width + gap) / (minColWidth + gap))),
       );
-      grid.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+      const colWidth = (width - (cols - 1) * gap) / cols;
+      const spans = els.map((w) => Math.min(cols, Math.max(1, Number(w.dataset.cols) || 1)));
 
-      for (const wrapper of Array.from(grid.children) as HTMLElement[]) {
-        // Clamp the requested span to the live column count (a 2-wide widget
-        // is a single full column on a 1-column phone layout).
-        const span = Math.min(cols, Math.max(1, Number(wrapper.dataset.span) || 1));
-        wrapper.style.gridColumnEnd = `span ${span}`;
+      // Pass 1 — set widths, then measure natural content height and snap it up
+      // to a whole number of row units (capped per item).
+      els.forEach((w, i) => {
+        w.style.width = `${colWidth * spans[i] + gap * (spans[i] - 1)}px`;
+        w.style.height = "auto";
+      });
+      const tileHeights = els.map((w) => {
+        const natural = (w.firstElementChild as HTMLElement | null)?.offsetHeight ?? rowUnit;
+        let rows = Math.max(1, Math.ceil((natural + gap) / (rowUnit + gap)));
+        const cap = Number(w.dataset.maxRows) || 0;
+        if (cap > 0) rows = Math.min(rows, cap);
+        return rows * rowUnit + (rows - 1) * gap;
+      });
 
-        const content = wrapper.firstElementChild as HTMLElement | null;
-        if (!content) continue;
-        // offsetHeight ignores transforms, so the entrance scale/translate
-        // animation doesn't skew the measurement. 1px rows → span ≈ height;
-        // the extra `gap` rows leave the vertical gap below.
-        const h = content.offsetHeight;
-        wrapper.style.gridRowEnd = `span ${Math.max(1, h + gap)}`;
+      // Pass 2 — best-fit packing on the quantised heights.
+      const colTops = new Array(cols).fill(0);
+      const remaining = els.map((_, i) => i);
+      const place = (idx: number, col: number, sp: number) => {
+        const top = Math.max(...colTops.slice(col, col + sp));
+        els[idx].style.left = `${col * (colWidth + gap)}px`;
+        els[idx].style.top = `${top}px`;
+        els[idx].style.height = `${tileHeights[idx]}px`;
+        for (let k = col; k < col + sp; k++) colTops[k] = top + tileHeights[idx] + gap;
+      };
+
+      while (remaining.length) {
+        const minTop = Math.min(...colTops);
+        const c0 = colTops.findIndex((t) => t <= minTop + 0.5);
+        let run = 0;
+        while (c0 + run < cols && colTops[c0 + run] <= minTop + 0.5) run++;
+
+        let pick = -1;
+        let pickSpan = 0;
+        for (const idx of remaining) {
+          if (spans[idx] <= run && spans[idx] > pickSpan) {
+            pick = idx;
+            pickSpan = spans[idx];
+          }
+        }
+        if (pick >= 0) {
+          place(pick, c0, pickSpan);
+        } else {
+          let narrow = remaining[0];
+          for (const idx of remaining) if (spans[idx] < spans[narrow]) narrow = idx;
+          const sp = spans[narrow];
+          let bestCol = 0;
+          let bestTop = Infinity;
+          for (let c = 0; c <= cols - sp; c++) {
+            let top = 0;
+            for (let k = c; k < c + sp; k++) top = Math.max(top, colTops[k]);
+            if (top < bestTop - 0.5) {
+              bestTop = top;
+              bestCol = c;
+            }
+          }
+          place(narrow, bestCol, sp);
+          pick = narrow;
+        }
+        remaining.splice(remaining.indexOf(pick), 1);
       }
+
+      setHeight(Math.max(0, Math.max(0, ...colTops) - gap));
     };
 
     layout();
-    const ro = new ResizeObserver(layout);
-    ro.observe(grid);
-    for (const wrapper of Array.from(grid.children)) {
-      const content = wrapper.firstElementChild;
-      if (content) ro.observe(content);
-    }
-    return () => ro.disconnect();
-  }, [items, gap, minColWidth, maxCols]);
+    // Don't observe the tiles for size changes — we set their height, which
+    // would retrigger and loop. Width changes come from the viewport; re-pack
+    // once fonts load (they shift content height).
+    window.addEventListener("resize", layout);
+    document.fonts?.ready.then(layout).catch(() => {});
+    return () => window.removeEventListener("resize", layout);
+  }, [items, gap, minColWidth, maxCols, rowUnit]);
 
   return (
-    <div
-      ref={ref}
-      style={{
-        display: "grid",
-        // First-paint fallback before the effect computes the exact count.
-        gridTemplateColumns: `repeat(auto-fill, minmax(${minColWidth}px, 1fr))`,
-        gridAutoRows: "1px",
-        gridAutoFlow: "row dense",
-        columnGap: `${gap}px`,
-        rowGap: 0,
-      }}
-    >
+    <div ref={ref} style={{ position: "relative", width: "100%", height }}>
       {items.map((it) => (
-        <div key={it.key} data-span={it.span ?? 1} style={{ gridColumnEnd: `span ${it.span ?? 1}` }}>
+        <div
+          key={it.key}
+          data-cols={it.cols ?? 1}
+          data-max-rows={it.maxRows ?? 0}
+          // The tile clips to the card radius; its child (the Card) fills it.
+          className="overflow-hidden rounded-card [&>*]:h-full"
+          style={{ position: "absolute", top: 0, left: 0 }}
+        >
           {it.node}
         </div>
       ))}

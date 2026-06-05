@@ -69,3 +69,14 @@ export function bentoSpanFor(id: string, spans: BentoSpans): number {
   if (id in spans) return spans[id];
   return WIDGETS.find((w) => w.id === id)?.bentoSpan ?? 1;
 }
+
+/** Column widths a widget may take in the bento (for the layout randomiser). */
+export function bentoColsFor(id: string): number[] {
+  const w = WIDGETS.find((x) => x.id === id);
+  return w?.bentoCols ?? [w?.bentoSpan ?? 1];
+}
+
+/** Row-unit cap for a widget's bento height (undefined = uncapped). */
+export function bentoMaxRowsFor(id: string): number | undefined {
+  return WIDGETS.find((x) => x.id === id)?.bentoMaxRows;
+}

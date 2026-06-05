@@ -40,6 +40,7 @@ export const WIDGETS: WidgetEntry[] = [
     group: "Hero",
     source: "figma-widget",
     inBento: true,
+    bentoCols: [1, 2],
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["balance", "all-accounts", "card", "esim"], default: "balance" },
@@ -62,6 +63,8 @@ export const WIDGETS: WidgetEntry[] = [
     source: "figma-widget",
     inBento: true,
     bentoSpan: 2,
+    bentoCols: [1, 2],
+    bentoMaxRows: 6,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["selector", "badge"], default: "selector" },
@@ -85,6 +88,7 @@ export const WIDGETS: WidgetEntry[] = [
     group: "Send",
     source: "figma-widget",
     inBento: true,
+    bentoCols: [1, 2],
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "text", prop: "title", label: "Title", default: "Send internationally" },
@@ -106,6 +110,7 @@ export const WIDGETS: WidgetEntry[] = [
     group: "Rates",
     source: "figma-widget",
     inBento: true,
+    bentoCols: [1],
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["First time - Default", "Max items", "First Time - Only Convert"], default: "First time - Default" },
@@ -125,6 +130,8 @@ export const WIDGETS: WidgetEntry[] = [
     source: "figma-widget",
     inBento: true,
     bentoSpan: 2,
+    bentoCols: [2],
+    bentoMaxRows: 6,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["All", "Empty", "Only Balance"], default: "All" },
@@ -144,6 +151,8 @@ export const WIDGETS: WidgetEntry[] = [
     group: "Activity",
     source: "figma-widget",
     inBento: true,
+    bentoCols: [1, 2],
+    bentoMaxRows: 3,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["Add funds - Scheduled", "Waiting for funds", "Scheduled", "In progress", "Received money", "Transaction created"], default: "In progress" },
@@ -166,6 +175,8 @@ export const WIDGETS: WidgetEntry[] = [
     group: "Send",
     source: "figma-widget",
     inBento: true,
+    bentoCols: [1, 2],
+    bentoMaxRows: 3,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "rate", label: "Rate", options: ["normal", "higher"], default: "normal" },
@@ -187,6 +198,8 @@ export const WIDGETS: WidgetEntry[] = [
     group: "Identity",
     source: "figma-widget",
     inBento: true,
+    bentoCols: [1, 2],
+    bentoMaxRows: 7,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["first-time", "middle", "all-done"], default: "first-time" },
@@ -206,6 +219,8 @@ export const WIDGETS: WidgetEntry[] = [
     source: "figma-widget",
     inBento: true,
     bentoSpan: 2,
+    bentoCols: [1, 2],
+    bentoMaxRows: 3,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["Small", "Large"], default: "Small" },
@@ -323,6 +338,8 @@ export const WIDGETS: WidgetEntry[] = [
     source: "legacy-block",
     // Tabular, high-density content → spans 2 columns in the bento.
     bentoSpan: 2,
+    bentoCols: [2],
+    bentoMaxRows: 7,
     containers: ["desktop"],
     controls: [],
     render: () => <TransactionsTableCard />,
@@ -359,8 +376,10 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Action Bar",
     group: "Send",
     source: "legacy-block",
-    // A horizontal row of actions → reads best spanning 2 columns.
+    // A horizontal row of actions → reads best spanning 2 columns, short.
     bentoSpan: 2,
+    bentoCols: [2],
+    bentoMaxRows: 2,
     containers: ["mobile", "desktop"],
     controls: [],
     render: () => <ActionBar />,
