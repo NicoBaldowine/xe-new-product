@@ -91,9 +91,13 @@ export function BentoStage() {
 
   const removeInstance = (key: string) => persist(instances.filter((i) => i.key !== key));
 
-  /** Set the width of the default instance (key === widgetId). */
-  const setCols = (id: string, cols: number) =>
-    persist(instances.map((i) => (i.key === id ? { ...i, cols } : i)));
+  /** Replace an instance's props + width (editing an existing config). */
+  const updateInstance = (key: string, props: Record<string, unknown>, cols: number) =>
+    persist(instances.map((i) => (i.key === key ? { ...i, props, cols } : i)));
+
+  /** Set the width of an instance by key (default instance live width). */
+  const setCols = (key: string, cols: number) =>
+    persist(instances.map((i) => (i.key === key ? { ...i, cols } : i)));
 
   /** Replace the whole list from an imported config. */
   const importBento = (config: BentoInstance[]) => {
@@ -162,6 +166,7 @@ export function BentoStage() {
               isInBento={isInBento}
               onToggleBento={toggleBento}
               onAddConfig={addConfig}
+              onUpdateInstance={updateInstance}
               onSetCols={setCols}
               onRemoveInstance={removeInstance}
               onImportBento={importBento}

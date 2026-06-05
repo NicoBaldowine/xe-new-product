@@ -65,6 +65,7 @@ export function PlaygroundView({
   isInBento,
   onToggleBento,
   onAddConfig,
+  onUpdateInstance,
   onSetCols,
   onRemoveInstance,
   onImportBento,
@@ -73,6 +74,7 @@ export function PlaygroundView({
   isInBento: (id: string) => boolean;
   onToggleBento: (id: string, cols?: number) => void;
   onAddConfig: (id: string, props: Record<string, unknown>, cols?: number) => void;
+  onUpdateInstance: (key: string, props: Record<string, unknown>, cols: number) => void;
   onSetCols: (id: string, cols: number) => void;
   onRemoveInstance: (key: string) => void;
   onImportBento: (config: BentoInstance[]) => void;
@@ -81,8 +83,10 @@ export function PlaygroundView({
   const [container, setContainer] = useState<ContainerMode>("desktop");
   const [sourceFilter, setSourceFilter] = useState<"all" | WidgetSource>("all");
   const [props, setProps] = useState<Record<string, unknown>>(() => defaultProps(WIDGETS[0]));
-  // The bento width chosen in the switch (drives the toggle + "Add config").
+  // The bento width chosen in the switch (drives the toggle / add / update).
   const [bentoWidth, setBentoWidth] = useState<number>(() => bentoColsFor(WIDGETS[0].id)[0]);
+  // When set, the stage is editing that bento instance (the header CTA becomes Update).
+  const [editingKey, setEditingKey] = useState<string | null>(null);
 
   const entry = useMemo(() => WIDGETS.find((w) => w.id === selectedId)!, [selectedId]);
 
@@ -91,16 +95,29 @@ export function PlaygroundView({
     setSelectedId(id);
     setProps(defaultProps(next));
     setBentoWidth(bentoColsFor(id)[0]);
+    setEditingKey(null);
     // Snap container to one the widget supports.
     if (container !== "both" && !next.containers.includes(container)) {
       setContainer(next.containers[0]);
     }
   }
 
-  /** Width switch → update local width, and the default instance if it's in. */
+  /** Load a bento instance into the stage to edit it. */
+  function editInstance(inst: BentoInstance) {
+    const w = WIDGETS.find((x) => x.id === inst.widgetId);
+    if (!w) return;
+    setSelectedId(inst.widgetId);
+    setProps(inst.props ? { ...defaultProps(w), ...inst.props } : defaultProps(w));
+    setBentoWidth(inst.cols ?? bentoColsFor(inst.widgetId)[0]);
+    setEditingKey(inst.key);
+    if (container !== "both" && !w.containers.includes(container)) setContainer(w.containers[0]);
+  }
+
+  /** Width switch → local width; live-update the targeted instance immediately. */
   function changeWidth(cols: number) {
     setBentoWidth(cols);
-    if (isInBento(selectedId)) onSetCols(selectedId, cols);
+    const targetKey = editingKey ?? (isInBento(selectedId) ? selectedId : null);
+    if (targetKey) onSetCols(targetKey, cols);
   }
 
   const [copiedBento, setCopiedBento] = useState(false);
@@ -188,27 +205,43 @@ export function PlaygroundView({
         {instances.length > 0 && (
           <div className="border-t border-stroke pt-2">
             <h3 className="mb-1 font-display text-[11px] font-semibold uppercase tracking-wide text-content-tertiary">
-              In bento ({instances.length})
+              In bento ({instances.length}) <span className="font-normal normal-case">· click to edit</span>
             </h3>
-            <div className="flex max-h-40 flex-col gap-0.5 overflow-y-auto">
-              {instances.map((inst) => (
-                <div
-                  key={inst.key}
-                  className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-content hover:bg-surface-1"
-                >
-                  <span className="min-w-0 flex-1 truncate" title={instanceLabel(inst)}>
-                    {instanceLabel(inst)}
-                  </span>
-                  <button
-                    type="button"
-                    aria-label="Remove from bento"
-                    onClick={() => onRemoveInstance(inst.key)}
-                    className="grid h-4 w-4 shrink-0 place-items-center rounded text-content-tertiary hover:text-danger"
+            <div className="flex max-h-44 flex-col gap-0.5 overflow-y-auto">
+              {instances.map((inst) => {
+                const cols = inst.cols ?? bentoColsFor(inst.widgetId)[0];
+                return (
+                  <div
+                    key={inst.key}
+                    className={cn(
+                      "flex items-center gap-1 rounded-md pr-1 text-xs",
+                      editingKey === inst.key ? "bg-surface-1 ring-1 ring-stroke-brand" : "hover:bg-surface-1",
+                    )}
                   >
-                    <Icon name="plus" size={12} className="rotate-45" />
-                  </button>
-                </div>
-              ))}
+                    <button
+                      type="button"
+                      onClick={() => editInstance(inst)}
+                      title="Edit this configuration"
+                      className="flex min-w-0 flex-1 items-center gap-1.5 px-2 py-1 text-left"
+                    >
+                      <span className="min-w-0 flex-1 truncate text-content">{instanceLabel(inst)}</span>
+                      {cols > 1 && (
+                        <span className="shrink-0 text-[10px] text-content-tertiary">
+                          {cols >= 3 ? "Full" : `${cols}col`}
+                        </span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Remove from bento"
+                      onClick={() => onRemoveInstance(inst.key)}
+                      className="grid h-4 w-4 shrink-0 place-items-center rounded text-content-tertiary hover:text-danger"
+                    >
+                      <Icon name="plus" size={12} className="rotate-45" />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
@@ -287,14 +320,36 @@ export function PlaygroundView({
               Show in bento
             </label>
             <BentoWidthSwitch span={bentoWidth} onChange={changeWidth} />
-            <button
-              type="button"
-              onClick={() => onAddConfig(entry.id, { ...props }, bentoWidth)}
-              title="Add the current configuration to the bento as a new variant instance"
-              className="flex items-center gap-1.5 rounded-full border border-stroke bg-surface px-2.5 py-1 text-xs font-medium text-content hover:bg-surface-1"
-            >
-              <Icon name="plus" size={13} /> Add config
-            </button>
+            {editingKey ? (
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => onUpdateInstance(editingKey, { ...props }, bentoWidth)}
+                  title="Save changes to this bento instance"
+                  className="flex items-center gap-1.5 rounded-full bg-brand-blue-bright px-2.5 py-1 text-xs font-medium text-content-white"
+                >
+                  <Icon name="check" size={13} /> Update
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingKey(null)}
+                  title="Stop editing this instance"
+                  className="grid h-6 w-6 place-items-center rounded-full border border-stroke text-content-secondary hover:text-content"
+                  aria-label="Done editing"
+                >
+                  <Icon name="plus" size={13} className="rotate-45" />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => onAddConfig(entry.id, { ...props }, bentoWidth)}
+                title="Add the current configuration to the bento as a new variant instance"
+                className="flex items-center gap-1.5 rounded-full border border-stroke bg-surface px-2.5 py-1 text-xs font-medium text-content hover:bg-surface-1"
+              >
+                <Icon name="plus" size={13} /> Add config
+              </button>
+            )}
             <ContainerSwitch value={container} onChange={setContainer} entry={entry} />
           </div>
         </div>
