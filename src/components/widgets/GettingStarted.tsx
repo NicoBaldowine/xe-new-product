@@ -182,7 +182,7 @@ export function GettingStarted({
         <span className="text-body-sm text-content-secondary">{helpLabel}</span>
         <a
           href="#"
-          className="text-body-sm font-medium text-brand-blue-bright underline underline-offset-2 hover:opacity-80"
+          className="text-body-sm font-medium text-action underline underline-offset-2 hover:opacity-80"
         >
           {helpLinkLabel}
         </a>

@@ -92,7 +92,7 @@ export function Convert({
           <AssetIcon
             name="last-update"
             size={12}
-            className="shrink-0 text-brand-blue-bright"
+            className="shrink-0 text-action"
           />
         )}
       </div>

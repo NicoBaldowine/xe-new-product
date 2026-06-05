@@ -22,8 +22,8 @@ export const TOKENS: TokenDef[] = [
   { name: "content-stays-white", cssVar: "--xe-content-stays-white", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Always white — the foreground for solid coloured fills (brand / success / warning / danger) and text on photos.", themeKeys: ["--color-content-white"], usage: ["Check/“!” on status emblems", "Primary CTA label", "Text over photos (Travel promo)", "text-content-white"] },
   { name: "content-stays-black", cssVar: "--xe-content-stays-black", category: "content", type: "color", light: "#0a0a0a", dark: "#0a0a0a", description: "Always near-black — foreground over light photos / fixed-light marketing media (Figma content/stays-black).", themeKeys: ["--color-content-black"], pairWith: "content-stays-white", usage: ["Banner title over a light photo", "text-content-black"] },
   { name: "content-brand-logo", cssVar: "--xe-content-brand-logo", category: "content", type: "color", light: "#0a146e", dark: "#ffffff", description: "Logo colour (Figma navy in light, white in dark).", themeKeys: ["--color-brand-logo"] },
-  { name: "content-on-brand", cssVar: "--xe-content-on-brand", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on brand surfaces.", themeKeys: ["--color-on-brand"], pairWith: "surface-brand-default", usage: ["Text/icons on brand-blue fills"] },
-  { name: "content-on-action", cssVar: "--xe-content-on-action", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on action buttons.", themeKeys: ["--color-on-action"], pairWith: "blue-bright", usage: ["Primary Button label", "Send money CTA"] },
+  { name: "content-on-brand", cssVar: "--xe-content-on-brand", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on brand surfaces.", themeKeys: ["--color-on-brand"], pairWith: "surface-action", usage: ["Text/icons on action fills"] },
+  { name: "content-on-action", cssVar: "--xe-content-on-action", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on action buttons.", themeKeys: ["--color-on-action"], pairWith: "action-default", usage: ["Primary Button label", "Send money CTA"] },
   { name: "content-info-on-muted", cssVar: "--xe-content-info-on-muted", category: "content", type: "color", light: "#1d4ed8", dark: "#bfdbfe", description: "Info text on muted bg.", themeKeys: ["--color-info-on-muted"], pairWith: "surface-info-muted", usage: ["Info Pill text", "status badges"] },
   { name: "content-success-on-muted", cssVar: "--xe-content-success-on-muted", category: "content", type: "color", light: "#16a34a", dark: "#86efac", description: "Success text on muted bg.", themeKeys: ["--color-success-on-muted"], pairWith: "surface-success-muted", usage: ["Positive rate delta", "rate badge", "Completed pill"] },
   { name: "content-warning-on-muted", cssVar: "--xe-content-warning-on-muted", category: "content", type: "color", light: "#a16207", dark: "#fde047", description: "Warning text on muted bg.", themeKeys: ["--color-warning-on-muted"], pairWith: "surface-warning-muted", usage: ["Action-required pill", "In-progress warnings"] },
@@ -39,7 +39,7 @@ export const TOKENS: TokenDef[] = [
   { name: "surface-level-02", cssVar: "--xe-surface-level-02", category: "surface", type: "color", light: "#ececec", dark: "#262626", description: "Level-02 fill — nested fills on a level-1 container (e.g. mobile cards). One step darker than level-01 in light (deviates from Figma, which has them equal) so the hierarchy reads in both themes. Utility: bg-surface-2.", themeKeys: ["--color-surface-2"], usage: ["Nested fields/selectors/chips inside mobile widgets", "bg-surface-2"] },
   { name: "surface-level-03", cssVar: "--xe-surface-level-03", category: "surface", type: "color", light: "#d4d4d4", dark: "#404040", description: "Level-03 fill. Utility: bg-surface-3.", themeKeys: ["--color-surface-3"] },
   { name: "surface-adaptive-gray", cssVar: "--xe-surface-adaptive-gray", category: "surface", type: "color", light: "#0a0a0a0d", dark: "#ffffff1a", description: "Adaptive tint (black 5% / white 10%). Utility: bg-surface-adaptive.", themeKeys: ["--color-surface-adaptive"] },
-  { name: "surface-brand-default", cssVar: "--xe-surface-brand-default", category: "surface", type: "color", light: "#2563eb", dark: "#3b82f6", description: "Brand surface fill. Utility: bg-surface-brand.", themeKeys: ["--color-surface-brand"] },
+  { name: "surface-action", cssVar: "--xe-surface-action", category: "surface", type: "color", light: "#0533ff", dark: "#385dff", description: "Action surface fill (the new XE blue). Utility: bg-surface-action.", themeKeys: ["--color-surface-action"], pairWith: "content-on-action" },
   { name: "surface-info-muted", cssVar: "--xe-surface-info-muted", category: "surface", type: "color", light: "#dbeafe", dark: "#1e3a8a", description: "Info muted bg.", themeKeys: ["--color-info-muted"] },
   { name: "surface-success-muted", cssVar: "--xe-surface-success-muted", category: "surface", type: "color", light: "#dcfce7", dark: "#14532d", description: "Success muted bg.", themeKeys: ["--color-success-muted"] },
   { name: "surface-warning-muted", cssVar: "--xe-surface-warning-muted", category: "surface", type: "color", light: "#fef3c7", dark: "#78350f", description: "Warning muted bg.", themeKeys: ["--color-warning-muted"] },
@@ -57,11 +57,15 @@ export const TOKENS: TokenDef[] = [
 
   // ── strokes ───────────────────────────────────────────────────────────
   { name: "stroke-base", cssVar: "--xe-stroke-base", category: "stroke", type: "color", light: "#e5e5e5", dark: "#262626", description: "Default border / divider.", themeKeys: ["--color-stroke"], usage: ["Desktop card border", "Outline button border (Button variant=outline)", "Row dividers", "border-stroke"] },
-  { name: "stroke-brand-default", cssVar: "--xe-stroke-brand-default", category: "stroke", type: "color", light: "#2563eb", dark: "#2563eb", description: "Brand stroke.", themeKeys: ["--color-stroke-brand"] },
+  { name: "stroke-action", cssVar: "--xe-stroke-action", category: "stroke", type: "color", light: "#0533ff", dark: "#385dff", description: "Action stroke / focus ring (the new XE blue).", themeKeys: ["--color-stroke-action"] },
 
-  // ── brand / fixed colours (dual: editable per theme, default identical) ──
-  { name: "blue", cssVar: "--xe-blue", category: "brand", type: "color", light: "#002beb", dark: "#002beb", description: "Brand blue (Figma “Main Blue”).", themeKeys: ["--color-brand-blue"] },
-  { name: "blue-bright", cssVar: "--xe-blue-bright", category: "brand", type: "color", light: "#0533ff", dark: "#0533ff", description: "Primary CTA fill (Figma “Primary blue”).", themeKeys: ["--color-brand-blue-bright"], usage: ["Primary Button", "Send money CTA", "active range tab", "links"] },
+  // ── action (the brand colour for any interactive/CTA element) ──────────
+  //    States: default / hover / pressed. The new XE blue (light #0533FF /
+  //    dark #385DFF); hover is lifted, pressed is deepened (derived).
+  { name: "action-default", cssVar: "--xe-action", category: "action", type: "color", light: "#0533ff", dark: "#385dff", description: "Action / CTA fill — the brand colour for any interactive element.", themeKeys: ["--color-action"], pairWith: "content-on-action", usage: ["Primary Button", "Send money CTA", "active range tab", "links"] },
+  { name: "action-hover", cssVar: "--xe-action-hover", category: "action", type: "color", light: "#2850ff", dark: "#5474ff", description: "Action hover.", themeKeys: ["--color-action-hover"], pairWith: "content-on-action" },
+  { name: "action-pressed", cssVar: "--xe-action-pressed", category: "action", type: "color", light: "#042de0", dark: "#3152e0", description: "Action pressed.", themeKeys: ["--color-action-pressed"], pairWith: "content-on-action" },
+  { name: "action-bold", cssVar: "--xe-action-bold", category: "action", type: "color", light: "#002beb", dark: "#002beb", description: "Bold/deep brand blue (Figma “Main Blue”) — promo gradients.", themeKeys: ["--color-action-bold"] },
 
   // ── utility (categorical) — for transaction / category emblems. Each has a
   //    base (icon/text) + a muted (fill); light & dark per Figma (Tailwind
@@ -197,7 +201,7 @@ export const TOKEN_GROUPS: TokenCategory[] = [
   "content",
   "surface",
   "stroke",
-  "brand",
+  "action",
   "utility",
   "fontFamily",
   "textStyle",
@@ -215,7 +219,7 @@ export const CATEGORY_LABEL: Record<TokenCategory, string> = {
   content: "Content",
   surface: "Surface",
   stroke: "Stroke",
-  brand: "Brand / fixed",
+  action: "Action (brand)",
   utility: "Utility (categorical)",
   radius: "Radius",
   typography: "Type scale",

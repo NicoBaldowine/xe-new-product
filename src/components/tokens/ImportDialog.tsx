@@ -70,7 +70,7 @@ export function ImportDialog({ onClose }: { onClose: () => void }) {
           <button
             type="button"
             onClick={doImport}
-            className="ml-auto rounded-xl bg-brand-blue-bright px-3 py-2 text-xs font-medium text-content-white"
+            className="ml-auto rounded-xl bg-action px-3 py-2 text-xs font-medium text-content-white"
           >
             Apply
           </button>

@@ -23,7 +23,7 @@ const TOKEN_GROUP_ORDER: TokenCategory[] = [
   "content",
   "surface",
   "stroke",
-  "brand",
+  "action",
   "utility",
   "fontFamily",
   "textStyle",
@@ -282,7 +282,7 @@ export function PlaygroundView({
                     key={inst.key}
                     className={cn(
                       "flex items-center gap-1 rounded-md pr-1 text-xs",
-                      editingKey === inst.key ? "bg-surface-1 ring-1 ring-stroke-brand" : "hover:bg-surface-1",
+                      editingKey === inst.key ? "bg-surface-1 ring-1 ring-stroke-action" : "hover:bg-surface-1",
                     )}
                   >
                     <button
@@ -345,14 +345,14 @@ export function PlaygroundView({
               }}
               placeholder='Paste exported bento config (JSON array)…'
               spellCheck={false}
-              className="h-24 w-full resize-none rounded-lg border border-stroke bg-surface-1 p-2 font-mono text-[11px] text-content outline-none focus:ring-2 focus:ring-stroke-brand"
+              className="h-24 w-full resize-none rounded-lg border border-stroke bg-surface-1 p-2 font-mono text-[11px] text-content outline-none focus:ring-2 focus:ring-stroke-action"
             />
             {importBentoError && <span className="text-[11px] text-danger">{importBentoError}</span>}
             <div className="flex gap-1.5">
               <button
                 type="button"
                 onClick={applyBentoImport}
-                className="flex-1 rounded-lg bg-brand-blue-bright px-2 py-1.5 text-xs font-medium text-content-white"
+                className="flex-1 rounded-lg bg-action px-2 py-1.5 text-xs font-medium text-content-white"
               >
                 Apply
               </button>
@@ -383,7 +383,7 @@ export function PlaygroundView({
                 type="checkbox"
                 checked={isInBento(entry.id)}
                 onChange={() => onToggleBento(entry.id, bentoWidth)}
-                className="accent-[var(--color-brand-blue-bright)]"
+                className="accent-[var(--color-action)]"
               />
               Show in bento
             </label>
@@ -394,7 +394,7 @@ export function PlaygroundView({
                   type="button"
                   onClick={() => onUpdateInstance(editingKey, { ...props }, bentoWidth)}
                   title="Save changes to this bento instance"
-                  className="flex items-center gap-1.5 rounded-full bg-brand-blue-bright px-2.5 py-1 text-xs font-medium text-content-white"
+                  className="flex items-center gap-1.5 rounded-full bg-action px-2.5 py-1 text-xs font-medium text-content-white"
                 >
                   <Icon name="check" size={13} /> Update
                 </button>

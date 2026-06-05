@@ -86,7 +86,7 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
                 className={cn(
                   "rounded-full px-3 py-1 text-xs font-medium transition-colors",
                   f.id === active
-                    ? "bg-brand-blue-bright text-content-white"
+                    ? "bg-action text-content-white"
                     : "text-content-secondary hover:bg-surface-1 hover:text-content",
                 )}
               >
@@ -116,7 +116,7 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
             <button
               type="button"
               onClick={download}
-              className="rounded-xl bg-brand-blue-bright px-3 py-2 text-xs font-medium text-content-white"
+              className="rounded-xl bg-action px-3 py-2 text-xs font-medium text-content-white"
             >
               Download .{fmt.ext}
             </button>

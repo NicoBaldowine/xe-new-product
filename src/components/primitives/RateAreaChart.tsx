@@ -40,12 +40,12 @@ export function RateAreaChart({ points }: { points: number[] }) {
     if (!drawn || index !== last || cx == null || cy == null) return <g />;
     return (
       <g style={{ animation: "rate-dot-in 220ms ease-out", transformBox: "fill-box", transformOrigin: "center" }}>
-        <circle cx={cx} cy={cy} r={9} fill="var(--color-brand-blue-bright)" opacity={0.18} />
+        <circle cx={cx} cy={cy} r={9} fill="var(--color-action)" opacity={0.18} />
         <circle
           cx={cx}
           cy={cy}
           r={4.5}
-          fill="var(--color-brand-blue-bright)"
+          fill="var(--color-action)"
           stroke="var(--color-surface)"
           strokeWidth={2.5}
         />
@@ -58,16 +58,16 @@ export function RateAreaChart({ points }: { points: number[] }) {
       <AreaChart data={data} margin={{ top: 12, right: 14, bottom: 4, left: 0 }}>
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--color-brand-blue-bright)" stopOpacity={0.26} />
-            <stop offset="75%" stopColor="var(--color-brand-blue-bright)" stopOpacity={0.02} />
-            <stop offset="100%" stopColor="var(--color-brand-blue-bright)" stopOpacity={0} />
+            <stop offset="0%" stopColor="var(--color-action)" stopOpacity={0.26} />
+            <stop offset="75%" stopColor="var(--color-action)" stopOpacity={0.02} />
+            <stop offset="100%" stopColor="var(--color-action)" stopOpacity={0} />
           </linearGradient>
         </defs>
         <YAxis hide domain={[min - pad, max + pad]} />
         <Area
           type="monotone"
           dataKey="v"
-          stroke="var(--color-brand-blue-bright)"
+          stroke="var(--color-action)"
           strokeWidth={2.5}
           strokeLinecap="round"
           strokeLinejoin="round"

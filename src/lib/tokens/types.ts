@@ -18,7 +18,7 @@ export type TokenCategory =
   | "content"
   | "surface"
   | "stroke"
-  | "brand"
+  | "action"
   | "utility"
   | "radius"
   | "typography"

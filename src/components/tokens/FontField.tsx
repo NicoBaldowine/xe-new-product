@@ -18,7 +18,7 @@ export function FontField({
       onChange={(e) => onChange(e.target.value)}
       className={cn(
         "h-7 w-full min-w-0 rounded-md border border-stroke bg-surface-1 px-1.5",
-        "text-xs text-content outline-none focus:ring-2 focus:ring-stroke-brand",
+        "text-xs text-content outline-none focus:ring-2 focus:ring-stroke-action",
       )}
     >
       {!known && <option value={value}>Custom</option>}

@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
  * Banner — wide marketing promo (Figma 8443:36638). Three treatments of the same
  * anatomy (title + serif accent + body + glass CTA over media):
  *  · image    (eSIM L) — full-bleed photo, dark text, glass-white CTA.
- *  · gradient (eSIM M) — brand-blue gradient + cut-out subject, white text, glass-white CTA.
+ *  · gradient (eSIM M) — action-bold gradient + cut-out subject, white text, glass-white CTA.
  *  · light    (Large transfers) — side photo with a white scrim, dark text, glass-black CTA.
  * Pure content component — the morph/shell is supplied by the view.
  */
@@ -32,7 +32,7 @@ const DEFAULTS: Record<BannerVariant, { title: string; accent: string; subtitle:
 // Soft-blue used by the gradient variant (Figma #b5d2fa) — both for the gradient's
 // light stop and that variant's accent. A one-off marketing value, not yet a token.
 const SOFT_BLUE = "#b5d2fa";
-const BLUE_GRADIENT = `linear-gradient(124deg, var(--color-brand-blue-bright) 36%, ${SOFT_BLUE} 118%)`;
+const BLUE_GRADIENT = `linear-gradient(124deg, var(--color-action) 36%, ${SOFT_BLUE} 118%)`;
 
 export function Banner({ variant = "image", title, accent, subtitle, cta, className }: BannerProps = {}) {
   const v = (["image", "gradient", "light"].includes(String(variant).toLowerCase())
@@ -87,7 +87,7 @@ export function Banner({ variant = "image", title, accent, subtitle, cta, classN
         <div className="flex flex-col leading-tight">
           <span className={cn("font-display text-h3 font-semibold", fg)}>{t}</span>
           <span
-            className={cn("font-serif text-h3 italic leading-tight", v !== "gradient" && "text-brand-blue-bright")}
+            className={cn("font-serif text-h3 italic leading-tight", v !== "gradient" && "text-action")}
             style={v === "gradient" ? { color: SOFT_BLUE } : undefined}
           >
             {a}

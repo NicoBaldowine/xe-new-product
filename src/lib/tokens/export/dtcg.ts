@@ -51,7 +51,7 @@ function groupPath(cat: TokenCategory): string {
     case "content": return "text";
     case "surface": return "surface";
     case "stroke": return "stroke";
-    case "brand": return "extra";
+    case "action": return "extra";
     case "utility": return "extra/utility";
     case "radius": return "value/radius";
     case "blur": return "value/blur";

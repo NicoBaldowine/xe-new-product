@@ -83,7 +83,7 @@ export function RateChartCard({ fillHeight = false }: { fillHeight?: boolean } =
               className={cn(
                 "flex-1 rounded-xl py-1.5 text-center font-display text-caption transition-colors",
                 active
-                  ? "bg-brand-blue-bright text-content-white"
+                  ? "bg-action text-content-white"
                   : "text-content-secondary hover:bg-surface-1 hover:text-content",
               )}
             >

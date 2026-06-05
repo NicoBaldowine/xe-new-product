@@ -51,7 +51,7 @@ export function PromoteBar({ className }: { className?: string }) {
             disabled={status === "saving"}
             className={cn(
               "flex items-center justify-center gap-1.5 rounded-button px-3 py-2 text-xs font-semibold text-content-white transition-colors",
-              status === "saving" ? "cursor-wait bg-brand-blue-bright/70" : "bg-brand-blue-bright hover:brightness-95",
+              status === "saving" ? "cursor-wait bg-action/70" : "bg-action hover:brightness-95",
             )}
           >
             <Icon name="check" size={14} />

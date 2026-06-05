@@ -100,7 +100,7 @@ export function MktCard({
             "absolute right-0 top-0 inline-flex size-6 items-center justify-center",
             "cursor-pointer rounded-full text-content-secondary",
             "transition-colors hover:bg-surface-1 hover:text-content",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue-bright",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
           )}
         >
           <AssetIcon name="x-close" size={18} />

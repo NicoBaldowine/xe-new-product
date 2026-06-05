@@ -5,7 +5,7 @@ import { CURRENCIES } from "@/lib/playground/types";
 import { cn } from "@/lib/cn";
 
 const inputCls =
-  "h-8 w-full min-w-0 rounded-lg border border-stroke bg-surface-1 px-2 text-xs text-content outline-none focus:ring-2 focus:ring-stroke-brand";
+  "h-8 w-full min-w-0 rounded-lg border border-stroke bg-surface-1 px-2 text-xs text-content outline-none focus:ring-2 focus:ring-stroke-action";
 
 function Field({
   control,
@@ -51,7 +51,7 @@ function Field({
           max={control.max}
           value={Number(value)}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full accent-[var(--color-brand-blue-bright)]"
+          className="w-full accent-[var(--color-action)]"
         />
       );
     case "toggle":
@@ -63,7 +63,7 @@ function Field({
           onClick={() => onChange(!value)}
           className={cn(
             "relative h-5 w-9 rounded-full transition-colors",
-            value ? "bg-brand-blue-bright" : "bg-surface-3",
+            value ? "bg-action" : "bg-surface-3",
           )}
         >
           <span

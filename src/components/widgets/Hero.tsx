@@ -192,19 +192,19 @@ function PillButton({ icon, label }: QuickAction) {
 
 /**
  * Default hero gradient for `all-accounts` (no single currency to theme on).
- * Same brand-blue-bright tint, but it behaves differently per container (Figma):
+ * Same action tint, but it behaves differently per container (Figma):
  *  · mobile (8491:11740) — a strong 30% scrim fading to transparent over the
  *    full-bleed height, so it blends into the device.
  *  · desktop (8571:21498) — a subtle 10% tint only at the top, fading to solid
  *    surface by ~63% of the card (Figma layers a flat 10% blue under a
  *    transparent→surface fade; the composite equals surface+10%blue → surface).
- * brand-blue-bright is theme-invariant; the base (canvas/surface) flips, so the
+ * action is theme-invariant; the base (canvas/surface) flips, so the
  * same definitions read blue-on-white in light and deep-blue in dark.
  */
 const MOBILE_GRADIENT =
-  "linear-gradient(180deg, color-mix(in srgb, var(--color-brand-blue-bright) 30%, transparent) 0%, transparent 100%)";
+  "linear-gradient(180deg, color-mix(in srgb, var(--color-action) 30%, transparent) 0%, transparent 100%)";
 const DESKTOP_GRADIENT =
-  "linear-gradient(180deg, color-mix(in srgb, var(--color-brand-blue-bright) 10%, var(--color-surface)) 0%, var(--color-surface) 63%)";
+  "linear-gradient(180deg, color-mix(in srgb, var(--color-action) 10%, var(--color-surface)) 0%, var(--color-surface) 63%)";
 
 function BalanceHero({ variant, flags, flag, showOverflow, label, amount, actions, className }: HeroProps) {
   const container = useWidgetContainer();
@@ -337,7 +337,7 @@ function PromoHero({ variant, emblem, title, subtitle, cta, className }: HeroPro
           />
         ) : (
           <Figure size={container === "mobile" ? 96 : 120} className="bg-surface-1">
-            <Icon name={emblem ?? d.emblem} size={48} className="text-brand-blue-bright" />
+            <Icon name={emblem ?? d.emblem} size={48} className="text-action" />
           </Figure>
         )}
         <div className="flex flex-col items-center gap-2">

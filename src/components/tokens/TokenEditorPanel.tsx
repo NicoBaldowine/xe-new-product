@@ -58,7 +58,7 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
                 type="button"
                 onClick={() => setShowExport(true)}
                 title="Export to DTCG / CSS / Tokens Studio / Tailwind"
-                className="flex items-center gap-1.5 rounded-lg bg-brand-blue-bright px-2.5 py-1.5 text-xs font-medium text-content-white"
+                className="flex items-center gap-1.5 rounded-lg bg-action px-2.5 py-1.5 text-xs font-medium text-content-white"
               >
                 <Icon name="external" size={14} /> Export
               </button>
@@ -156,7 +156,7 @@ function VersionsSection() {
               value={name}
               placeholder="Name this version…"
               onChange={(e) => setName(e.target.value)}
-              className="h-7 min-w-0 flex-1 rounded-md border border-stroke bg-surface-1 px-2 text-xs text-content outline-none focus:ring-2 focus:ring-stroke-brand"
+              className="h-7 min-w-0 flex-1 rounded-md border border-stroke bg-surface-1 px-2 text-xs text-content outline-none focus:ring-2 focus:ring-stroke-action"
             />
             <button
               type="button"
@@ -168,7 +168,7 @@ function VersionsSection() {
               title={isDirty ? "Save current edits as a version" : "Edit a token first"}
               className={cn(
                 "rounded-md px-2.5 py-1 text-xs font-medium",
-                isDirty ? "bg-brand-blue-bright text-content-white" : "cursor-not-allowed bg-surface-1 text-content-tertiary",
+                isDirty ? "bg-action text-content-white" : "cursor-not-allowed bg-surface-1 text-content-tertiary",
               )}
             >
               Save

@@ -7,7 +7,7 @@ export function TravelPromoCard() {
     <Card layoutId="travel-promo" flush className="relative overflow-hidden">
       <PhotoBlock className="absolute inset-0" />
       {/* scrim for legible white text over the photo */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/85 via-brand-blue/45 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-br from-action-bold/85 via-action-bold/45 to-transparent" />
       <div className="relative flex flex-col gap-3 p-6 text-content-white">
         <h3 className="font-display text-h3 leading-tight">
           {data.title}

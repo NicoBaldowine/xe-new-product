@@ -48,7 +48,7 @@ export function ColorField({
         className={cn(
           "h-6 w-full min-w-0 rounded-md border border-stroke bg-surface-1 px-1.5",
           "font-mono text-[11px] text-content tabular-nums outline-none",
-          "focus:ring-2 focus:ring-stroke-brand",
+          "focus:ring-2 focus:ring-stroke-action",
         )}
       />
     </div>

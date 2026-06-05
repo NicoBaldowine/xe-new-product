@@ -44,7 +44,7 @@
   --xe-surface-level-02: #ececec;
   --xe-surface-level-03: #d4d4d4;
   --xe-surface-adaptive-gray: #0a0a0a0d;
-  --xe-surface-brand-default: #2563eb;
+  --xe-surface-action: #0533ff;
   --xe-surface-info-muted: #dbeafe;
   --xe-surface-success-muted: #dcfce7;
   --xe-surface-warning-muted: #fef3c7;
@@ -58,11 +58,13 @@
 
   /* strokes */
   --xe-stroke-base: #e5e5e5;
-  --xe-stroke-brand-default: #2563eb;
+  --xe-stroke-action: #0533ff;
 
-  /* brand / fixed */
-  --xe-blue: #002beb;
-  --xe-blue-bright: #0533ff;
+  /* action (brand) */
+  --xe-action-bold: #002beb;
+  --xe-action: #0533ff;
+  --xe-action-hover: #2850ff;
+  --xe-action-pressed: #042de0;
 
   /* utility (categorical — transaction/category emblems) */
   --xe-utility-01: #0891b2;
@@ -179,7 +181,7 @@
   --xe-surface-level-02: #262626;
   --xe-surface-level-03: #404040;
   --xe-surface-adaptive-gray: #ffffff1a;
-  --xe-surface-brand-default: #3b82f6;
+  --xe-surface-action: #385dff;
   --xe-surface-info-muted: #1e3a8a;
   --xe-surface-success-muted: #14532d;
   --xe-surface-warning-muted: #78350f;
@@ -193,11 +195,13 @@
 
   /* strokes */
   --xe-stroke-base: #262626;
-  --xe-stroke-brand-default: #2563eb;
+  --xe-stroke-action: #385dff;
 
-  /* brand colours (dual — default identical to light, editable per theme) */
-  --xe-blue: #002beb;
-  --xe-blue-bright: #0533ff;
+  /* action (brand) */
+  --xe-action-bold: #002beb;
+  --xe-action: #385dff;
+  --xe-action-hover: #5474ff;
+  --xe-action-pressed: #3152e0;
 
   /* utility (categorical) — dark variants */
   --xe-utility-01: #06b6d4;
@@ -214,7 +218,7 @@
 /* ---------------------------------------------------------------------------
    Map tokens into Tailwind v4. These generate utilities automatically:
      bg-surface, bg-surface-1, text-content, text-content-secondary,
-     border-stroke, bg-brand-blue, font-sans, font-serif, font-display, etc.
+     border-stroke, bg-action, font-sans, font-serif, font-display, etc.
    --------------------------------------------------------------------------- */
 @theme inline {
   /* fonts. Roles map to faces via the editable --xe-font-* vars (globals :root,
@@ -255,7 +259,7 @@
   --color-surface-2: var(--xe-surface-level-02);
   --color-surface-3: var(--xe-surface-level-03);
   --color-surface-adaptive: var(--xe-surface-adaptive-gray);
-  --color-surface-brand: var(--xe-surface-brand-default);
+  --color-surface-action: var(--xe-surface-action);
   --color-info-muted: var(--xe-surface-info-muted);
   --color-success-muted: var(--xe-surface-success-muted);
   --color-warning-muted: var(--xe-surface-warning-muted);
@@ -269,11 +273,13 @@
 
   /* stroke colors */
   --color-stroke: var(--xe-stroke-base);
-  --color-stroke-brand: var(--xe-stroke-brand-default);
+  --color-stroke-action: var(--xe-stroke-action);
 
-  /* brand / fixed */
-  --color-brand-blue: var(--xe-blue);
-  --color-brand-blue-bright: var(--xe-blue-bright);
+  /* action (brand) */
+  --color-action-bold: var(--xe-action-bold);
+  --color-action: var(--xe-action);
+  --color-action-hover: var(--xe-action-hover);
+  --color-action-pressed: var(--xe-action-pressed);
 
   /* utility (categorical) */
   --color-utility-01: var(--xe-utility-01);
