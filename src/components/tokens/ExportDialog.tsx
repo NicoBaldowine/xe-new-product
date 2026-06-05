@@ -95,6 +95,12 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
             ))}
           </div>
 
+          {fmt.hint && (
+            <p className="border-b border-stroke bg-surface-1 px-5 py-2 text-[11px] leading-relaxed text-content-secondary">
+              {fmt.hint}
+            </p>
+          )}
+
           <pre className="m-0 flex-1 overflow-auto bg-surface-1 p-4 font-mono text-xs leading-relaxed text-content">
             {text}
           </pre>
