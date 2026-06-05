@@ -36,7 +36,11 @@ export interface WidgetEntry {
   render: (props: Record<string, unknown>) => ReactNode;
   /** Shown in the Bento showcase by default (overridable per-widget in the Playground). */
   inBento?: boolean;
-  /** Columns to span in the Bento masonry (1 default; 2 for "large" widgets). */
+  /**
+   * Default column span in the Bento masonry, derived from the widget's content
+   * density: 1 = single column, 2 = wide (tables / charts / action bars),
+   * 99 = full row. Overridable live in the Playground (see bentoConfig.ts).
+   */
   bentoSpan?: number;
 }
 

@@ -13,6 +13,7 @@ import {
   WIDGETS_BY_GROUP,
 } from "@/lib/playground/registry";
 import { defaultProps, type WidgetEntry, type WidgetSource } from "@/lib/playground/types";
+import { FULL_SPAN } from "@/lib/playground/bentoConfig";
 import { ControlsPanel } from "./playground/ControlsPanel";
 
 type ContainerMode = "mobile" | "desktop" | "both";
@@ -54,10 +55,14 @@ export function PlaygroundView({
   isInBento,
   onToggleBento,
   onImportBento,
+  getSpan,
+  onSetSpan,
 }: {
   isInBento: (id: string) => boolean;
   onToggleBento: (id: string) => void;
-  onImportBento: (config: { id: string; inBento: boolean }[]) => void;
+  onImportBento: (config: { id: string; inBento: boolean; bentoSpan?: number }[]) => void;
+  getSpan: (id: string) => number;
+  onSetSpan: (id: string, span: number) => void;
 }) {
   const [selectedId, setSelectedId] = useState(WIDGETS[0].id);
   const [container, setContainer] = useState<ContainerMode>("desktop");
@@ -80,11 +85,14 @@ export function PlaygroundView({
   const [importBentoText, setImportBentoText] = useState<string | null>(null);
   const [importBentoError, setImportBentoError] = useState<string | null>(null);
   function exportBentoConfig() {
-    const config = WIDGETS.map((w) => ({
-      id: w.id,
-      inBento: isInBento(w.id),
-      ...(w.bentoSpan ? { bentoSpan: w.bentoSpan } : {}),
-    }));
+    const config = WIDGETS.map((w) => {
+      const span = getSpan(w.id);
+      return {
+        id: w.id,
+        inBento: isInBento(w.id),
+        ...(span > 1 ? { bentoSpan: span } : {}),
+      };
+    });
     const text = JSON.stringify(config, null, 2);
     navigator.clipboard?.writeText(text).catch(() => {});
     setCopiedBento(true);
@@ -236,6 +244,9 @@ export function PlaygroundView({
               />
               Show in bento
             </label>
+            {isInBento(entry.id) && (
+              <BentoWidthSwitch span={getSpan(entry.id)} onChange={(s) => onSetSpan(entry.id, s)} />
+            )}
             <ContainerSwitch value={container} onChange={setContainer} entry={entry} />
           </div>
         </div>
@@ -260,6 +271,40 @@ export function PlaygroundView({
         />
       </aside>
     </motion.div>
+  );
+}
+
+/** Bento footprint: 1 column, 2 columns, or full row. Persisted via bento config. */
+function BentoWidthSwitch({ span, onChange }: { span: number; onChange: (span: number) => void }) {
+  const opts: { value: number; label: string; title: string }[] = [
+    { value: 1, label: "1", title: "Single column in the bento" },
+    { value: 2, label: "2", title: "Span 2 columns (wide widgets: tables, charts, action bars)" },
+    { value: FULL_SPAN, label: "Full", title: "Span the full row width" },
+  ];
+  const active = span >= 3 ? FULL_SPAN : span;
+  return (
+    <div
+      className="flex items-center gap-0.5 rounded-full border border-stroke bg-surface-1 p-0.5"
+      title="Bento width"
+    >
+      {opts.map((o) => (
+        <button
+          key={o.value}
+          type="button"
+          onClick={() => onChange(o.value)}
+          title={o.title}
+          aria-label={`Bento width ${o.label}`}
+          className={cn(
+            "grid h-7 min-w-7 place-items-center rounded-full px-2 text-[11px] font-medium transition-colors",
+            active === o.value
+              ? "bg-surface text-content shadow-sm"
+              : "text-content-secondary hover:text-content",
+          )}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
   );
 }
 

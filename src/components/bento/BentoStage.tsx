@@ -21,7 +21,11 @@ import {
   loadBentoOverrides,
   saveBentoOverrides,
   isInBento,
+  loadBentoSpans,
+  saveBentoSpans,
+  bentoSpanFor,
   type BentoOverrides,
+  type BentoSpans,
 } from "@/lib/playground/bentoConfig";
 
 export function BentoStage() {
@@ -29,11 +33,13 @@ export function BentoStage() {
   const [view, setView] = useState<ViewMode>("bento");
   const [editorOpen, setEditorOpen] = useState(false);
   const [bentoOverrides, setBentoOverrides] = useState<BentoOverrides>({});
+  const [bentoSpans, setBentoSpans] = useState<BentoSpans>({});
 
-  // Load the saved bento selection after mount (SSR-safe; defaults come from
-  // the registry's inBento flags until then).
+  // Load the saved bento selection + per-widget spans after mount (SSR-safe;
+  // defaults come from the registry's inBento/bentoSpan until then).
   useEffect(() => {
     setBentoOverrides(loadBentoOverrides());
+    setBentoSpans(loadBentoSpans());
   }, []);
 
   const toggleBento = (id: string) =>
@@ -43,18 +49,32 @@ export function BentoStage() {
       return next;
     });
 
-  /** Replace the bento selection from an imported config ([{id, inBento}]). */
-  const importBento = (config: { id: string; inBento: boolean }[]) => {
-    const next: BentoOverrides = {};
-    for (const c of config) if (c && typeof c.id === "string") next[c.id] = !!c.inBento;
-    setBentoOverrides(next);
-    saveBentoOverrides(next);
+  const setBentoSpan = (id: string, span: number) =>
+    setBentoSpans((prev) => {
+      const next = { ...prev, [id]: span };
+      saveBentoSpans(next);
+      return next;
+    });
+
+  /** Replace the bento config from an imported list ([{id, inBento, bentoSpan?}]). */
+  const importBento = (config: { id: string; inBento: boolean; bentoSpan?: number }[]) => {
+    const nextOverrides: BentoOverrides = {};
+    const nextSpans: BentoSpans = {};
+    for (const c of config) {
+      if (!c || typeof c.id !== "string") continue;
+      nextOverrides[c.id] = !!c.inBento;
+      if (typeof c.bentoSpan === "number") nextSpans[c.id] = c.bentoSpan;
+    }
+    setBentoOverrides(nextOverrides);
+    saveBentoOverrides(nextOverrides);
+    setBentoSpans(nextSpans);
+    saveBentoSpans(nextSpans);
   };
 
   // Catalog widgets selected for the bento, as masonry items.
   const bentoItems: MasonryItem[] = WIDGETS.filter((w) => isInBento(w.id, bentoOverrides)).map((w) => ({
     key: w.id,
-    span: w.bentoSpan ?? 1,
+    span: bentoSpanFor(w.id, bentoSpans),
     node:
       w.source === "figma-widget" ? (
         <WidgetShell variant="desktop">{w.render(defaultProps(w))}</WidgetShell>
@@ -85,6 +105,8 @@ export function BentoStage() {
               isInBento={(id) => isInBento(id, bentoOverrides)}
               onToggleBento={toggleBento}
               onImportBento={importBento}
+              getSpan={(id) => bentoSpanFor(id, bentoSpans)}
+              onSetSpan={setBentoSpan}
             />
           ) : isMobile ? (
             /* Mobile: the consumer widget set in the phone frame. Same widgets +
@@ -103,11 +125,10 @@ export function BentoStage() {
             /* Corporate: web-app shell — sidebar + existing blocks. */
             <CorporateView />
           ) : (
-            /* Bento: a masonry of every block. Columns are min ~300px wide so
-               nothing squeezes/overlaps — cards flow and wrap as space allows.
-               Each block draws its grey border on entrance. */
-            /* Bento: a true masonry of the widgets selected in the Playground
-               ("Show in bento"); large widgets span 2 columns. Cards draw their
+            /* Bento: a fixed-column masonry (up to 4 columns) of the widgets
+               selected in the Playground ("Show in bento"). Each widget's span
+               comes from its content density (registry bentoSpan, overridable
+               in the Playground); dense flow keeps it gap-free. Cards draw their
                grey border on entrance. */
             <DrawStrokeContext.Provider value={!reduce}>
               <motion.div
@@ -115,7 +136,7 @@ export function BentoStage() {
                 initial={reduce ? false : "hidden"}
                 animate="visible"
               >
-                <Masonry items={bentoItems} minColWidth={320} gap={32} />
+                <Masonry items={bentoItems} minColWidth={340} maxCols={4} gap={32} />
               </motion.div>
             </DrawStrokeContext.Provider>
           )}

@@ -321,6 +321,8 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Transactions Table",
     group: "Activity",
     source: "legacy-block",
+    // Tabular, high-density content → spans 2 columns in the bento.
+    bentoSpan: 2,
     containers: ["desktop"],
     controls: [],
     render: () => <TransactionsTableCard />,
@@ -357,6 +359,8 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Action Bar",
     group: "Send",
     source: "legacy-block",
+    // A horizontal row of actions → reads best spanning 2 columns.
+    bentoSpan: 2,
     containers: ["mobile", "desktop"],
     controls: [],
     render: () => <ActionBar />,
