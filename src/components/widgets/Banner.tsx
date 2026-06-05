@@ -50,28 +50,28 @@ export function Banner({ variant = "image", title, accent, subtitle, cta, classN
   const ctaGlass = v === "light" ? "bg-glass-black" : "bg-glass-white";
 
   return (
-    <div className={cn("relative isolate flex min-h-[208px] items-stretch overflow-hidden rounded-card p-6", className)}>
-      {/* ── backgrounds ── */}
+    <div className={cn("relative flex min-h-[208px] items-stretch overflow-hidden rounded-card p-6", className)}>
+      {/* ── backgrounds (absolute, painted before the content; content sits above via z-10) ── */}
       {v === "image" && (
-        <Image src={bannerImage.esimBg} alt="" fill sizes="(min-width: 768px) 400px, 90vw" className="-z-10 object-cover" />
+        <Image src={bannerImage.esimBg} alt="" fill sizes="(min-width: 768px) 400px, 90vw" className="object-cover" />
       )}
       {v === "gradient" && (
         <>
-          <div aria-hidden className="absolute inset-0 -z-10" style={{ backgroundImage: BLUE_GRADIENT }} />
+          <div aria-hidden className="absolute inset-0" style={{ backgroundImage: BLUE_GRADIENT }} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={bannerImage.esimCutout}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute bottom-0 right-1 -z-10 h-[116%] w-auto object-contain object-bottom"
+            className="pointer-events-none absolute bottom-0 right-1 h-[116%] w-auto object-contain object-bottom"
           />
         </>
       )}
       {v === "light" && (
         <>
-          <Image src={bannerImage.largeTransfer} alt="" fill sizes="(min-width: 768px) 400px, 90vw" className="-z-10 object-cover object-right" />
+          <Image src={bannerImage.largeTransfer} alt="" fill sizes="(min-width: 768px) 400px, 90vw" className="object-cover object-right" />
           {/* White scrim so the dark copy reads over the photo (fixed, not themed). */}
-          <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-white from-45% to-transparent" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-white from-45% to-transparent" />
         </>
       )}
 
