@@ -43,6 +43,14 @@ export function BentoStage() {
       return next;
     });
 
+  /** Replace the bento selection from an imported config ([{id, inBento}]). */
+  const importBento = (config: { id: string; inBento: boolean }[]) => {
+    const next: BentoOverrides = {};
+    for (const c of config) if (c && typeof c.id === "string") next[c.id] = !!c.inBento;
+    setBentoOverrides(next);
+    saveBentoOverrides(next);
+  };
+
   // Catalog widgets selected for the bento, as masonry items.
   const bentoItems: MasonryItem[] = WIDGETS.filter((w) => isInBento(w.id, bentoOverrides)).map((w) => ({
     key: w.id,
@@ -76,6 +84,7 @@ export function BentoStage() {
             <PlaygroundView
               isInBento={(id) => isInBento(id, bentoOverrides)}
               onToggleBento={toggleBento}
+              onImportBento={importBento}
             />
           ) : isMobile ? (
             /* Mobile: the consumer widget set in the phone frame. Same widgets +

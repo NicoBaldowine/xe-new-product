@@ -53,9 +53,11 @@ function Stage({ entry, props, variant }: { entry: WidgetEntry; props: Record<st
 export function PlaygroundView({
   isInBento,
   onToggleBento,
+  onImportBento,
 }: {
   isInBento: (id: string) => boolean;
   onToggleBento: (id: string) => void;
+  onImportBento: (config: { id: string; inBento: boolean }[]) => void;
 }) {
   const [selectedId, setSelectedId] = useState(WIDGETS[0].id);
   const [container, setContainer] = useState<ContainerMode>("desktop");
@@ -75,6 +77,8 @@ export function PlaygroundView({
   }
 
   const [copiedBento, setCopiedBento] = useState(false);
+  const [importBentoText, setImportBentoText] = useState<string | null>(null);
+  const [importBentoError, setImportBentoError] = useState<string | null>(null);
   function exportBentoConfig() {
     const config = WIDGETS.map((w) => ({
       id: w.id,
@@ -85,6 +89,17 @@ export function PlaygroundView({
     navigator.clipboard?.writeText(text).catch(() => {});
     setCopiedBento(true);
     setTimeout(() => setCopiedBento(false), 1200);
+  }
+  function applyBentoImport() {
+    try {
+      const parsed = JSON.parse(importBentoText ?? "");
+      if (!Array.isArray(parsed)) throw new Error("Expected a JSON array.");
+      onImportBento(parsed);
+      setImportBentoText(null);
+      setImportBentoError(null);
+    } catch (e) {
+      setImportBentoError(e instanceof Error ? e.message : "Could not parse.");
+    }
   }
 
   const setProp = (prop: string, value: unknown) => setProps((p) => ({ ...p, [prop]: value }));
@@ -148,15 +163,60 @@ export function PlaygroundView({
           })}
         </div>
 
-        <button
-          type="button"
-          onClick={exportBentoConfig}
-          title="Copy the bento selection as JSON to paste into the registry defaults"
-          className="mt-1 flex items-center justify-center gap-1.5 rounded-lg border border-stroke bg-surface px-2 py-1.5 text-xs font-medium text-content hover:bg-surface-1"
-        >
-          <Icon name="external" size={13} />
-          {copiedBento ? "Copied!" : "Export bento config"}
-        </button>
+        <div className="mt-1 flex gap-1.5">
+          <button
+            type="button"
+            onClick={exportBentoConfig}
+            title="Copy the bento selection as JSON to paste into the registry defaults"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-stroke bg-surface px-2 py-1.5 text-xs font-medium text-content hover:bg-surface-1"
+          >
+            <Icon name="external" size={13} />
+            {copiedBento ? "Copied!" : "Export bento"}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setImportBentoText("");
+              setImportBentoError(null);
+            }}
+            title="Paste a bento config JSON to apply it"
+            className="flex items-center justify-center gap-1.5 rounded-lg border border-stroke bg-surface px-2 py-1.5 text-xs font-medium text-content hover:bg-surface-1"
+          >
+            <Icon name="deposit" size={13} /> Import
+          </button>
+        </div>
+
+        {importBentoText !== null && (
+          <div className="mt-2 flex flex-col gap-1.5">
+            <textarea
+              value={importBentoText}
+              onChange={(e) => {
+                setImportBentoText(e.target.value);
+                setImportBentoError(null);
+              }}
+              placeholder='Paste exported bento config (JSON array)…'
+              spellCheck={false}
+              className="h-24 w-full resize-none rounded-lg border border-stroke bg-surface-1 p-2 font-mono text-[11px] text-content outline-none focus:ring-2 focus:ring-stroke-brand"
+            />
+            {importBentoError && <span className="text-[11px] text-danger">{importBentoError}</span>}
+            <div className="flex gap-1.5">
+              <button
+                type="button"
+                onClick={applyBentoImport}
+                className="flex-1 rounded-lg bg-brand-blue-bright px-2 py-1.5 text-xs font-medium text-content-white"
+              >
+                Apply
+              </button>
+              <button
+                type="button"
+                onClick={() => setImportBentoText(null)}
+                className="rounded-lg bg-surface-1 px-2 py-1.5 text-xs font-medium text-content hover:bg-surface-adaptive"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
       </aside>
 
       {/* Center — stage */}
