@@ -91,7 +91,7 @@ export const TOKENS: TokenDef[] = [
   { name: "utility-04-muted", cssVar: "--xe-utility-04-muted", category: "utility", type: "color", light: "#f0abfc", dark: "#4a044e", description: "Utility 04 muted — fuchsia (fill).", themeKeys: ["--color-utility-04-muted"] },
 
   // ── radius (theme-invariant) ──────────────────────────────────────────
-  { name: "radius-button", cssVar: "--xe-radius-button", category: "radius", type: "dimension", light: "6px", description: "Button radius (Figma value/border-radius/button).", themeKeys: ["--radius-button"], usage: ["Buttons (Button primitive — all variants)", "Travel promo CTA", "rounded-button"] },
+  { name: "radius-button", cssVar: "--xe-radius-button", category: "radius", type: "dimension", light: "12px", description: "Button radius (Figma value/border-radius/button).", themeKeys: ["--radius-button"], usage: ["Buttons (Button primitive — all variants)", "Travel promo CTA", "rounded-button"] },
   { name: "radius-xl", cssVar: "--xe-radius-xl", category: "radius", type: "dimension", light: "12px", description: "Selectors & in-card chips (Figma value/radius/rounded-xl).", themeKeys: ["--radius-xl"], usage: ["Currency selector / range chips (Rate chart)", "Amount fields", "chip buttons", "rounded-xl"] },
   { name: "radius-card", cssVar: "--xe-radius-card", category: "radius", type: "dimension", light: "20px", description: "Card radius.", themeKeys: ["--radius-card"], usage: ["Card surface (every block)", "bento tiles", "rounded-card"] },
 
