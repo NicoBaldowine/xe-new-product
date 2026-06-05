@@ -98,7 +98,7 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: "globals.css generated markers not found" }, { status: 500 });
   }
   const region = globals.slice(gStart, gEnd);
-  const darkAt = region.search(/\n\.dark\s*\{/);
+  const darkAt = region.search(/\n\.dark[\s,{]/);
   if (darkAt === -1) {
     return Response.json({ ok: false, error: "globals.css `.dark` block not found" }, { status: 500 });
   }

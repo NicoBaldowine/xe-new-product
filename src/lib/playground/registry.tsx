@@ -244,6 +244,7 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Banner",
     group: "Promo",
     source: "figma-widget",
+    bare: true,
     inBento: false,
     bentoSpan: 2,
     bentoCols: [2],

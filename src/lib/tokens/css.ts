@@ -67,9 +67,10 @@ export function buildOverrideCss(edits: Edits): string {
     if (edit.dark != null) darkLines.push(`${def.cssVar}: ${edit.dark};`);
   }
   const blocks: string[] = [];
-  if (rootLines.length) blocks.push(`:root{${rootLines.join("")}}`);
-  // `.dark` (not `html.dark`) so dark edits also apply to a locally-themed
-  // subtree (e.g. the Playground's per-stage preview theme), not only site dark.
-  if (darkLines.length) blocks.push(`.dark{${darkLines.join("")}}`);
+  // Mirror the base token scopes (globals.css): light → :root + [data-theme=light],
+  // dark → .dark + [data-theme=dark]. The data-theme scopes let the Playground
+  // force a per-stage theme island that overrides the global theme either way.
+  if (rootLines.length) blocks.push(`:root,[data-theme="light"]{${rootLines.join("")}}`);
+  if (darkLines.length) blocks.push(`.dark,[data-theme="dark"]{${darkLines.join("")}}`);
   return blocks.join("\n");
 }

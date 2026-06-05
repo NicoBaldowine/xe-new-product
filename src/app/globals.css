@@ -17,7 +17,8 @@
    ============================================================================ */
 
 /* @generated:tokens-start — mirror of src/lib/tokens/registry.ts */
-:root {
+:root,
+[data-theme="light"] {
   /* content */
   --xe-content-base: #0a0a0a;
   --xe-content-secondary: #737373;
@@ -151,7 +152,8 @@
   --xe-font-accent: var(--font-instrument-serif);
 }
 
-.dark {
+.dark,
+[data-theme="dark"] {
   /* content */
   --xe-content-base: #ffffff;
   --xe-content-secondary: #a3a3a3;

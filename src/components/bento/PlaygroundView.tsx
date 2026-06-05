@@ -72,7 +72,7 @@ function Stage({ entry, props, variant }: { entry: WidgetEntry; props: Record<st
         <div data-widget-root>
           <DrawStrokeContext.Provider value={false}>
             {entry.source === "figma-widget" ? (
-              <WidgetShell variant={variant}>{entry.render(props)}</WidgetShell>
+              <WidgetShell variant={variant} bare={entry.bare}>{entry.render(props)}</WidgetShell>
             ) : (
               <WidgetContainerContext.Provider value={variant}>
                 {entry.render(props)}
@@ -441,10 +441,11 @@ export function PlaygroundView({
         </div>
         <div
           ref={stageRef}
-          className={cn(
-            "flex flex-1 flex-wrap items-start justify-center gap-8 rounded-xl bg-surface-1 p-8 transition-colors",
-            previewTheme === "dark" && "dark",
-          )}
+          // data-theme forces a self-contained theme island (re-declares the
+          // token vars), so the stage preview overrides the global theme in
+          // both directions — light stage under global dark, and vice-versa.
+          data-theme={previewTheme}
+          className="flex flex-1 flex-wrap items-start justify-center gap-8 rounded-xl bg-surface-1 p-8 transition-colors"
         >
           {showMobile && <Stage entry={entry} props={props} variant="mobile" />}
           {showDesktop && <Stage entry={entry} props={props} variant="desktop" />}

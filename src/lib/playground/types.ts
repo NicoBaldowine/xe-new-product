@@ -34,6 +34,9 @@ export interface WidgetEntry {
   presets?: Preset[];
   /** Pure render — receives merged control values as props. */
   render: (props: Record<string, unknown>) => ReactNode;
+  /** Self-contained widget (brings its own surface, e.g. a full-bleed Banner) →
+   *  render without the shell card (no padding/border); the widget is the cell. */
+  bare?: boolean;
   /** Shown in the Bento showcase by default (overridable per-widget in the Playground). */
   inBento?: boolean;
   /**
