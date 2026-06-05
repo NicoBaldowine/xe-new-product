@@ -248,7 +248,7 @@ export const WIDGETS: WidgetEntry[] = [
     inBento: false,
     bentoSpan: 2,
     bentoCols: [2],
-    bentoMaxRows: 2,
+    // No maxRows — the banner is fixed-height media; capping would clip it.
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["Image", "Gradient", "Light"], default: "Image" },

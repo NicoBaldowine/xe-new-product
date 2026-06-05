@@ -125,7 +125,7 @@ export function BentoStage() {
         maxRows: bentoMaxRowsFor(inst.widgetId),
         node:
           w.source === "figma-widget" ? (
-            <WidgetShell variant="desktop">{w.render(props)}</WidgetShell>
+            <WidgetShell variant="desktop" bare={w.bare}>{w.render(props)}</WidgetShell>
           ) : (
             w.render(props)
           ),
