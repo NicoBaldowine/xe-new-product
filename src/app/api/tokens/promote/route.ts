@@ -26,20 +26,46 @@ function escapeRe(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+// A function replacer keeps `value` literal — a string replacement would treat
+// `$1`/`$&`/`$\`` etc. as special patterns and corrupt the output.
+const insert = (value: string) => (_m: string, p1: string, p2: string) => p1 + value + p2;
+
 /** Replace `light: "…"` / `dark: "…"` on the single line declaring this token. */
 function patchRegistry(src: string, token: string, key: "light" | "dark", value: string): string {
   const lines = src.split("\n");
   const idx = lines.findIndex((l) => l.includes(`name: "${token}"`));
   if (idx === -1) return src;
   const re = new RegExp(`(${key}:\\s*")[^"]*(")`);
-  if (re.test(lines[idx])) lines[idx] = lines[idx].replace(re, `$1${value}$2`);
+  if (re.test(lines[idx])) lines[idx] = lines[idx].replace(re, insert(value));
   return lines.join("\n");
 }
 
 /** Replace `<cssVar>: <value>;` within a CSS block. */
 function patchCssVar(block: string, cssVar: string, value: string): string {
   const re = new RegExp(`(${escapeRe(cssVar)}:\\s*)[^;]*(;)`);
-  return re.test(block) ? block.replace(re, `$1${value}$2`) : block;
+  return re.test(block) ? block.replace(re, insert(value)) : block;
+}
+
+/**
+ * Whitelist a value by token type before it is written into source files —
+ * blocks injection: a stray quote, semicolon, brace, comment-terminator or
+ * newline could otherwise escape the TS string literal or the generated CSS block.
+ */
+function isValidValue(type: string, value: string): boolean {
+  if (typeof value !== "string" || /[\n\r;{}"]|\*\//.test(value)) return false;
+  switch (type) {
+    case "color":
+      return /^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(value);
+    case "dimension":
+      return /^-?\d*\.?\d+(px|em|rem|%)?$/.test(value);
+    case "fontWeight":
+      return /^[1-9]00$/.test(value);
+    case "fontFamily":
+      // var(--font-…) or a comma-separated stack of quoted/bare family names.
+      return /^[\w\s,'()./-]+$/.test(value);
+    default:
+      return false;
+  }
 }
 
 export async function POST(request: Request) {
@@ -72,18 +98,32 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: "globals.css generated markers not found" }, { status: 500 });
   }
   const region = globals.slice(gStart, gEnd);
-  const darkAt = region.indexOf(".dark");
+  const darkAt = region.search(/\n\.dark\s*\{/);
+  if (darkAt === -1) {
+    return Response.json({ ok: false, error: "globals.css `.dark` block not found" }, { status: 500 });
+  }
   let lightPart = region.slice(0, darkAt);
   let darkPart = region.slice(darkAt);
 
   let count = 0;
   const unknown: string[] = [];
+  const skipped: string[] = [];
+  const invalid: string[] = [];
   for (const [name, edit] of Object.entries(edits)) {
     const def = TOKEN_BY_NAME[name];
     if (!def || !edit) {
       if (!def) unknown.push(name);
       continue;
     }
+    // Aliased tokens are read-only — their CSS is `var(--xe-<ref>)`; patching a
+    // literal here would sever the alias. Edit the referenced foundation instead.
+    if (def.ref) {
+      skipped.push(name);
+      continue;
+    }
+    // Reject anything that isn't a clean value for the token's type (injection guard).
+    if (edit.light != null && !isValidValue(def.type, edit.light)) { invalid.push(name); continue; }
+    if (edit.dark != null && !isValidValue(def.type, edit.dark)) { invalid.push(name); continue; }
     if (edit.light != null) {
       registry = patchRegistry(registry, name, "light", edit.light);
       lightPart = patchCssVar(lightPart, def.cssVar, edit.light);
@@ -100,5 +140,11 @@ export async function POST(request: Request) {
   await fs.writeFile(registryPath, registry, "utf8");
   await fs.writeFile(globalsPath, nextGlobals, "utf8");
 
-  return Response.json({ ok: true, count, ...(unknown.length ? { unknown } : {}) });
+  return Response.json({
+    ok: true,
+    count,
+    ...(unknown.length ? { unknown } : {}),
+    ...(skipped.length ? { skipped } : {}),
+    ...(invalid.length ? { invalid } : {}),
+  });
 }

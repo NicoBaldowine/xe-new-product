@@ -41,7 +41,11 @@ export function buildResolved(edits: Edits, tokens: TokenDef[] = TOKENS): Resolv
       // resolveValue follows `ref`, so an aliased token exports its foundation's
       // (possibly edited) value.
       light: resolveValue(t.name, "light", edits),
-      ...(t.dark != null ? { dark: resolveValue(t.name, "dark", edits) } : {}),
+      // Keep dark when the registry has one OR an edit introduced one, so a dark
+      // override isn't silently dropped from the export.
+      ...(t.dark != null || edits[t.name]?.dark != null
+        ? { dark: resolveValue(t.name, "dark", edits) }
+        : {}),
     };
   }
   return out;

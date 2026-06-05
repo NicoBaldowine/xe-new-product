@@ -19,9 +19,9 @@ function tsType(t: TokenDef): string {
   }
 }
 
-/** Tokens Studio uses unitless dimensions (strip `px`). */
+/** Tokens Studio uses unitless dimensions (strip px / em / rem). */
 function tsValue(t: TokenDef, value: string): string {
-  if (t.type === "dimension") return value.replace(/px$/, "");
+  if (t.type === "dimension") return value.replace(/(px|em|rem)$/, "");
   return value;
 }
 
