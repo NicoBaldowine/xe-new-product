@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { spring } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -14,6 +14,9 @@ import {
 } from "@/lib/playground/registry";
 import { defaultProps, type WidgetEntry, type WidgetSource } from "@/lib/playground/types";
 import { FULL_SPAN, bentoColsFor, type BentoInstance } from "@/lib/playground/bentoConfig";
+import { TOKEN_BY_NAME } from "@/lib/tokens/registry";
+import { scanTokenUsage } from "@/lib/tokens/usage";
+import { TokenRow, type EditMode } from "@/components/tokens/TokenRow";
 import { ControlsPanel } from "./playground/ControlsPanel";
 
 /** Short, human label for a bento instance: widget name + its variant/first prop. */
@@ -45,16 +48,19 @@ function Stage({ entry, props, variant }: { entry: WidgetEntry; props: Record<st
       >
         {/* No layoutId in the playground → no morph-id collisions. Figma widgets
             are pure content → wrap in WidgetShell so the mobile/desktop surface
-            rule applies; legacy blocks bring their own Card. */}
-        <DrawStrokeContext.Provider value={false}>
-          {entry.source === "figma-widget" ? (
-            <WidgetShell variant={variant}>{entry.render(props)}</WidgetShell>
-          ) : (
-            <WidgetContainerContext.Provider value={variant}>
-              {entry.render(props)}
-            </WidgetContainerContext.Provider>
-          )}
-        </DrawStrokeContext.Provider>
+            rule applies; legacy blocks bring their own Card. data-widget-root
+            scopes the token-usage scan to the widget (not the playground chrome). */}
+        <div data-widget-root>
+          <DrawStrokeContext.Provider value={false}>
+            {entry.source === "figma-widget" ? (
+              <WidgetShell variant={variant}>{entry.render(props)}</WidgetShell>
+            ) : (
+              <WidgetContainerContext.Provider value={variant}>
+                {entry.render(props)}
+              </WidgetContainerContext.Provider>
+            )}
+          </DrawStrokeContext.Provider>
+        </div>
       </div>
     </div>
   );
@@ -89,6 +95,12 @@ export function PlaygroundView({
   const [editingKey, setEditingKey] = useState<string | null>(null);
   // Left panel tab: the widget picker, or the bento config (instances).
   const [leftTab, setLeftTab] = useState<"widgets" | "bento">("widgets");
+  // Right panel tab: live controls (data) or the tokens the widget uses (style).
+  const [rightTab, setRightTab] = useState<"controls" | "tokens">("controls");
+  const [tokenMode, setTokenMode] = useState<EditMode>("light");
+  const [openToken, setOpenToken] = useState<string | null>(null);
+  const [usedTokens, setUsedTokens] = useState<string[]>([]);
+  const stageRef = useRef<HTMLDivElement>(null);
 
   const entry = useMemo(() => WIDGETS.find((w) => w.id === selectedId)!, [selectedId]);
 
@@ -146,6 +158,12 @@ export function PlaygroundView({
   const setProp = (prop: string, value: unknown) => setProps((p) => ({ ...p, [prop]: value }));
   const showMobile = (container === "mobile" || container === "both") && entry.containers.includes("mobile");
   const showDesktop = (container === "desktop" || container === "both") && entry.containers.includes("desktop");
+
+  // After the widget renders, scan its classes → the tokens it consumes (live).
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setUsedTokens(scanTokenUsage(stageRef.current)));
+    return () => cancelAnimationFrame(id);
+  }, [selectedId, props, container, showMobile, showDesktop]);
 
   return (
     <motion.div
@@ -383,6 +401,7 @@ export function PlaygroundView({
           </div>
         </div>
         <div
+          ref={stageRef}
           className={cn(
             "flex flex-1 flex-wrap items-start justify-center gap-8 rounded-xl bg-surface-1 p-8",
           )}
@@ -392,15 +411,76 @@ export function PlaygroundView({
         </div>
       </section>
 
-      {/* Right — controls */}
-      <aside className="rounded-card border border-stroke bg-surface p-4">
-        <ControlsPanel
-          entry={entry}
-          props={props}
-          setProp={setProp}
-          onPreset={(preset) => setProps({ ...defaultProps(entry), ...preset })}
-          onReset={() => setProps(defaultProps(entry))}
-        />
+      {/* Right — controls (data) / tokens (style) */}
+      <aside className="flex flex-col gap-3 rounded-card border border-stroke bg-surface p-4">
+        <div className="flex items-center gap-1 rounded-full border border-stroke bg-surface-1 p-0.5 text-xs">
+          {(["controls", "tokens"] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setRightTab(t)}
+              className={cn(
+                "flex-1 rounded-full px-1 py-1 font-medium transition-colors",
+                rightTab === t ? "bg-surface text-content shadow-sm" : "text-content-secondary",
+              )}
+            >
+              {t === "controls" ? "Controls" : `Tokens (${usedTokens.length})`}
+            </button>
+          ))}
+        </div>
+
+        {rightTab === "controls" ? (
+          <ControlsPanel
+            entry={entry}
+            props={props}
+            setProp={setProp}
+            onPreset={(preset) => setProps({ ...defaultProps(entry), ...preset })}
+            onReset={() => setProps(defaultProps(entry))}
+          />
+        ) : (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-[11px] leading-relaxed text-content-tertiary">
+                Tokens this widget uses — edits apply everywhere.
+              </p>
+              <div className="flex shrink-0 items-center gap-0.5 rounded-full border border-stroke bg-surface-1 p-0.5">
+                {(["light", "dark"] as const).map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => setTokenMode(m)}
+                    className={cn(
+                      "rounded-full px-2 py-0.5 text-[10px] font-medium capitalize transition-colors",
+                      tokenMode === m ? "bg-surface text-content shadow-sm" : "text-content-secondary",
+                    )}
+                  >
+                    {m}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {usedTokens.length === 0 ? (
+              <p className="rounded-lg bg-surface-1 p-3 text-xs text-content-secondary">
+                No tokenised styles detected for this widget.
+              </p>
+            ) : (
+              <div className="divide-y divide-stroke">
+                {usedTokens.map((name) => {
+                  const tok = TOKEN_BY_NAME[name];
+                  return tok ? (
+                    <TokenRow
+                      key={name}
+                      token={tok}
+                      mode={tokenMode}
+                      open={openToken === name}
+                      onToggle={() => setOpenToken((c) => (c === name ? null : name))}
+                    />
+                  ) : null;
+                })}
+              </div>
+            )}
+          </div>
+        )}
       </aside>
     </motion.div>
   );
