@@ -52,7 +52,7 @@ export function ThemeToggle() {
             title={opt.label}
             onClick={() => set(opt.value === "dark")}
             className={cn(
-              "relative grid h-9 w-9 place-items-center rounded-full transition-colors",
+              "relative grid h-9 w-9 cursor-pointer place-items-center rounded-full transition-colors",
               active ? "text-content" : "text-content-secondary hover:text-content",
             )}
           >

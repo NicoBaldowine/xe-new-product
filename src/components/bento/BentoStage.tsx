@@ -148,7 +148,7 @@ export function BentoStage() {
                 type="button"
                 onClick={reshuffle}
                 title="Shuffle the bento layout — same widgets, new composition"
-                className="flex h-11 items-center gap-1.5 rounded-full border border-stroke bg-surface px-4 text-sm font-medium text-content transition-colors hover:bg-surface-1"
+                className="flex h-11 cursor-pointer items-center gap-1.5 rounded-full border border-stroke bg-surface px-4 text-sm font-medium text-content transition-colors hover:bg-surface-1"
               >
                 <Icon name="shuffle" size={16} /> Shuffle
               </button>

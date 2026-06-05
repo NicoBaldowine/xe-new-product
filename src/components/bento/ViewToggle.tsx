@@ -53,8 +53,8 @@ export function ViewToggle({
               opt.disabled
                 ? "cursor-not-allowed text-content-tertiary opacity-50"
                 : active
-                  ? "text-content"
-                  : "text-content-secondary hover:text-content",
+                  ? "cursor-pointer text-content"
+                  : "cursor-pointer text-content-secondary hover:text-content",
             )}
           >
             {active && (

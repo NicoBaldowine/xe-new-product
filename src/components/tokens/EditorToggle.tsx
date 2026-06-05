@@ -12,7 +12,7 @@ export function EditorToggle({ open, onToggle }: { open: boolean; onToggle: () =
       aria-pressed={open}
       onClick={onToggle}
       className={cn(
-        "grid h-11 w-11 place-items-center rounded-full border border-stroke transition-colors",
+        "grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-stroke transition-colors",
         open ? "bg-surface-1 text-content" : "bg-surface text-content-secondary hover:text-content",
       )}
     >
