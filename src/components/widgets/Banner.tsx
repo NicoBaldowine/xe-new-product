@@ -98,7 +98,7 @@ export function Banner({ variant = "image", title, accent, subtitle, cta, classN
           type="button"
           style={{ touchAction: "manipulation" }}
           className={cn(
-            "mt-auto inline-flex h-10 w-fit cursor-pointer items-center rounded-xl px-4 backdrop-blur",
+            "mt-auto inline-flex h-10 w-fit cursor-pointer items-center rounded-xl px-4 backdrop-blur-md",
             "font-display text-body-sm font-medium text-content-white transition-[filter] hover:brightness-110",
             ctaGlass,
           )}
