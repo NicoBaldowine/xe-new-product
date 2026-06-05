@@ -93,7 +93,7 @@ export function SendAgain({
           <div className="flex items-baseline gap-2">
             <RollingNumber
               value={amount}
-              className="font-display text-[40px] leading-[40px] font-semibold tracking-[-0.02em] text-content"
+              className="font-display text-4xl leading-none font-semibold tracking-[-0.02em] text-content"
             />
             <span className="flex items-center gap-1 text-sm text-content-secondary">
               {fromCurrency}

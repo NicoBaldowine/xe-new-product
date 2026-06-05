@@ -11,7 +11,7 @@ export function ActionBar() {
   return (
     <motion.div layoutId="action-bar" variants={cardVariants} className="flex flex-wrap gap-2">
       {actions.map((a) => (
-        <Button key={a.label} icon={a.icon as IconName} variant={a.primary ? "primary" : "secondary"}>
+        <Button key={a.label} icon={a.icon as IconName} variant={a.primary ? "primary" : "outline"}>
           {a.label}
         </Button>
       ))}

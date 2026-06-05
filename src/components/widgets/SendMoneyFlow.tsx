@@ -64,7 +64,7 @@ function AmountField({ currency, amount }: Leg) {
       </button>
       <RollingNumber
         value={amount}
-        className="font-display text-[22px] font-semibold tracking-[-0.02em] text-content"
+        className="font-display text-xl font-semibold tracking-[-0.02em] text-content"
       />
     </div>
   );

@@ -60,7 +60,7 @@ export function TotalBalanceCard({
       </div>
       {showActions && (
         <div className="flex w-full gap-2">
-          <Button icon="plus" full>
+          <Button icon="plus" variant="outline" full>
             Create account
           </Button>
           <Button icon="send" variant="primary" full>

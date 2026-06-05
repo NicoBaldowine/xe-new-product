@@ -81,7 +81,7 @@ export function RateChartCard({ fillHeight = false }: { fillHeight?: boolean } =
               aria-pressed={active}
               onClick={() => setRange(r)}
               className={cn(
-                "flex-1 rounded-lg py-1.5 text-center font-display text-xs font-medium transition-colors",
+                "flex-1 rounded-xl py-1.5 text-center font-display text-xs font-medium transition-colors",
                 active
                   ? "bg-brand-blue-bright text-content-white"
                   : "text-content-secondary hover:bg-surface-1 hover:text-content",

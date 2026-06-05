@@ -19,7 +19,7 @@ export const TOKENS: TokenDef[] = [
   { name: "content-secondary", cssVar: "--xe-content-secondary", category: "content", type: "color", light: "#737373", dark: "#a3a3a3", description: "Secondary text.", themeKeys: ["--color-content-secondary"], pairWith: "surface-base", usage: ["Subtitles, helper text", "Eyebrow labels", "text-content-secondary"] },
   { name: "content-tertiary", cssVar: "--xe-content-tertiary", category: "content", type: "color", light: "#a3a3a3", dark: "#a3a3a3", description: "Tertiary text / hints.", themeKeys: ["--color-content-tertiary"], usage: ["Timestamps, counters, disabled hints"] },
   { name: "content-base-reverse", cssVar: "--xe-content-base-reverse", category: "content", type: "color", light: "#ffffff", dark: "#0a0a0a", description: "Text on inverted surfaces.", themeKeys: ["--color-content-reverse"] },
-  { name: "content-stays-white", cssVar: "--xe-content-stays-white", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Always white — the foreground for solid coloured fills (brand / success / warning / danger) and text on photos.", themeKeys: ["--color-content-white"], usage: ["Check/“!” on status emblems", "Primary CTA label", "text-content-white"] },
+  { name: "content-stays-white", cssVar: "--xe-content-stays-white", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Always white — the foreground for solid coloured fills (brand / success / warning / danger) and text on photos.", themeKeys: ["--color-content-white"], usage: ["Check/“!” on status emblems", "Primary CTA label", "Text over photos (Travel promo)", "text-content-white"] },
   { name: "content-brand-logo", cssVar: "--xe-content-brand-logo", category: "content", type: "color", light: "#0a146e", dark: "#ffffff", description: "Logo colour (Figma navy in light, white in dark).", themeKeys: ["--color-brand-logo"] },
   { name: "content-on-brand", cssVar: "--xe-content-on-brand", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on brand surfaces.", themeKeys: ["--color-on-brand"], pairWith: "surface-brand-default", usage: ["Text/icons on brand-blue fills"] },
   { name: "content-on-action", cssVar: "--xe-content-on-action", category: "content", type: "color", light: "#ffffff", dark: "#ffffff", description: "Text on action buttons.", themeKeys: ["--color-on-action"], pairWith: "blue-bright", usage: ["Primary Button label", "Send money CTA"] },
@@ -28,7 +28,7 @@ export const TOKENS: TokenDef[] = [
   { name: "content-warning-on-muted", cssVar: "--xe-content-warning-on-muted", category: "content", type: "color", light: "#a16207", dark: "#fde047", description: "Warning text on muted bg.", themeKeys: ["--color-warning-on-muted"], pairWith: "surface-warning-muted", usage: ["Action-required pill", "In-progress warnings"] },
   { name: "content-danger-on-muted", cssVar: "--xe-content-danger-on-muted", category: "content", type: "color", light: "#dc2626", dark: "#fca5a5", description: "Danger text on muted bg.", themeKeys: ["--color-danger-on-muted"], pairWith: "surface-danger-muted", usage: ["Negative rate delta", "error pills"] },
   { name: "content-brand-default", cssVar: "--xe-content-brand-default", category: "content", type: "color", light: "#2563eb", dark: "#3b82f6", description: "Brand default (accent text/icon).", themeKeys: ["--color-brand-default"] },
-  { name: "content-success-default", cssVar: "--xe-content-success-default", category: "content", type: "color", light: "#15803d", dark: "#4ade80", description: "Success default.", themeKeys: ["--color-success"] },
+  { name: "content-success-default", cssVar: "--xe-content-success-default", category: "content", type: "color", light: "#15803d", dark: "#4ade80", description: "Standalone success text / icon (not a fill — see surface-success).", themeKeys: ["--color-success"], usage: ["All-done check (Getting started)", "text-success"] },
   { name: "content-danger-default", cssVar: "--xe-content-danger-default", category: "content", type: "color", light: "#dc2626", dark: "#f87171", description: "Danger / error default.", themeKeys: ["--color-danger"] },
 
   // ── surfaces ──────────────────────────────────────────────────────────
@@ -50,12 +50,12 @@ export const TOKENS: TokenDef[] = [
   { name: "surface-success", cssVar: "--xe-surface-success", category: "surface", type: "color", light: "#16a34a", dark: "#16a34a", description: "Solid success fill (completed-step emblem). White content sits on it.", themeKeys: ["--color-surface-success"], pairWith: "text-stays-white", usage: ["Getting Started done check emblem", "bg-surface-success"] },
   { name: "surface-warning", cssVar: "--xe-surface-warning", category: "surface", type: "color", light: "#ca8a04", dark: "#ca8a04", description: "Solid warning fill (Figma yellow-600). White content sits on it.", themeKeys: ["--color-surface-warning"], pairWith: "text-stays-white", usage: ["In-progress warning dot", "bg-surface-warning"] },
   { name: "surface-danger", cssVar: "--xe-surface-danger", category: "surface", type: "color", light: "#dc2626", dark: "#dc2626", description: "Solid danger fill. White content sits on it.", themeKeys: ["--color-surface-danger"], pairWith: "text-stays-white", usage: ["Destructive emblems / badges", "bg-surface-danger"] },
-  { name: "surface-glass-white", cssVar: "--xe-surface-glass-white", category: "surface", type: "color", light: "#ffffff33", dark: "#ffffff33", description: "White glass (alpha 20%).", themeKeys: ["--color-glass-white"] },
+  { name: "surface-glass-white", cssVar: "--xe-surface-glass-white", category: "surface", type: "color", light: "#ffffff33", dark: "#ffffff33", description: "White glass (alpha 20%) — translucent fills over photos.", themeKeys: ["--color-glass-white"], usage: ["Translucent CTA over media (Travel promo)", "bg-glass-white"] },
   { name: "surface-glass-black", cssVar: "--xe-surface-glass-black", category: "surface", type: "color", light: "#0a0a0ab2", dark: "#0a0a0ab2", description: "Black glass (alpha 70%).", themeKeys: ["--color-glass-black"] },
   { name: "surface-overlay-invert", cssVar: "--xe-surface-overlay-invert", category: "surface", type: "color", light: "#ffffff80", dark: "#ffffff80", description: "Inverted overlay (alpha 50%).", themeKeys: ["--color-overlay-invert"] },
 
   // ── strokes ───────────────────────────────────────────────────────────
-  { name: "stroke-base", cssVar: "--xe-stroke-base", category: "stroke", type: "color", light: "#e5e5e5", dark: "#262626", description: "Default border / divider.", themeKeys: ["--color-stroke"], usage: ["Desktop card border", "Row dividers", "border-stroke"] },
+  { name: "stroke-base", cssVar: "--xe-stroke-base", category: "stroke", type: "color", light: "#e5e5e5", dark: "#262626", description: "Default border / divider.", themeKeys: ["--color-stroke"], usage: ["Desktop card border", "Outline button border (Button variant=outline)", "Row dividers", "border-stroke"] },
   { name: "stroke-brand-default", cssVar: "--xe-stroke-brand-default", category: "stroke", type: "color", light: "#2563eb", dark: "#2563eb", description: "Brand stroke.", themeKeys: ["--color-stroke-brand"] },
 
   // ── brand / fixed colours (dual: editable per theme, default identical) ──
@@ -67,9 +67,9 @@ export const TOKENS: TokenDef[] = [
   { name: "fuchsia-950", cssVar: "--xe-fuchsia-950", category: "brand", type: "color", light: "#4a044e", dark: "#4a044e", description: "Fuchsia 950.", themeKeys: ["--color-fuchsia-950"] },
 
   // ── radius (theme-invariant) ──────────────────────────────────────────
-  { name: "radius-button", cssVar: "--xe-radius-button", category: "radius", type: "dimension", light: "6px", description: "Button radius (Figma).", themeKeys: ["--radius-button"] },
-  { name: "radius-xl", cssVar: "--xe-radius-xl", category: "radius", type: "dimension", light: "12px", description: "rounded-xl.", themeKeys: ["--radius-xl"] },
-  { name: "radius-card", cssVar: "--xe-radius-card", category: "radius", type: "dimension", light: "20px", description: "Card radius.", themeKeys: ["--radius-card"] },
+  { name: "radius-button", cssVar: "--xe-radius-button", category: "radius", type: "dimension", light: "6px", description: "Button radius (Figma value/border-radius/button).", themeKeys: ["--radius-button"], usage: ["Buttons (Button primitive — all variants)", "Travel promo CTA", "rounded-button"] },
+  { name: "radius-xl", cssVar: "--xe-radius-xl", category: "radius", type: "dimension", light: "12px", description: "Selectors & in-card chips (Figma value/radius/rounded-xl).", themeKeys: ["--radius-xl"], usage: ["Currency selector / range chips (Rate chart)", "Amount fields", "chip buttons", "rounded-xl"] },
+  { name: "radius-card", cssVar: "--xe-radius-card", category: "radius", type: "dimension", light: "20px", description: "Card radius.", themeKeys: ["--radius-card"], usage: ["Card surface (every block)", "bento tiles", "rounded-card"] },
 
   // ── text styles — the single typographic scale (size + line-height). Each
   //    drives BOTH a semantic utility (text-h1../text-body..) and the generic
