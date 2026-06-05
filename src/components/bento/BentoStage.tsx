@@ -19,17 +19,16 @@ import { MOBILE_ORDER } from "./consumer/widgets";
 import { WIDGETS } from "@/lib/playground/registry";
 import { defaultProps } from "@/lib/playground/types";
 import {
-  loadBentoOverrides,
-  saveBentoOverrides,
-  isInBento,
-  loadBentoSpans,
-  saveBentoSpans,
-  bentoSpanFor,
+  loadBentoInstances,
+  saveBentoInstances,
+  defaultBentoInstances,
   bentoColsFor,
   bentoMaxRowsFor,
-  type BentoOverrides,
-  type BentoSpans,
+  type BentoInstance,
 } from "@/lib/playground/bentoConfig";
+
+let instanceSeq = 0;
+const newInstanceKey = (widgetId: string) => `${widgetId}:${++instanceSeq}-${Math.floor(Math.random() * 1e6)}`;
 
 /** Deterministic PRNG (mulberry32) so a layout seed reproduces the same arrangement. */
 function rngFrom(seed: number) {
@@ -55,75 +54,80 @@ export function BentoStage() {
   const reduce = useReducedMotion();
   const [view, setView] = useState<ViewMode>("bento");
   const [editorOpen, setEditorOpen] = useState(false);
-  const [bentoOverrides, setBentoOverrides] = useState<BentoOverrides>({});
-  const [bentoSpans, setBentoSpans] = useState<BentoSpans>({});
+  // The bento is a LIST of instances (widget + config). Default seeds from the
+  // registry's inBento flags until the user customises it.
+  const [instances, setInstances] = useState<BentoInstance[]>([]);
   // 0 = deterministic default arrangement (SSR + first paint); a non-zero seed
-  // picks a random width/order per widget. Set on mount and on "Shuffle" so each
-  // refresh shows a different composition (same widgets, different layout).
+  // picks a random width/order per instance. Set on mount and on "Shuffle" so
+  // each refresh shows a different composition (same widgets, different layout).
   const [layoutSeed, setLayoutSeed] = useState(0);
 
-  // Load the saved bento selection + per-widget spans after mount (SSR-safe;
-  // defaults come from the registry's inBento/bentoSpan until then).
   useEffect(() => {
-    setBentoOverrides(loadBentoOverrides());
-    setBentoSpans(loadBentoSpans());
+    setInstances(loadBentoInstances() ?? defaultBentoInstances());
     setLayoutSeed(Math.floor(Math.random() * 1e9) + 1);
   }, []);
 
   const reshuffle = () => setLayoutSeed(Math.floor(Math.random() * 1e9) + 1);
 
-  const toggleBento = (id: string) =>
-    setBentoOverrides((prev) => {
-      const next = { ...prev, [id]: !isInBento(id, prev) };
-      saveBentoOverrides(next);
-      return next;
-    });
-
-  const setBentoSpan = (id: string, span: number) =>
-    setBentoSpans((prev) => {
-      const next = { ...prev, [id]: span };
-      saveBentoSpans(next);
-      return next;
-    });
-
-  /** Replace the bento config from an imported list ([{id, inBento, bentoSpan?}]). */
-  const importBento = (config: { id: string; inBento: boolean; bentoSpan?: number }[]) => {
-    const nextOverrides: BentoOverrides = {};
-    const nextSpans: BentoSpans = {};
-    for (const c of config) {
-      if (!c || typeof c.id !== "string") continue;
-      nextOverrides[c.id] = !!c.inBento;
-      if (typeof c.bentoSpan === "number") nextSpans[c.id] = c.bentoSpan;
-    }
-    setBentoOverrides(nextOverrides);
-    saveBentoOverrides(nextOverrides);
-    setBentoSpans(nextSpans);
-    saveBentoSpans(nextSpans);
+  const persist = (next: BentoInstance[]) => {
+    setInstances(next);
+    saveBentoInstances(next);
   };
 
-  // Catalog widgets selected for the bento, as masonry items. When a layout seed
-  // is set, order and per-widget width are randomised (within each widget's
-  // allowed bentoCols) to showcase how flexibly the same widgets compose; an
-  // explicit Playground width override always wins.
+  /** Whether a widget's DEFAULT instance (key === widgetId) is in the bento. */
+  const isInBento = (id: string) => instances.some((i) => i.key === id);
+
+  /** Toggle the default instance for a widget (the "Show in bento" checkbox). */
+  const toggleBento = (id: string, cols?: number) =>
+    persist(
+      isInBento(id)
+        ? instances.filter((i) => i.key !== id)
+        : [...instances, { key: id, widgetId: id, cols }],
+    );
+
+  /** Add the current live config as a NEW instance (a variant). */
+  const addConfig = (widgetId: string, props: Record<string, unknown>, cols?: number) =>
+    persist([...instances, { key: newInstanceKey(widgetId), widgetId, props, cols }]);
+
+  const removeInstance = (key: string) => persist(instances.filter((i) => i.key !== key));
+
+  /** Set the width of the default instance (key === widgetId). */
+  const setCols = (id: string, cols: number) =>
+    persist(instances.map((i) => (i.key === id ? { ...i, cols } : i)));
+
+  /** Replace the whole list from an imported config. */
+  const importBento = (config: BentoInstance[]) => {
+    const next = config
+      .filter((c) => c && typeof c.widgetId === "string")
+      .map((c) => ({ ...c, key: c.key || newInstanceKey(c.widgetId) }));
+    persist(next);
+  };
+
+  // Instances → masonry items. When a layout seed is set, order + width (for
+  // instances without an explicit cols) are randomised within each widget's
+  // allowed bentoCols, so the same set composes differently each refresh.
   const seeded = layoutSeed > 0;
   const rand = rngFrom(layoutSeed || 1);
-  const selected = WIDGETS.filter((w) => isInBento(w.id, bentoOverrides));
-  const bentoItems: MasonryItem[] = (seeded ? shuffled(selected, rand) : selected).map((w) => {
-    const allowed = bentoColsFor(w.id);
-    const override = w.id in bentoSpans ? bentoSpans[w.id] : undefined;
-    const cols = override ?? (seeded ? allowed[Math.floor(rand() * allowed.length)] : allowed[0]);
-    return {
-      key: w.id,
-      cols,
-      maxRows: bentoMaxRowsFor(w.id),
-      node:
-        w.source === "figma-widget" ? (
-          <WidgetShell variant="desktop">{w.render(defaultProps(w))}</WidgetShell>
-        ) : (
-          w.render(defaultProps(w))
-        ),
-    };
-  });
+  const bentoItems: MasonryItem[] = (seeded ? shuffled(instances, rand) : instances)
+    .map((inst) => {
+      const w = WIDGETS.find((x) => x.id === inst.widgetId);
+      if (!w) return null;
+      const allowed = bentoColsFor(inst.widgetId);
+      const cols = inst.cols ?? (seeded ? allowed[Math.floor(rand() * allowed.length)] : allowed[0]);
+      const props = inst.props ?? defaultProps(w);
+      return {
+        key: inst.key,
+        cols,
+        maxRows: bentoMaxRowsFor(inst.widgetId),
+        node:
+          w.source === "figma-widget" ? (
+            <WidgetShell variant="desktop">{w.render(props)}</WidgetShell>
+          ) : (
+            w.render(props)
+          ),
+      } as MasonryItem;
+    })
+    .filter((x): x is MasonryItem => x !== null);
   const isMobile = view === "mobile";
   const isCorporate = view === "corporate";
   const isConsumer = view === "consumer";
@@ -154,11 +158,13 @@ export function BentoStage() {
           {isPlayground ? (
             /* Interactive widget sandbox — stress widgets with live controls. */
             <PlaygroundView
-              isInBento={(id) => isInBento(id, bentoOverrides)}
+              instances={instances}
+              isInBento={isInBento}
               onToggleBento={toggleBento}
+              onAddConfig={addConfig}
+              onSetCols={setCols}
+              onRemoveInstance={removeInstance}
               onImportBento={importBento}
-              getSpan={(id) => bentoSpanFor(id, bentoSpans)}
-              onSetSpan={setBentoSpan}
             />
           ) : isMobile ? (
             /* Mobile: the consumer widget set in the phone frame. Same widgets +

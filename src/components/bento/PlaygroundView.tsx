@@ -13,8 +13,17 @@ import {
   WIDGETS_BY_GROUP,
 } from "@/lib/playground/registry";
 import { defaultProps, type WidgetEntry, type WidgetSource } from "@/lib/playground/types";
-import { FULL_SPAN } from "@/lib/playground/bentoConfig";
+import { FULL_SPAN, bentoColsFor, type BentoInstance } from "@/lib/playground/bentoConfig";
 import { ControlsPanel } from "./playground/ControlsPanel";
+
+/** Short, human label for a bento instance: widget name + its variant/first prop. */
+function instanceLabel(inst: BentoInstance): string {
+  const w = WIDGETS.find((x) => x.id === inst.widgetId);
+  const name = w?.name ?? inst.widgetId;
+  const p = inst.props;
+  const hint = p && typeof p.variant === "string" ? p.variant : undefined;
+  return hint ? `${name} · ${hint}` : name;
+}
 
 type ContainerMode = "mobile" | "desktop" | "both";
 
@@ -52,22 +61,28 @@ function Stage({ entry, props, variant }: { entry: WidgetEntry; props: Record<st
 }
 
 export function PlaygroundView({
+  instances,
   isInBento,
   onToggleBento,
+  onAddConfig,
+  onSetCols,
+  onRemoveInstance,
   onImportBento,
-  getSpan,
-  onSetSpan,
 }: {
+  instances: BentoInstance[];
   isInBento: (id: string) => boolean;
-  onToggleBento: (id: string) => void;
-  onImportBento: (config: { id: string; inBento: boolean; bentoSpan?: number }[]) => void;
-  getSpan: (id: string) => number;
-  onSetSpan: (id: string, span: number) => void;
+  onToggleBento: (id: string, cols?: number) => void;
+  onAddConfig: (id: string, props: Record<string, unknown>, cols?: number) => void;
+  onSetCols: (id: string, cols: number) => void;
+  onRemoveInstance: (key: string) => void;
+  onImportBento: (config: BentoInstance[]) => void;
 }) {
   const [selectedId, setSelectedId] = useState(WIDGETS[0].id);
   const [container, setContainer] = useState<ContainerMode>("desktop");
   const [sourceFilter, setSourceFilter] = useState<"all" | WidgetSource>("all");
   const [props, setProps] = useState<Record<string, unknown>>(() => defaultProps(WIDGETS[0]));
+  // The bento width chosen in the switch (drives the toggle + "Add config").
+  const [bentoWidth, setBentoWidth] = useState<number>(() => bentoColsFor(WIDGETS[0].id)[0]);
 
   const entry = useMemo(() => WIDGETS.find((w) => w.id === selectedId)!, [selectedId]);
 
@@ -75,25 +90,24 @@ export function PlaygroundView({
     const next = WIDGETS.find((w) => w.id === id)!;
     setSelectedId(id);
     setProps(defaultProps(next));
+    setBentoWidth(bentoColsFor(id)[0]);
     // Snap container to one the widget supports.
     if (container !== "both" && !next.containers.includes(container)) {
       setContainer(next.containers[0]);
     }
   }
 
+  /** Width switch → update local width, and the default instance if it's in. */
+  function changeWidth(cols: number) {
+    setBentoWidth(cols);
+    if (isInBento(selectedId)) onSetCols(selectedId, cols);
+  }
+
   const [copiedBento, setCopiedBento] = useState(false);
   const [importBentoText, setImportBentoText] = useState<string | null>(null);
   const [importBentoError, setImportBentoError] = useState<string | null>(null);
   function exportBentoConfig() {
-    const config = WIDGETS.map((w) => {
-      const span = getSpan(w.id);
-      return {
-        id: w.id,
-        inBento: isInBento(w.id),
-        ...(span > 1 ? { bentoSpan: span } : {}),
-      };
-    });
-    const text = JSON.stringify(config, null, 2);
+    const text = JSON.stringify(instances, null, 2);
     navigator.clipboard?.writeText(text).catch(() => {});
     setCopiedBento(true);
     setTimeout(() => setCopiedBento(false), 1200);
@@ -171,11 +185,39 @@ export function PlaygroundView({
           })}
         </div>
 
+        {instances.length > 0 && (
+          <div className="border-t border-stroke pt-2">
+            <h3 className="mb-1 font-display text-[11px] font-semibold uppercase tracking-wide text-content-tertiary">
+              In bento ({instances.length})
+            </h3>
+            <div className="flex max-h-40 flex-col gap-0.5 overflow-y-auto">
+              {instances.map((inst) => (
+                <div
+                  key={inst.key}
+                  className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-content hover:bg-surface-1"
+                >
+                  <span className="min-w-0 flex-1 truncate" title={instanceLabel(inst)}>
+                    {instanceLabel(inst)}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="Remove from bento"
+                    onClick={() => onRemoveInstance(inst.key)}
+                    className="grid h-4 w-4 shrink-0 place-items-center rounded text-content-tertiary hover:text-danger"
+                  >
+                    <Icon name="plus" size={12} className="rotate-45" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="mt-1 flex gap-1.5">
           <button
             type="button"
             onClick={exportBentoConfig}
-            title="Copy the bento selection as JSON to paste into the registry defaults"
+            title="Copy the bento config (instances) as JSON to paste into the registry defaults"
             className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-stroke bg-surface px-2 py-1.5 text-xs font-medium text-content hover:bg-surface-1"
           >
             <Icon name="external" size={13} />
@@ -234,19 +276,25 @@ export function PlaygroundView({
           <div className="flex items-center gap-3">
             <label
               className="flex cursor-pointer items-center gap-1.5 text-xs text-content-secondary"
-              title="Show this widget in the Bento showcase (saved across reloads)"
+              title="Show this widget's default instance in the Bento showcase (saved across reloads)"
             >
               <input
                 type="checkbox"
                 checked={isInBento(entry.id)}
-                onChange={() => onToggleBento(entry.id)}
+                onChange={() => onToggleBento(entry.id, bentoWidth)}
                 className="accent-[var(--color-brand-blue-bright)]"
               />
               Show in bento
             </label>
-            {isInBento(entry.id) && (
-              <BentoWidthSwitch span={getSpan(entry.id)} onChange={(s) => onSetSpan(entry.id, s)} />
-            )}
+            <BentoWidthSwitch span={bentoWidth} onChange={changeWidth} />
+            <button
+              type="button"
+              onClick={() => onAddConfig(entry.id, { ...props }, bentoWidth)}
+              title="Add the current configuration to the bento as a new variant instance"
+              className="flex items-center gap-1.5 rounded-full border border-stroke bg-surface px-2.5 py-1 text-xs font-medium text-content hover:bg-surface-1"
+            >
+              <Icon name="plus" size={13} /> Add config
+            </button>
             <ContainerSwitch value={container} onChange={setContainer} entry={entry} />
           </div>
         </div>

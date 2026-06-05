@@ -1,73 +1,55 @@
 import { WIDGETS } from "./registry";
 
 /**
- * Which catalog widgets appear in the Bento showcase. The registry's `inBento`
- * flags are the committed default (the project's source of truth); the Playground
- * lets you override per-widget, persisted to localStorage so the choice survives
- * rebuilds (per browser). Export the config to bake a new default into the repo.
+ * The Bento showcase is a LIST of instances — each is a widget rendered with a
+ * specific configuration (props + width). The same widget can appear multiple
+ * times with different variants (e.g. Hero balance / card / eSIM), so the
+ * showcase demonstrates many configurations, not just one master per widget.
+ *
+ * The registry's `inBento` flags seed the default list (one default instance per
+ * flagged widget). The Playground edits the list — toggle the default instance,
+ * add the current live config as a new instance, remove instances — persisted to
+ * localStorage so it survives reloads (per browser). Export bakes a new default
+ * into the repo.
  */
-const KEY = "xe-bento-widgets";
+const KEY = "xe-bento-instances";
 
-export type BentoOverrides = Record<string, boolean>;
-
-export function loadBentoOverrides(): BentoOverrides {
-  try {
-    const raw = localStorage.getItem(KEY);
-    const parsed = raw ? (JSON.parse(raw) as BentoOverrides) : {};
-    return parsed && typeof parsed === "object" ? parsed : {};
-  } catch {
-    return {};
-  }
-}
-
-export function saveBentoOverrides(o: BentoOverrides): void {
-  try {
-    localStorage.setItem(KEY, JSON.stringify(o));
-  } catch {
-    /* ignore */
-  }
-}
-
-/** Is a widget shown in the bento? override ?? registry default. */
-export function isInBento(id: string, overrides: BentoOverrides): boolean {
-  if (id in overrides) return overrides[id];
-  return WIDGETS.find((w) => w.id === id)?.inBento ?? false;
-}
-
-/* ── Bento width (column span) ─────────────────────────────────────────────
-   The span is the widget's footprint in the masonry: 1 = single column, 2 =
-   wide (tables / charts / action bars), 99 = full row. The registry's
-   `bentoSpan` is the committed default (derived from each widget's content
-   density); the Playground lets you override it live, persisted per browser. */
-const SPAN_KEY = "xe-bento-spans";
-
-export type BentoSpans = Record<string, number>;
+export type BentoInstance = {
+  /** Unique key. For the per-widget "default" instance this equals the widget id. */
+  key: string;
+  widgetId: string;
+  /** Prop overrides; undefined → the widget's default props. */
+  props?: Record<string, unknown>;
+  /** Column span override; undefined → randomised from the widget's allowed widths. */
+  cols?: number;
+};
 
 /** Treated as "full row" — clamped to the live column count by the masonry. */
 export const FULL_SPAN = 99;
 
-export function loadBentoSpans(): BentoSpans {
+/** Seed list from the registry's inBento flags — one default instance each. */
+export function defaultBentoInstances(): BentoInstance[] {
+  return WIDGETS.filter((w) => w.inBento).map((w) => ({ key: w.id, widgetId: w.id }));
+}
+
+/** Load the saved list, or null if the user has never customised it. */
+export function loadBentoInstances(): BentoInstance[] | null {
   try {
-    const raw = localStorage.getItem(SPAN_KEY);
-    const parsed = raw ? (JSON.parse(raw) as BentoSpans) : {};
-    return parsed && typeof parsed === "object" ? parsed : {};
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as BentoInstance[]) : null;
   } catch {
-    return {};
+    return null;
   }
 }
 
-export function saveBentoSpans(s: BentoSpans): void {
+export function saveBentoInstances(list: BentoInstance[]): void {
   try {
-    localStorage.setItem(SPAN_KEY, JSON.stringify(s));
+    localStorage.setItem(KEY, JSON.stringify(list));
   } catch {
     /* ignore */
   }
-}
-
-/** Effective span for a widget: override ?? registry default ?? 1. */
-export function bentoSpanFor(id: string, spans: BentoSpans): number {
-  if (id in spans) return spans[id];
-  return WIDGETS.find((w) => w.id === id)?.bentoSpan ?? 1;
 }
 
 /** Column widths a widget may take in the bento (for the layout randomiser). */
