@@ -156,7 +156,7 @@
   --xe-blur-2xl: 42px;
 
   /* font roles → faces (editable: re-assign a role to any loaded face) */
-  --xe-font-numeric: var(--font-roboto-mono);
+  --xe-font-numeric: var(--font-ibm-plex-mono);
   --xe-font-title: var(--font-instrument-sans);
   --xe-font-body: var(--font-zalando);
   --xe-font-accent: var(--font-instrument-serif);
@@ -240,11 +240,11 @@
   /* fonts. Roles map to faces via the editable --xe-font-* vars (globals :root,
      wired to the per-face --font-* vars from next/font in layout.tsx). The numeric
      role leads every stack and only covers digits (U+0030–0039), so 0–9 render in
-     Roboto Mono and everything else falls through to the role face. Default roles:
+     IBM Plex Mono and everything else falls through to the role face. Default roles:
        · body (--xe-font-body)   → Zalando Sans
        · title (--xe-font-title) → Instrument Sans
        · accent (--xe-font-accent) → Instrument Serif
-       · numeric (--xe-font-numeric) → Roboto Mono */
+       · numeric (--xe-font-numeric) → IBM Plex Mono */
   --font-sans: var(--xe-font-numeric), var(--xe-font-body), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--xe-font-numeric), var(--xe-font-title), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--xe-font-numeric), var(--xe-font-accent), ui-serif, Georgia, serif;
@@ -395,7 +395,7 @@
 body {
   background: var(--xe-canvas);
   color: var(--xe-content-base);
-  /* numeric role (digits-only) first → numbers in Roboto Mono, text in the body face. */
+  /* numeric role (digits-only) first → numbers in IBM Plex Mono, text in the body face. */
   font-family: var(--xe-font-numeric), var(--xe-font-body);
   /* Body sits at -2% tracking (per brand spec); titles (font-display) inherit it. */
   letter-spacing: -0.02em;

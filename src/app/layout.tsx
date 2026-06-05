@@ -8,16 +8,19 @@ import { TokenProvider } from "@/components/tokens/TokenProvider";
 // font *role* (title / body / accent / numeric) to any of them at runtime.
 // The role → face wiring lives in globals.css (--xe-font-* → --font-<face>).
 
-// Numerals — Roboto Mono, restricted to the digit glyphs (U+0030–0039) via a
+// Numerals — IBM Plex Mono, restricted to the digit glyphs (U+0030–0039) via a
 // `unicode-range` @font-face descriptor: placed FIRST in every stack the browser
 // only reaches for it on 0–9 and falls through to the body face for the rest.
 // `adjustFontFallback: false` is required or the Arial fallback (no unicode-range)
 // would swallow all text.
-const robotoMono = localFont({
-  src: "./fonts/RobotoMono-Variable.woff2",
-  variable: "--font-roboto-mono",
+const ibmPlexMono = localFont({
+  src: [
+    { path: "./fonts/IBMPlexMono-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/IBMPlexMono-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/IBMPlexMono-600.woff2", weight: "600", style: "normal" },
+  ],
+  variable: "--font-ibm-plex-mono",
   display: "swap",
-  weight: "100 700",
   adjustFontFallback: false,
   declarations: [{ prop: "unicode-range", value: "U+0030-0039" }],
 });
@@ -46,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${zalandoSans.variable} ${instrumentSerif.variable} ${robotoMono.variable} ${inter.variable} h-full antialiased`}
+      className={`${instrumentSans.variable} ${zalandoSans.variable} ${instrumentSerif.variable} ${ibmPlexMono.variable} ${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
