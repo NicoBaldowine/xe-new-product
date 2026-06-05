@@ -39,6 +39,7 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Hero",
     group: "Hero",
     source: "figma-widget",
+    inBento: true,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["balance", "all-accounts", "card", "esim"], default: "balance" },
@@ -59,6 +60,8 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Charts",
     group: "Rates",
     source: "figma-widget",
+    inBento: true,
+    bentoSpan: 2,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["selector", "badge"], default: "selector" },
@@ -81,6 +84,7 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Send Money Flow",
     group: "Send",
     source: "figma-widget",
+    inBento: true,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "text", prop: "title", label: "Title", default: "Send internationally" },
@@ -101,6 +105,7 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Convert / Rate",
     group: "Rates",
     source: "figma-widget",
+    inBento: true,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["First time - Default", "Max items", "First Time - Only Convert"], default: "First time - Default" },
@@ -118,6 +123,8 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Transactions",
     group: "Activity",
     source: "figma-widget",
+    inBento: true,
+    bentoSpan: 2,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["All", "Empty", "Only Balance"], default: "All" },
@@ -136,6 +143,7 @@ export const WIDGETS: WidgetEntry[] = [
     name: "In Progress",
     group: "Activity",
     source: "figma-widget",
+    inBento: true,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["Add funds - Scheduled", "Waiting for funds", "Scheduled", "In progress", "Received money", "Transaction created"], default: "In progress" },
@@ -157,6 +165,7 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Send Again",
     group: "Send",
     source: "figma-widget",
+    inBento: true,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "rate", label: "Rate", options: ["normal", "higher"], default: "normal" },
@@ -177,6 +186,7 @@ export const WIDGETS: WidgetEntry[] = [
     name: "Getting Started",
     group: "Identity",
     source: "figma-widget",
+    inBento: true,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["first-time", "middle", "all-done"], default: "first-time" },
@@ -194,6 +204,8 @@ export const WIDGETS: WidgetEntry[] = [
     name: "MKT Card",
     group: "Promo",
     source: "figma-widget",
+    inBento: true,
+    bentoSpan: 2,
     containers: ["mobile", "desktop"],
     controls: [
       { kind: "select", prop: "variant", label: "Variant", options: ["Small", "Large"], default: "Small" },

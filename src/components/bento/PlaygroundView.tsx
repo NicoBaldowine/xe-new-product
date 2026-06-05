@@ -50,7 +50,13 @@ function Stage({ entry, props, variant }: { entry: WidgetEntry; props: Record<st
   );
 }
 
-export function PlaygroundView() {
+export function PlaygroundView({
+  isInBento,
+  onToggleBento,
+}: {
+  isInBento: (id: string) => boolean;
+  onToggleBento: (id: string) => void;
+}) {
   const [selectedId, setSelectedId] = useState(WIDGETS[0].id);
   const [container, setContainer] = useState<ContainerMode>("desktop");
   const [sourceFilter, setSourceFilter] = useState<"all" | WidgetSource>("all");
@@ -134,7 +140,21 @@ export function PlaygroundView() {
       <section className="flex flex-col gap-4 rounded-card border border-stroke bg-surface p-6">
         <div className="flex items-center justify-between gap-3">
           <h2 className="font-display text-lg font-semibold text-content">{entry.name}</h2>
-          <ContainerSwitch value={container} onChange={setContainer} entry={entry} />
+          <div className="flex items-center gap-3">
+            <label
+              className="flex cursor-pointer items-center gap-1.5 text-xs text-content-secondary"
+              title="Show this widget in the Bento showcase (saved across reloads)"
+            >
+              <input
+                type="checkbox"
+                checked={isInBento(entry.id)}
+                onChange={() => onToggleBento(entry.id)}
+                className="accent-[var(--color-brand-blue-bright)]"
+              />
+              Show in bento
+            </label>
+            <ContainerSwitch value={container} onChange={setContainer} entry={entry} />
+          </div>
         </div>
         <div
           className={cn(

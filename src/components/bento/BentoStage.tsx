@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { containerVariants } from "@/lib/motion";
 import { DrawStrokeContext } from "@/components/primitives/Card";
@@ -13,26 +13,47 @@ import { CorporateView } from "./CorporateView";
 import { ConsumerView } from "./ConsumerView";
 import { PlaygroundView } from "./PlaygroundView";
 import { WidgetShell } from "@/components/primitives/WidgetShell";
+import { Masonry, type MasonryItem } from "@/components/primitives/Masonry";
 import { MOBILE_ORDER } from "./consumer/widgets";
-
-import { TotalBalanceCard } from "./blocks/TotalBalanceCard";
-import { AccountBalanceCard } from "./blocks/AccountBalanceCard";
-import { SendAgainCard } from "./blocks/SendAgainCard";
-import { RateChartCard } from "./blocks/RateChartCard";
-import { ActivityEmptyCard } from "./blocks/ActivityEmptyCard";
-import { TransactionsTableCard } from "./blocks/TransactionsTableCard";
-import { ActionBar } from "./blocks/ActionBar";
-import { RateWatchCard } from "./blocks/RateWatchCard";
-import { SendInternationallyCard } from "./blocks/SendInternationallyCard";
-import { VerifyIdCard } from "./blocks/VerifyIdCard";
-import { TravelPromoCard } from "./blocks/TravelPromoCard";
-import { AccountsListCard } from "./blocks/AccountsListCard";
-import { RecentActivitiesCard } from "./blocks/RecentActivitiesCard";
+import { WIDGETS } from "@/lib/playground/registry";
+import { defaultProps } from "@/lib/playground/types";
+import {
+  loadBentoOverrides,
+  saveBentoOverrides,
+  isInBento,
+  type BentoOverrides,
+} from "@/lib/playground/bentoConfig";
 
 export function BentoStage() {
   const reduce = useReducedMotion();
   const [view, setView] = useState<ViewMode>("bento");
   const [editorOpen, setEditorOpen] = useState(false);
+  const [bentoOverrides, setBentoOverrides] = useState<BentoOverrides>({});
+
+  // Load the saved bento selection after mount (SSR-safe; defaults come from
+  // the registry's inBento flags until then).
+  useEffect(() => {
+    setBentoOverrides(loadBentoOverrides());
+  }, []);
+
+  const toggleBento = (id: string) =>
+    setBentoOverrides((prev) => {
+      const next = { ...prev, [id]: !isInBento(id, prev) };
+      saveBentoOverrides(next);
+      return next;
+    });
+
+  // Catalog widgets selected for the bento, as masonry items.
+  const bentoItems: MasonryItem[] = WIDGETS.filter((w) => isInBento(w.id, bentoOverrides)).map((w) => ({
+    key: w.id,
+    span: w.bentoSpan ?? 1,
+    node:
+      w.source === "figma-widget" ? (
+        <WidgetShell variant="desktop">{w.render(defaultProps(w))}</WidgetShell>
+      ) : (
+        w.render(defaultProps(w))
+      ),
+  }));
   const isMobile = view === "mobile";
   const isCorporate = view === "corporate";
   const isConsumer = view === "consumer";
@@ -52,7 +73,10 @@ export function BentoStage() {
         <LayoutGroup>
           {isPlayground ? (
             /* Interactive widget sandbox — stress widgets with live controls. */
-            <PlaygroundView />
+            <PlaygroundView
+              isInBento={(id) => isInBento(id, bentoOverrides)}
+              onToggleBento={toggleBento}
+            />
           ) : isMobile ? (
             /* Mobile: the consumer widget set in the phone frame. Same widgets +
                layoutIds as the desktop consumer view → they morph on toggle. */
@@ -73,40 +97,16 @@ export function BentoStage() {
             /* Bento: a masonry of every block. Columns are min ~300px wide so
                nothing squeezes/overlaps — cards flow and wrap as space allows.
                Each block draws its grey border on entrance. */
+            /* Bento: a true masonry of the widgets selected in the Playground
+               ("Show in bento"); large widgets span 2 columns. Cards draw their
+               grey border on entrance. */
             <DrawStrokeContext.Provider value={!reduce}>
               <motion.div
                 variants={containerVariants}
                 initial={reduce ? false : "hidden"}
                 animate="visible"
-                className="flex flex-col gap-8"
               >
-                {/* Full-width action bar on top. */}
-                <ActionBar />
-                {/* True masonry: cards pack into ~320px columns with no gaps,
-                    flowing to fill as space allows. */}
-                <div className="columns-[320px] gap-8 [column-fill:balance]">
-                  {(
-                    [
-                      { key: "total", el: <TotalBalanceCard /> },
-                      { key: "rate", el: <RateChartCard /> },
-                      { key: "send", el: <SendInternationallyCard /> },
-                      { key: "acct", el: <AccountBalanceCard /> },
-                      { key: "watch", el: <RateWatchCard /> },
-                      { key: "again", el: <SendAgainCard count={2} /> },
-                      { key: "promo", el: <TravelPromoCard /> },
-                      { key: "accts", el: <AccountsListCard /> },
-                      { key: "recent", el: <RecentActivitiesCard /> },
-                      { key: "empty", el: <ActivityEmptyCard /> },
-                      { key: "verify", el: <VerifyIdCard /> },
-                    ] as const
-                  ).map((it) => (
-                    <div key={it.key} className="mb-8 break-inside-avoid">
-                      {it.el}
-                    </div>
-                  ))}
-                </div>
-                {/* Full-width transactions table at the bottom. */}
-                <TransactionsTableCard />
+                <Masonry items={bentoItems} minColWidth={320} gap={32} />
               </motion.div>
             </DrawStrokeContext.Provider>
           )}

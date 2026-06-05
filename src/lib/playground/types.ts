@@ -34,6 +34,10 @@ export interface WidgetEntry {
   presets?: Preset[];
   /** Pure render — receives merged control values as props. */
   render: (props: Record<string, unknown>) => ReactNode;
+  /** Shown in the Bento showcase by default (overridable per-widget in the Playground). */
+  inBento?: boolean;
+  /** Columns to span in the Bento masonry (1 default; 2 for "large" widgets). */
+  bentoSpan?: number;
 }
 
 /** Default props object derived from a widget's control defaults. */
