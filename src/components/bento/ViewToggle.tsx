@@ -5,7 +5,7 @@ import { Icon, type IconName } from "@/components/primitives/Icon";
 import { snappy } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
-export type ViewMode = "bento" | "mobile" | "consumer" | "corporate";
+export type ViewMode = "bento" | "mobile" | "consumer" | "corporate" | "playground";
 
 type Option = {
   value: ViewMode;
@@ -20,6 +20,7 @@ const OPTIONS: Option[] = [
   { value: "mobile", icon: "phone", label: "Mobile view" },
   { value: "consumer", icon: "monitor", label: "Desktop (consumer)" },
   { value: "corporate", icon: "building", label: "Desktop (corporate)" },
+  { value: "playground", icon: "layers", label: "Playground" },
 ];
 
 export function ViewToggle({
@@ -45,14 +46,15 @@ export function ViewToggle({
             aria-selected={active}
             aria-label={opt.label}
             disabled={opt.disabled}
+            title={opt.label}
             onClick={() => !opt.disabled && onChange(opt.value)}
             className={cn(
               "relative grid h-9 w-9 place-items-center rounded-full transition-colors",
               opt.disabled
                 ? "cursor-not-allowed text-content-tertiary opacity-50"
                 : active
-                  ? "text-content"
-                  : "text-content-secondary hover:text-content",
+                  ? "cursor-pointer text-content"
+                  : "cursor-pointer text-content-secondary hover:text-content",
             )}
           >
             {active && (

@@ -47,7 +47,7 @@ export function Sidebar({ items = CORPORATE_NAV }: { items?: NavItem[] }) {
             aria-current={item.active ? "page" : undefined}
             className={cn(
               "flex items-center gap-3 rounded-xl px-3 py-2.5",
-              "font-display text-sm font-medium transition-colors",
+              "font-display text-body-sm font-medium transition-colors",
               item.active
                 ? "bg-surface-1 text-content"
                 : "text-content-secondary hover:bg-surface-1 hover:text-content",

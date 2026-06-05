@@ -3,15 +3,9 @@
 import { motion } from "motion/react";
 import { Sidebar, type NavItem } from "@/components/Sidebar";
 import { Icon } from "@/components/primitives/Icon";
+import { WidgetShell } from "@/components/primitives/WidgetShell";
 import { containerVariants, spring } from "@/lib/motion";
-
-import { TotalBalanceCard } from "./blocks/TotalBalanceCard";
-import { AccountBalanceCard } from "./blocks/AccountBalanceCard";
-import { RateChartCard } from "./blocks/RateChartCard";
-import { SendInternationallyCard } from "./blocks/SendInternationallyCard";
-import { SendAgainCard } from "./blocks/SendAgainCard";
-import { RecentActivitiesCard } from "./blocks/RecentActivitiesCard";
-import { TravelPromoCard } from "./blocks/TravelPromoCard";
+import { HERO_WIDGET, PRIMARY_WIDGETS, SECONDARY_WIDGETS } from "./consumer/widgets";
 
 /** Consumer (personal) app navigation — see reference screenshot 2. */
 const CONSUMER_NAV: NavItem[] = [
@@ -81,53 +75,32 @@ export function ConsumerView() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="mx-auto flex w-full max-w-5xl flex-col gap-8"
+            className="mx-auto flex w-full max-w-5xl flex-col gap-6"
           >
             <ConsumerHeader />
 
-            {/* Balance + account cards — horizontal row of 4, scrolls on overflow
-                (the 4th peeks off-edge, per the consumer reference). */}
-            <div className="-mx-8 flex items-stretch gap-6 overflow-x-auto px-8 pb-1">
-              <TotalBalanceCard
-                showActions={false}
-                amount="$380.00"
-                className="w-64 shrink-0"
-              />
-              <AccountBalanceCard
-                layoutId="account-us"
-                align="left"
-                flag="US"
-                label="US Account"
-                amount="$180.00"
-                className="w-64 shrink-0"
-              />
-              <AccountBalanceCard
-                layoutId="account-eur"
-                align="left"
-                flag="EU"
-                label="EUR Account"
-                amount="€50.00"
-                className="w-64 shrink-0"
-              />
-              <AccountBalanceCard
-                layoutId="account-ca"
-                align="left"
-                flag="CA"
-                label="CA Account"
-                amount="$157.50"
-                className="w-64 shrink-0"
-              />
-            </div>
+            {/* Hero spans the full width. */}
+            <WidgetShell variant="desktop" layoutId={HERO_WIDGET.id}>
+              {HERO_WIDGET.el}
+            </WidgetShell>
 
-            {/* Live rate chart + send money */}
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <RateChartCard fillHeight />
-              <SendInternationallyCard />
+            {/* Two-column dashboard (Figma desktop "big columns"). */}
+            <div className="flex flex-col gap-6 lg:flex-row">
+              <div className="flex min-w-0 flex-1 flex-col gap-6">
+                {PRIMARY_WIDGETS.map((w) => (
+                  <WidgetShell key={w.id} variant="desktop" layoutId={w.id}>
+                    {w.el}
+                  </WidgetShell>
+                ))}
+              </div>
+              <div className="flex min-w-0 flex-1 flex-col gap-6">
+                {SECONDARY_WIDGETS.map((w) => (
+                  <WidgetShell key={w.id} variant="desktop" layoutId={w.id} bare={w.bare}>
+                    {w.el}
+                  </WidgetShell>
+                ))}
+              </div>
             </div>
-
-            <SendAgainCard />
-            <RecentActivitiesCard />
-            <TravelPromoCard />
           </motion.div>
         </main>
       </div>

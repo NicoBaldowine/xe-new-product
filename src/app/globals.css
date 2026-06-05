@@ -7,155 +7,397 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ============================================================================
-   XE Brand Bento — design tokens
-   Source of truth: Figma "Brand bento" (TEDuyTkrM8rQWswGR9R3uE)
-     · light frame 236-8092
-     · dark  frame 265-3542
-   Extracted live via Figma MCP. Light values live on :root, dark overrides on
-   .dark (class strategy → theme is toggled independently of OS preference).
-   Components must read these tokens only — no hardcoded colors.
+   XE design tokens — raw `--xe-*` custom properties.
+   Source of truth: the typed registry in src/lib/tokens/registry.ts (extracted
+   from Figma "Capacitor – Xe Consumer"). The block between the sentinels below
+   mirrors that registry (see css.ts → buildBaseCss); keep them in sync.
+   Light values on :root, dark overrides on .dark (class strategy → theme is
+   toggled independently of OS preference). The live token editor overrides
+   these `--xe-*` vars at runtime. Components must read tokens only — no hardcode.
    ============================================================================ */
 
-:root {
-  /* content (text / icon) */
+/* @generated:tokens-start — mirror of src/lib/tokens/registry.ts */
+:root,
+[data-theme="light"] {
+  /* content */
   --xe-content-base: #0a0a0a;
   --xe-content-secondary: #737373;
   --xe-content-tertiary: #a3a3a3;
-  --xe-content-reverse: #ffffff;
-  --xe-content-white: #ffffff;
-  --xe-content-brand-logo: #ff6e14;
+  --xe-content-base-reverse: #ffffff;
+  --xe-content-stays-white: #ffffff;
+  --xe-content-stays-black: #0a0a0a;
+  --xe-content-brand-logo: #0a146e;
+  --xe-content-on-brand: #ffffff;
+  --xe-content-on-action: #ffffff;
   --xe-content-info-on-muted: #1d4ed8;
-  --xe-content-success-on-muted: #16a34a; /* TODO: confirm in Figma */
-  --xe-content-warning-on-muted: #a16207; /* TODO: confirm in Figma */
-  --xe-content-danger-on-muted: #dc2626; /* TODO: confirm in Figma */
+  --xe-content-success-on-muted: #16a34a;
+  --xe-content-warning-on-muted: #a16207;
+  --xe-content-danger-on-muted: #dc2626;
+  --xe-content-brand-default: #2563eb;
+  --xe-content-success-default: #15803d;
+  --xe-content-danger-default: #dc2626;
+  --xe-content-warning-default: #a16207;
+  --xe-content-info-default: #2563eb;
 
   /* surfaces */
-  --xe-canvas: #ffffff; /* page background behind the cards (frame is white) */
-  --xe-surface-base: #ffffff; /* card surface */
-  --xe-surface-1: #f5f5f5; /* nested chips / secondary fills */
-  --xe-surface-adaptive: #0a0a0a0d; /* black @ 5% */
+  --xe-canvas: #ffffff;
+  --xe-surface-base: #ffffff;
+  --xe-surface-level-01: #f5f5f5;
+  --xe-surface-level-02: #ececec;
+  --xe-surface-level-03: #d4d4d4;
+  --xe-surface-adaptive-gray: #0a0a0a0d;
+  --xe-surface-action: #0533ff;
   --xe-surface-info-muted: #dbeafe;
-  --xe-surface-success-muted: #dcfce7; /* TODO: confirm in Figma */
-  --xe-surface-warning-muted: #fef3c7; /* TODO: confirm in Figma */
-  --xe-surface-danger-muted: #fee2e2; /* TODO: confirm in Figma */
+  --xe-surface-success-muted: #dcfce7;
+  --xe-surface-warning-muted: #fef3c7;
+  --xe-surface-danger-muted: #fee2e2;
+  --xe-surface-success: #16a34a;
+  --xe-surface-success-hover: #37b063;
+  --xe-surface-success-pressed: #138f41;
+  --xe-surface-warning: #ca8a04;
+  --xe-surface-warning-hover: #d19a27;
+  --xe-surface-warning-pressed: #b27904;
+  --xe-surface-danger: #dc2626;
+  --xe-surface-danger-hover: #e14444;
+  --xe-surface-danger-pressed: #c22121;
+  --xe-surface-glass-white: #ffffff33;
+  --xe-surface-glass-black: #0a0a0ab2;
+  --xe-surface-overlay-invert: #ffffff80;
 
   /* strokes */
   --xe-stroke-base: #e5e5e5;
-  --xe-stroke-brand: #2563eb;
+  --xe-stroke-action: #0533ff;
 
-  /* brand / fixed (do not change between themes) */
-  --xe-blue: #002beb;
-  --xe-blue-bright: #0533ff; /* primary CTA fill (from frame buttons) */
-  --xe-orange: #ff6e14;
-  --xe-fuchsia-50: #fdf4ff;
-  --xe-fuchsia-600: #c026d3;
-  --xe-fuchsia-950: #4a044e;
+  /* action (brand) */
+  --xe-action-bold: #002beb;
+  --xe-action: #0533ff;
+  --xe-action-hover: #2850ff;
+  --xe-action-pressed: #042de0;
+
+  /* utility (categorical — transaction/category emblems) */
+  --xe-utility-01: #0891b2;
+  --xe-utility-01-muted: #67e8f9;
+  --xe-utility-02: #7c3aed;
+  --xe-utility-02-muted: #c4b5fd;
+  --xe-utility-03: #059669;
+  --xe-utility-03-muted: #6ee7b7;
+  --xe-utility-04: #c026d3;
+  --xe-utility-04-muted: #f0abfc;
+
+  /* radius */
+  --xe-radius-button: 12px;
+  --xe-radius-xl: 12px;
+  --xe-radius-card: 20px;
+
+  /* foundations — primitive scales (Figma value/font/*); typesets reference these */
+  --xe-size-xs: 12px;
+  --xe-size-sm: 14px;
+  --xe-size-base: 16px;
+  --xe-size-lg: 18px;
+  --xe-size-xl: 20px;
+  --xe-size-2xl: 24px;
+  --xe-size-3xl: 30px;
+  --xe-size-4xl: 36px;
+  --xe-leading-4: 16px;
+  --xe-leading-5: 20px;
+  --xe-leading-6: 24px;
+  --xe-leading-7: 28px;
+  --xe-leading-8: 32px;
+  --xe-leading-9: 36px;
+  --xe-leading-34: 34px;
+  --xe-tracking-tighter: -0.05em;
+  --xe-tracking-tight: -0.025em;
+  --xe-tracking-normal: 0em;
+  --xe-tracking-wide: 0.025em;
+  --xe-tracking-wider: 0.05em;
+  --xe-tracking-widest: 0.1em;
+
+  /* text styles → composite typesets (alias the foundations above) */
+  --xe-title-h1: var(--xe-size-4xl);
+  --xe-title-h1-lh: var(--xe-leading-9);
+  --xe-title-h1-weight: var(--xe-weight-semibold);
+  --xe-title-h1-tracking: var(--xe-tracking-tight);
+  --xe-title-h2: var(--xe-size-3xl);
+  --xe-title-h2-lh: var(--xe-leading-34);
+  --xe-title-h2-weight: var(--xe-weight-semibold);
+  --xe-title-h2-tracking: var(--xe-tracking-tight);
+  --xe-title-h3: var(--xe-size-2xl);
+  --xe-title-h3-lh: var(--xe-leading-8);
+  --xe-title-h3-weight: var(--xe-weight-semibold);
+  --xe-title-h3-tracking: var(--xe-tracking-tight);
+  --xe-title-h4: var(--xe-size-xl);
+  --xe-title-h4-lh: var(--xe-leading-7);
+  --xe-title-h4-weight: var(--xe-weight-semibold);
+  --xe-title-h4-tracking: var(--xe-tracking-tight);
+  --xe-body-lg: var(--xe-size-lg);
+  --xe-body-lg-lh: var(--xe-leading-7);
+  --xe-body-lg-weight: var(--xe-weight-normal);
+  --xe-body-lg-tracking: var(--xe-tracking-tight);
+  --xe-body: var(--xe-size-base);
+  --xe-body-lh: var(--xe-leading-6);
+  --xe-body-weight: var(--xe-weight-normal);
+  --xe-body-tracking: var(--xe-tracking-tight);
+  --xe-body-sm: var(--xe-size-sm);
+  --xe-body-sm-lh: var(--xe-leading-5);
+  --xe-body-sm-weight: var(--xe-weight-normal);
+  --xe-body-sm-tracking: var(--xe-tracking-tight);
+  --xe-caption: var(--xe-size-xs);
+  --xe-caption-lh: var(--xe-leading-4);
+  --xe-caption-weight: var(--xe-weight-medium);
+  --xe-caption-tracking: var(--xe-tracking-tight);
+
+  /* font weights */
+  --xe-weight-normal: 400;
+  --xe-weight-medium: 500;
+  --xe-weight-semibold: 600;
+
+  /* blur */
+  --xe-blur-md: 16px;
+  --xe-blur-2xl: 42px;
+
+  /* font roles → faces (editable: re-assign a role to any loaded face) */
+  --xe-font-numeric: var(--font-ibm-plex-sans);
+  --xe-font-title: var(--font-instrument-sans);
+  --xe-font-body: var(--font-zalando);
+  --xe-font-accent: var(--font-instrument-serif);
 }
 
-.dark {
+.dark,
+[data-theme="dark"] {
+  /* content */
   --xe-content-base: #ffffff;
   --xe-content-secondary: #a3a3a3;
   --xe-content-tertiary: #a3a3a3;
-  --xe-content-reverse: #0a0a0a;
-  --xe-content-white: #ffffff;
+  --xe-content-base-reverse: #0a0a0a;
+  --xe-content-stays-white: #ffffff;
+  --xe-content-stays-black: #0a0a0a;
   --xe-content-brand-logo: #ffffff;
+  --xe-content-on-brand: #ffffff;
+  --xe-content-on-action: #ffffff;
   --xe-content-info-on-muted: #bfdbfe;
   --xe-content-success-on-muted: #86efac;
   --xe-content-warning-on-muted: #fde047;
   --xe-content-danger-on-muted: #fca5a5;
+  --xe-content-brand-default: #3b82f6;
+  --xe-content-success-default: #4ade80;
+  --xe-content-danger-default: #f87171;
+  --xe-content-warning-default: #facc15;
+  --xe-content-info-default: #60a5fa;
 
-  --xe-canvas: #000000; /* dark frame page reads pure black */
-  --xe-surface-base: #000000; /* cards sit flush on the canvas (like light mode); only the border defines them */
-  --xe-surface-1: #1f1f1f; /* nested chips / secondary fills */
-  --xe-surface-adaptive: #ffffff1a; /* white @ 10% */
+  /* surfaces */
+  --xe-canvas: #000000;
+  --xe-surface-base: #000000;
+  --xe-surface-level-01: #1f1f1f;
+  --xe-surface-level-02: #262626;
+  --xe-surface-level-03: #404040;
+  --xe-surface-adaptive-gray: #ffffff1a;
+  --xe-surface-action: #385dff;
   --xe-surface-info-muted: #1e3a8a;
   --xe-surface-success-muted: #14532d;
   --xe-surface-warning-muted: #78350f;
   --xe-surface-danger-muted: #7f1d1d;
+  --xe-surface-success: #16a34a;
+  --xe-surface-success-hover: #37b063;
+  --xe-surface-success-pressed: #138f41;
+  --xe-surface-warning: #ca8a04;
+  --xe-surface-warning-hover: #d19a27;
+  --xe-surface-warning-pressed: #b27904;
+  --xe-surface-danger: #dc2626;
+  --xe-surface-danger-hover: #e14444;
+  --xe-surface-danger-pressed: #c22121;
+  --xe-surface-glass-white: #ffffff33;
+  --xe-surface-glass-black: #0a0a0ab2;
+  --xe-surface-overlay-invert: #ffffff80;
 
+  /* strokes */
   --xe-stroke-base: #262626;
-  --xe-stroke-brand: #2563eb;
+  --xe-stroke-action: #385dff;
+
+  /* action (brand) */
+  --xe-action-bold: #002beb;
+  --xe-action: #385dff;
+  --xe-action-hover: #5474ff;
+  --xe-action-pressed: #3152e0;
+
+  /* utility (categorical) — dark variants */
+  --xe-utility-01: #06b6d4;
+  --xe-utility-01-muted: #083344;
+  --xe-utility-02: #8b5cf6;
+  --xe-utility-02-muted: #2e1065;
+  --xe-utility-03: #10b981;
+  --xe-utility-03-muted: #022c22;
+  --xe-utility-04: #d946ef;
+  --xe-utility-04-muted: #4a044e;
 }
+/* @generated:tokens-end */
 
 /* ---------------------------------------------------------------------------
    Map tokens into Tailwind v4. These generate utilities automatically:
      bg-surface, bg-surface-1, text-content, text-content-secondary,
-     border-stroke, bg-brand-blue, font-sans, font-serif, font-display, etc.
+     border-stroke, bg-action, font-sans, font-serif, font-display, etc.
    --------------------------------------------------------------------------- */
 @theme inline {
-  /* fonts (wired from next/font in layout.tsx)
-     --font-numeric (IBM Plex Sans) leads every stack: it only covers the digit
-     glyphs (U+0030–0039), so 0–9 render in IBM Plex and all other characters
-     fall through to Instrument Sans. */
-  --font-sans: var(--font-numeric), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-numeric), var(--font-serif), ui-serif, Georgia, serif;
-  /* Headings use Instrument Sans too (no separate display face). */
-  --font-display: var(--font-numeric), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  /* fonts. Roles map to faces via the editable --xe-font-* vars (globals :root,
+     wired to the per-face --font-* vars from next/font in layout.tsx). The numeric
+     role leads every stack and only covers digits (U+0030–0039), so 0–9 render in
+     IBM Plex Sans and everything else falls through to the role face. Default roles:
+       · body (--xe-font-body)   → Zalando Sans
+       · title (--xe-font-title) → Instrument Sans
+       · accent (--xe-font-accent) → Instrument Serif
+       · numeric (--xe-font-numeric) → IBM Plex Sans */
+  --font-sans: var(--xe-font-numeric), var(--xe-font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--xe-font-numeric), var(--xe-font-title), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--xe-font-numeric), var(--xe-font-accent), ui-serif, Georgia, serif;
+  --font-mono: var(--xe-font-numeric), ui-monospace, monospace;
 
   /* content colors */
   --color-content: var(--xe-content-base);
   --color-content-secondary: var(--xe-content-secondary);
   --color-content-tertiary: var(--xe-content-tertiary);
-  --color-content-reverse: var(--xe-content-reverse);
-  --color-content-white: var(--xe-content-white);
+  --color-content-reverse: var(--xe-content-base-reverse);
+  --color-content-white: var(--xe-content-stays-white);
+  --color-content-black: var(--xe-content-stays-black);
   --color-brand-logo: var(--xe-content-brand-logo);
+  --color-on-brand: var(--xe-content-on-brand);
+  --color-on-action: var(--xe-content-on-action);
   --color-info-on-muted: var(--xe-content-info-on-muted);
   --color-success-on-muted: var(--xe-content-success-on-muted);
   --color-warning-on-muted: var(--xe-content-warning-on-muted);
   --color-danger-on-muted: var(--xe-content-danger-on-muted);
+  --color-brand-default: var(--xe-content-brand-default);
+  --color-success: var(--xe-content-success-default);
+  --color-danger: var(--xe-content-danger-default);
+  --color-warning: var(--xe-content-warning-default);
+  --color-info: var(--xe-content-info-default);
 
   /* surface colors */
   --color-canvas: var(--xe-canvas);
   --color-surface: var(--xe-surface-base);
-  --color-surface-1: var(--xe-surface-1);
-  --color-surface-adaptive: var(--xe-surface-adaptive);
+  --color-surface-1: var(--xe-surface-level-01);
+  --color-surface-2: var(--xe-surface-level-02);
+  --color-surface-3: var(--xe-surface-level-03);
+  --color-surface-adaptive: var(--xe-surface-adaptive-gray);
+  --color-surface-action: var(--xe-surface-action);
   --color-info-muted: var(--xe-surface-info-muted);
   --color-success-muted: var(--xe-surface-success-muted);
   --color-warning-muted: var(--xe-surface-warning-muted);
   --color-danger-muted: var(--xe-surface-danger-muted);
+  --color-surface-success: var(--xe-surface-success);
+  --color-surface-success-hover: var(--xe-surface-success-hover);
+  --color-surface-success-pressed: var(--xe-surface-success-pressed);
+  --color-surface-warning: var(--xe-surface-warning);
+  --color-surface-warning-hover: var(--xe-surface-warning-hover);
+  --color-surface-warning-pressed: var(--xe-surface-warning-pressed);
+  --color-surface-danger: var(--xe-surface-danger);
+  --color-surface-danger-hover: var(--xe-surface-danger-hover);
+  --color-surface-danger-pressed: var(--xe-surface-danger-pressed);
+  --color-glass-white: var(--xe-surface-glass-white);
+  --color-glass-black: var(--xe-surface-glass-black);
+  --color-overlay-invert: var(--xe-surface-overlay-invert);
 
   /* stroke colors */
   --color-stroke: var(--xe-stroke-base);
-  --color-stroke-brand: var(--xe-stroke-brand);
+  --color-stroke-action: var(--xe-stroke-action);
 
-  /* brand / fixed */
-  --color-brand-blue: var(--xe-blue);
-  --color-brand-blue-bright: var(--xe-blue-bright);
-  --color-brand-orange: var(--xe-orange);
-  --color-fuchsia-50: var(--xe-fuchsia-50);
-  --color-fuchsia-600: var(--xe-fuchsia-600);
-  --color-fuchsia-950: var(--xe-fuchsia-950);
+  /* action (brand) */
+  --color-action-bold: var(--xe-action-bold);
+  --color-action: var(--xe-action);
+  --color-action-hover: var(--xe-action-hover);
+  --color-action-pressed: var(--xe-action-pressed);
 
-  /* radius (from Figma value/radius) */
-  --radius-xl: 12px;
-  --radius-card: 20px;
+  /* utility (categorical) */
+  --color-utility-01: var(--xe-utility-01);
+  --color-utility-01-muted: var(--xe-utility-01-muted);
+  --color-utility-02: var(--xe-utility-02);
+  --color-utility-02-muted: var(--xe-utility-02-muted);
+  --color-utility-03: var(--xe-utility-03);
+  --color-utility-03-muted: var(--xe-utility-03-muted);
+  --color-utility-04: var(--xe-utility-04);
+  --color-utility-04-muted: var(--xe-utility-04-muted);
 
-  /* type scale (from Figma typography/base sizes — px / line-height) */
-  --text-xs: 12px;
-  --text-xs--line-height: 16px;
-  --text-sm: 14px;
-  --text-sm--line-height: 20px;
-  --text-base: 16px;
-  --text-base--line-height: 24px;
-  --text-lg: 18px;
-  --text-lg--line-height: 28px;
-  --text-xl: 20px;
-  --text-xl--line-height: 28px;
-  --text-2xl: 24px;
-  --text-2xl--line-height: 32px;
-  --text-3xl: 30px;
-  --text-3xl--line-height: 34px;
-  --text-4xl: 36px;
-  --text-4xl--line-height: 36px;
+  /* radius — reference raw vars so the editor can change them at runtime */
+  --radius-button: var(--xe-radius-button);
+  --radius-xl: var(--xe-radius-xl);
+  --radius-card: var(--xe-radius-card);
+
+  /* font weights */
+  --font-weight-normal: var(--xe-weight-normal);
+  --font-weight-medium: var(--xe-weight-medium);
+  --font-weight-semibold: var(--xe-weight-semibold);
+
+  /* letter-spacing scale → tracking-* utilities (foundations) */
+  --tracking-tighter: var(--xe-tracking-tighter);
+  --tracking-tight: var(--xe-tracking-tight);
+  --tracking-normal: var(--xe-tracking-normal);
+  --tracking-wide: var(--xe-tracking-wide);
+  --tracking-wider: var(--xe-tracking-wider);
+  --tracking-widest: var(--xe-tracking-widest);
+
+  /* text styles → composite typeset utilities (text-h1.. / text-body..) that
+     bundle size + line-height + font-weight + letter-spacing in one class. The
+     size + line-height also feed the generic Tailwind sizes (text-xs..4xl) so
+     both stay in sync; weight + tracking live on the semantic typeset only. */
+  --text-h1: var(--xe-title-h1);
+  --text-h1--line-height: var(--xe-title-h1-lh);
+  --text-h1--font-weight: var(--xe-title-h1-weight);
+  --text-h1--letter-spacing: var(--xe-title-h1-tracking);
+  --text-4xl: var(--xe-title-h1);
+  --text-4xl--line-height: var(--xe-title-h1-lh);
+  --text-h2: var(--xe-title-h2);
+  --text-h2--line-height: var(--xe-title-h2-lh);
+  --text-h2--font-weight: var(--xe-title-h2-weight);
+  --text-h2--letter-spacing: var(--xe-title-h2-tracking);
+  --text-3xl: var(--xe-title-h2);
+  --text-3xl--line-height: var(--xe-title-h2-lh);
+  --text-h3: var(--xe-title-h3);
+  --text-h3--line-height: var(--xe-title-h3-lh);
+  --text-h3--font-weight: var(--xe-title-h3-weight);
+  --text-h3--letter-spacing: var(--xe-title-h3-tracking);
+  --text-2xl: var(--xe-title-h3);
+  --text-2xl--line-height: var(--xe-title-h3-lh);
+  --text-h4: var(--xe-title-h4);
+  --text-h4--line-height: var(--xe-title-h4-lh);
+  --text-h4--font-weight: var(--xe-title-h4-weight);
+  --text-h4--letter-spacing: var(--xe-title-h4-tracking);
+  --text-xl: var(--xe-title-h4);
+  --text-xl--line-height: var(--xe-title-h4-lh);
+  --text-body-lg: var(--xe-body-lg);
+  --text-body-lg--line-height: var(--xe-body-lg-lh);
+  --text-body-lg--font-weight: var(--xe-body-lg-weight);
+  --text-body-lg--letter-spacing: var(--xe-body-lg-tracking);
+  --text-lg: var(--xe-body-lg);
+  --text-lg--line-height: var(--xe-body-lg-lh);
+  --text-body: var(--xe-body);
+  --text-body--line-height: var(--xe-body-lh);
+  --text-body--font-weight: var(--xe-body-weight);
+  --text-body--letter-spacing: var(--xe-body-tracking);
+  --text-base: var(--xe-body);
+  --text-base--line-height: var(--xe-body-lh);
+  --text-body-sm: var(--xe-body-sm);
+  --text-body-sm--line-height: var(--xe-body-sm-lh);
+  --text-body-sm--font-weight: var(--xe-body-sm-weight);
+  --text-body-sm--letter-spacing: var(--xe-body-sm-tracking);
+  --text-sm: var(--xe-body-sm);
+  --text-sm--line-height: var(--xe-body-sm-lh);
+  --text-caption: var(--xe-caption);
+  --text-caption--line-height: var(--xe-caption-lh);
+  --text-caption--font-weight: var(--xe-caption-weight);
+  --text-caption--letter-spacing: var(--xe-caption-tracking);
+  --text-xs: var(--xe-caption);
+  --text-xs--line-height: var(--xe-caption-lh);
+
+  /* blur */
+  --blur-md: var(--xe-blur-md);
+  --blur-2xl: var(--xe-blur-2xl);
 }
 
 /* base */
 body {
   background: var(--xe-canvas);
   color: var(--xe-content-base);
-  /* --font-numeric (digits-only) first → numbers in IBM Plex, text in Instrument Sans. */
-  font-family: var(--font-numeric), var(--font-sans);
-  /* Instrument Sans always sits at -2% tracking (per brand spec). */
+  /* numeric role (digits-only) first → numbers in IBM Plex Sans, text in the body face. */
+  font-family: var(--xe-font-numeric), var(--xe-font-body);
+  /* Body sits at -2% tracking (per brand spec); titles (font-display) inherit it. */
   letter-spacing: -0.02em;
   /* smooth theme transition; disabled for reduced-motion below */
   transition: background-color 0.3s ease, color 0.3s ease;

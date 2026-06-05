@@ -26,7 +26,10 @@ export type IconName =
   | "bell"
   | "help"
   | "grid"
-  | "external";
+  | "external"
+  | "sliders"
+  | "layers"
+  | "shuffle";
 
 const PATHS: Record<IconName, React.ReactNode> = {
   send: <path d="M7 17 17 7M9 7h8v8" />,
@@ -147,6 +150,28 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M14 4h6v6M20 4l-9 9" />
       <path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+    </>
+  ),
+  sliders: (
+    <>
+      <path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h8M16 18h4" />
+      <circle cx="16" cy="6" r="2" />
+      <circle cx="8" cy="12" r="2" />
+      <circle cx="14" cy="18" r="2" />
+    </>
+  ),
+  layers: (
+    <>
+      <path d="M12 3 3 8l9 5 9-5-9-5Z" />
+      <path d="m3 13 9 5 9-5M3 18l9 5 9-5" />
+    </>
+  ),
+  shuffle: (
+    <>
+      <path d="M2 18h2.5c1.3 0 2.5-.7 3.2-1.8l4.6-7.4c.7-1.1 1.9-1.8 3.2-1.8H22" />
+      <path d="m18 2 4 4-4 4" />
+      <path d="M2 6h2.5c1.3 0 2.5.7 3.2 1.8l.8 1.3M14.5 14.9l1 1.3c.7 1.1 1.9 1.8 3.2 1.8H22" />
+      <path d="m18 14 4 4-4 4" />
     </>
   ),
 };

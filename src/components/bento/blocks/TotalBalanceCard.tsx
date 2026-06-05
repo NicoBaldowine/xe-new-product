@@ -1,6 +1,6 @@
 import { Card } from "@/components/primitives/Card";
 import { Button } from "@/components/primitives/Button";
-import { Figure } from "@/components/primitives/Figure";
+import { FlagStack } from "@/components/primitives/FlagStack";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { cn } from "@/lib/cn";
@@ -23,20 +23,14 @@ export function TotalBalanceCard({
 }: TotalBalanceCardProps = {}) {
   const left = align === "left";
 
-  const flags = (
-    <div className="flex">
-      {data.flags.map((f, i) => (
-        <Figure key={f} flag={f} ring className={i > 0 ? "-ml-2" : ""} />
-      ))}
-    </div>
-  );
+  const flags = <FlagStack flags={data.flags} size={40} />;
 
   const text = (
     <div className={cn("flex flex-col gap-2", left ? "items-start" : "items-center")}>
       <Eyebrow>{data.label}</Eyebrow>
       <RollingNumber
         value={amount}
-        className="font-sans text-3xl font-semibold tracking-[-0.04em] text-content"
+        className="font-sans text-h3 tracking-[-0.04em] text-content"
       />
     </div>
   );
@@ -45,7 +39,7 @@ export function TotalBalanceCard({
     <Card
       layoutId="total-balance"
       className={cn(
-        "flex flex-col gap-6",
+        "@container flex flex-col gap-6",
         left ? "items-start text-left" : "items-center text-center",
         className,
       )}
@@ -65,8 +59,8 @@ export function TotalBalanceCard({
         )}
       </div>
       {showActions && (
-        <div className="flex w-full gap-2">
-          <Button icon="plus" full>
+        <div className="flex w-full flex-col gap-2 @[280px]:flex-row">
+          <Button icon="plus" variant="outline" full>
             Create account
           </Button>
           <Button icon="send" variant="primary" full>

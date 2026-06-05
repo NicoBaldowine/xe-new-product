@@ -9,7 +9,7 @@ export function VerifyIdCard() {
       className="flex flex-1 flex-col items-center justify-center gap-5 text-center"
     >
       <IsoIllustration className="h-32 w-full" />
-      <p className="font-display text-lg font-semibold text-content">{data.title}</p>
+      <p className="font-display text-body-lg font-semibold text-content">{data.title}</p>
     </Card>
   );
 }

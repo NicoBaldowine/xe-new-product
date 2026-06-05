@@ -1,41 +1,37 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif, Zalando_Sans, Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { TokenProvider } from "@/components/tokens/TokenProvider";
 
-// Numerals — IBM Plex Sans (variable wght). Restricted to the digit glyphs
-// (U+0030–0039) via a `unicode-range` @font-face descriptor, so when this
-// family is placed FIRST in the font stack the browser only reaches for it on
-// 0–9 and falls through to Instrument Sans for everything else. This makes all
-// numbers render in IBM Plex Sans automatically, with no per-element markup.
-// `adjustFontFallback: false` is required: the generated Arial fallback face
-// carries no unicode-range and would otherwise swallow all text.
-const ibmPlexNumeric = localFont({
+// Each face exposes its own CSS variable so the token editor can re-assign a
+// font *role* (title / body / accent / numeric) to any of them at runtime.
+// The role → face wiring lives in globals.css (--xe-font-* → --font-<face>).
+
+// Numerals — IBM Plex Sans, restricted to the digit glyphs (U+0030–0039) via a
+// `unicode-range` @font-face descriptor: placed FIRST in every stack the browser
+// only reaches for it on 0–9 and falls through to the body face for the rest.
+// `adjustFontFallback: false` is required or the Arial fallback (no unicode-range)
+// would swallow all text.
+const ibmPlexSans = localFont({
   src: "./fonts/IBMPlexSans-Variable.woff2",
-  variable: "--font-numeric",
+  variable: "--font-ibm-plex-sans",
   display: "swap",
   weight: "100 700",
   adjustFontFallback: false,
   declarations: [{ prop: "unicode-range", value: "U+0030-0039" }],
 });
 
-// UI / body / headings — variable font (wght 400–700).
-// Per the XE brand spec, headings are also Instrument Sans, so this one face
-// drives both --font-sans and --font-display.
-const instrumentSans = Instrument_Sans({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// Editorial accent (e.g. the italic "Limits") — single weight, normal + italic
+const instrumentSans = Instrument_Sans({ variable: "--font-instrument-sans", subsets: ["latin"], display: "swap" });
+const zalandoSans = Zalando_Sans({ variable: "--font-zalando", subsets: ["latin"], display: "swap" });
 const instrumentSerif = Instrument_Serif({
-  variable: "--font-serif",
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
   weight: "400",
   style: ["normal", "italic"],
   display: "swap",
 });
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "XE — Brand Bento",
@@ -50,7 +46,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${instrumentSerif.variable} ${ibmPlexNumeric.variable} h-full antialiased`}
+      className={`${instrumentSans.variable} ${zalandoSans.variable} ${instrumentSerif.variable} ${ibmPlexSans.variable} ${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -61,7 +57,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-surface text-content">{children}</body>
+      <body className="min-h-full flex flex-col bg-surface text-content">
+        <TokenProvider>{children}</TokenProvider>
+      </body>
     </html>
   );
 }

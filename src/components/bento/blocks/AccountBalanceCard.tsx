@@ -39,7 +39,7 @@ export function AccountBalanceCard({
         <Eyebrow chevron>{label}</Eyebrow>
         <RollingNumber
           value={amount}
-          className="font-sans text-3xl font-semibold tracking-[-0.04em] text-content"
+          className="font-sans text-h3 tracking-[-0.04em] text-content"
         />
       </div>
     </Card>

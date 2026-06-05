@@ -1,16 +1,11 @@
 import { Card } from "@/components/primitives/Card";
-import { Figure } from "@/components/primitives/Figure";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { CurrencyRow } from "@/components/primitives/CurrencyRow";
+import { FlagStack } from "@/components/primitives/FlagStack";
 import { rateWatch as rows } from "@/lib/fixtures";
 
 function DualFlag({ from, to }: { from: string; to: string }) {
-  return (
-    <span className="flex shrink-0 items-center">
-      <Figure flag={from} size={24} ring />
-      <Figure flag={to} size={24} ring className="-ml-2" />
-    </span>
-  );
+  return <FlagStack flags={[from, to]} size={24} />;
 }
 
 export function RateWatchCard() {

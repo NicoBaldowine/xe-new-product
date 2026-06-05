@@ -17,7 +17,7 @@ function Selector({ code }: { code: string }) {
       className="flex flex-1 items-center gap-2 rounded-xl bg-surface-1 px-3 py-2"
     >
       <Figure flag={code} size={24} />
-      <span className="font-display text-sm font-medium text-content">{code}</span>
+      <span className="font-display text-body-sm font-medium text-content">{code}</span>
       <Icon name="chevronDown" size={16} className="ml-auto text-content-secondary" />
     </button>
   );
@@ -45,11 +45,11 @@ export function RateChartCard({ fillHeight = false }: { fillHeight?: boolean } =
         <div className="flex items-center gap-2.5">
           <RollingNumber
             value={series.rate}
-            className="font-sans text-3xl font-semibold tracking-[-0.04em] text-content"
+            className="font-sans text-h3 tracking-[-0.04em] text-content"
           />
           <span
             className={cn(
-              "flex items-center gap-1 font-display text-sm font-medium",
+              "flex items-center gap-1 font-display text-body-sm font-medium",
               series.positive ? "text-success-on-muted" : "text-danger-on-muted",
             )}
           >
@@ -81,9 +81,9 @@ export function RateChartCard({ fillHeight = false }: { fillHeight?: boolean } =
               aria-pressed={active}
               onClick={() => setRange(r)}
               className={cn(
-                "flex-1 rounded-lg py-1.5 text-center font-display text-xs font-medium transition-colors",
+                "flex-1 rounded-xl py-1.5 text-center font-display text-caption transition-colors",
                 active
-                  ? "bg-brand-blue-bright text-content-white"
+                  ? "bg-action text-content-white"
                   : "text-content-secondary hover:bg-surface-1 hover:text-content",
               )}
             >

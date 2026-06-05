@@ -7,17 +7,17 @@ export function TravelPromoCard() {
     <Card layoutId="travel-promo" flush className="relative overflow-hidden">
       <PhotoBlock className="absolute inset-0" />
       {/* scrim for legible white text over the photo */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#2540e8]/85 via-[#2540e8]/45 to-transparent" />
-      <div className="relative flex flex-col gap-3 p-6 text-white">
-        <h3 className="font-display text-2xl font-semibold leading-tight">
+      <div className="absolute inset-0 bg-gradient-to-br from-action-bold/85 via-action-bold/45 to-transparent" />
+      <div className="relative flex flex-col gap-3 p-6 text-content-white">
+        <h3 className="font-display text-h3 leading-tight">
           {data.title}
           <br />
-          <span className="font-serif text-3xl font-normal italic">{data.titleAccent}</span>
+          <span className="font-serif text-h2 font-normal italic">{data.titleAccent}</span>
         </h3>
-        <p className="whitespace-pre-line text-sm text-white/85">{data.body}</p>
+        <p className="whitespace-pre-line text-body-sm text-content-white">{data.body}</p>
         <button
           type="button"
-          className="mt-1 w-fit rounded-xl bg-white/20 px-4 py-2 font-display text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/30"
+          className="mt-1 w-fit rounded-button bg-glass-white px-4 py-2 font-display text-body-sm font-medium text-content-white backdrop-blur-md transition-[filter] hover:brightness-110"
         >
           {data.cta}
         </button>
