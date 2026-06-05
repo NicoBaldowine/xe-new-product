@@ -188,7 +188,7 @@ export const TOKENS: TokenDef[] = [
   { name: "font-title", cssVar: "--xe-font-title", category: "fontFamily", type: "fontFamily", light: "var(--font-instrument-sans)", description: "Titles / headings (h1–h4). Default Instrument Sans.", themeKeys: ["--font-display"] },
   { name: "font-body", cssVar: "--xe-font-body", category: "fontFamily", type: "fontFamily", light: "var(--font-zalando)", description: "Body / UI text. Default Zalando Sans.", themeKeys: ["--font-sans"] },
   { name: "font-accent", cssVar: "--xe-font-accent", category: "fontFamily", type: "fontFamily", light: "var(--font-instrument-serif)", description: "Editorial accent (italic, e.g. “Limits”). Default Instrument Serif.", themeKeys: ["--font-serif"] },
-  { name: "font-numeric", cssVar: "--xe-font-numeric", category: "fontFamily", type: "fontFamily", light: "var(--font-ibm-plex-mono)", description: "Numerals (balances / rates). Default IBM Plex Mono (digits-only).", themeKeys: ["--font-mono"] },
+  { name: "font-numeric", cssVar: "--xe-font-numeric", category: "fontFamily", type: "fontFamily", light: "var(--font-ibm-plex-sans)", description: "Numerals (balances / rates). Default IBM Plex Sans (digits-only).", themeKeys: ["--font-mono"] },
 ];
 
 /** Selectable font faces for the family editor (label → CSS value). */
@@ -196,7 +196,7 @@ export const FONT_OPTIONS: { label: string; value: string }[] = [
   { label: "Instrument Sans", value: "var(--font-instrument-sans)" },
   { label: "Zalando Sans", value: "var(--font-zalando)" },
   { label: "Instrument Serif", value: "var(--font-instrument-serif)" },
-  { label: "IBM Plex Mono", value: "var(--font-ibm-plex-mono)" },
+  { label: "IBM Plex Sans", value: "var(--font-ibm-plex-sans)" },
   { label: "Inter", value: "var(--font-inter)" },
   { label: "System", value: "ui-sans-serif, system-ui, sans-serif" },
 ];
