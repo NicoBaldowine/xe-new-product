@@ -274,7 +274,7 @@ function BalanceHero({ variant, flags, flag, showOverflow, label, amount, action
             <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-canvas" />
           </>
         )}
-        <div className="relative z-10 flex flex-col gap-6 px-5 pb-2 pt-11">
+        <div className="relative z-10 flex flex-col gap-6 px-5 pb-2 pt-[72px]">
           <div className="flex items-center justify-between">
             <TopIcon kind="bell" />
             <TopIcon kind="profile" />
