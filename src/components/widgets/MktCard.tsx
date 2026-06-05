@@ -62,8 +62,10 @@ export function MktCard({
   const text = (
     <div
       className={cn(
-        "flex min-w-0 flex-col justify-center",
-        large ? "w-full" : "h-[88px] flex-1",
+        // Align to the top of the image (not vertically centered) so wrapped
+        // copy reads naturally at narrow widths.
+        "flex min-w-0 flex-col justify-start",
+        large ? "w-full" : "flex-1",
       )}
     >
       <h3 className="font-display text-body font-semibold text-content">{title}</h3>

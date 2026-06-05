@@ -8,7 +8,7 @@ import { Icon, type IconName } from "@/components/primitives/Icon";
 import { RollingNumber } from "@/components/primitives/RollingNumber";
 import { useWidgetContainer } from "@/components/primitives/WidgetShell";
 import { FlagStack } from "@/components/primitives/FlagStack";
-import { flagSrc, heroCardSrc, heroEsimSrc } from "@/lib/assets";
+import { flagSrc, heroIllustration } from "@/lib/assets";
 import { cn } from "@/lib/cn";
 
 /**
@@ -19,7 +19,14 @@ import { cn } from "@/lib/cn";
  * a large blurred flag behind a fade-to-surface gradient (Figma node 8571:21496).
  * Pure content — surface comes from <WidgetShell>; no <Card>/layoutId here.
  */
-export type HeroVariant = "balance" | "all-accounts" | "card" | "esim";
+export type HeroVariant =
+  | "balance"
+  | "all-accounts"
+  | "rate"
+  | "card"
+  | "esim"
+  | "send"
+  | "send-quick";
 
 type QuickAction = { icon: IconName; label: string; primary?: boolean };
 
@@ -58,6 +65,12 @@ const DEFAULTS = {
       { icon: "convert", label: "Exchange" },
     ] as QuickAction[],
   },
+  rate: {
+    emblem: "chart" as IconName,
+    title: "Never miss a good rate",
+    subtitle: "Track 200+ currencies and get alerted the moment yours moves.",
+    cta: "Check rates",
+  },
   card: {
     emblem: "card" as IconName,
     title: "Spend like a local, anywhere",
@@ -70,7 +83,24 @@ const DEFAULTS = {
     subtitle: "Mobile data in 190+ countries, no roaming fees, no SIM swap.",
     cta: "Get eSIM",
   },
+  send: {
+    emblem: "send" as IconName,
+    title: "Send money, keep more of it",
+    subtitle: "Reach 200+ countries at the real rate, with no hidden fees.",
+    cta: "Send money",
+    ctaIcon: "send" as IconName,
+  },
+  "send-quick": {
+    emblem: "send" as IconName,
+    title: "Send some money?",
+    subtitle: "It's quick, just pick who and how much.",
+    cta: "Send money",
+    ctaIcon: "send" as IconName,
+  },
 } as const;
+
+/** Promo variants render the emblem/illustration + title + subtitle + one CTA. */
+const PROMO_VARIANTS: HeroVariant[] = ["rate", "card", "esim", "send", "send-quick"];
 
 export type HeroProps = {
   variant?: HeroVariant;
@@ -87,7 +117,7 @@ export type HeroProps = {
 };
 
 export function Hero({ variant = "balance", className, ...overrides }: HeroProps) {
-  const isPromo = variant === "card" || variant === "esim";
+  const isPromo = PROMO_VARIANTS.includes(variant);
   return isPromo ? (
     <PromoHero variant={variant} className={className} {...overrides} />
   ) : (
@@ -186,23 +216,26 @@ function BalanceHero({ variant, flags, showOverflow, label, amount, actions, cla
 
 function PromoHero({ variant, emblem, title, subtitle, cta, className }: HeroProps) {
   const container = useWidgetContainer();
-  const d = DEFAULTS[variant === "esim" ? "esim" : "card"];
+  const d = DEFAULTS[(variant ?? "card") as keyof typeof DEFAULTS] as {
+    emblem: IconName;
+    title: string;
+    subtitle: string;
+    cta: string;
+    ctaIcon?: IconName;
+  };
 
-  // Real exported Figma illustrations; others fall back to an icon emblem.
-  const ILLUSTRATIONS: Partial<Record<HeroVariant, string>> = { card: heroCardSrc, esim: heroEsimSrc };
-  const illustration = variant ? ILLUSTRATIONS[variant] : undefined;
+  // Transparent Figma SVG illustration per promo variant; falls back to an icon.
+  const illustration = variant ? heroIllustration[variant] : undefined;
 
   return (
     <div className={cn("flex flex-col items-center gap-8 px-2 py-4 text-center", className)}>
       <div className="flex flex-col items-center gap-4">
         {illustration ? (
-          <div
+          <img
+            src={illustration}
+            alt=""
             aria-hidden
-            style={{ backgroundImage: `url(${illustration})` }}
-            className={cn(
-              "bg-contain bg-center bg-no-repeat",
-              container === "mobile" ? "h-24 w-28" : "h-32 w-36",
-            )}
+            className={cn("w-auto object-contain", container === "mobile" ? "h-24" : "h-28")}
           />
         ) : (
           <Figure size={container === "mobile" ? 96 : 120} className="bg-surface-1">
@@ -214,7 +247,7 @@ function PromoHero({ variant, emblem, title, subtitle, cta, className }: HeroPro
           <p className="text-body-sm text-content-secondary">{subtitle ?? d.subtitle}</p>
         </div>
       </div>
-      <Button variant="primary">{cta ?? d.cta}</Button>
+      <Button variant="primary" icon={d.ctaIcon}>{cta ?? d.cta}</Button>
     </div>
   );
 }

@@ -39,7 +39,7 @@ export function TotalBalanceCard({
     <Card
       layoutId="total-balance"
       className={cn(
-        "flex flex-col gap-6",
+        "@container flex flex-col gap-6",
         left ? "items-start text-left" : "items-center text-center",
         className,
       )}
@@ -59,7 +59,7 @@ export function TotalBalanceCard({
         )}
       </div>
       {showActions && (
-        <div className="flex w-full gap-2">
+        <div className="flex w-full flex-col gap-2 @[280px]:flex-row">
           <Button icon="plus" variant="outline" full>
             Create account
           </Button>

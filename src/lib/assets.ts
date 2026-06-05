@@ -80,9 +80,14 @@ export function flagEmoji(code: string): string {
 /** Larger illustrations / media. */
 export const illustrationSrc = "/assets/Illustration.png";
 export const bannerSrc = "/assets/Banner.png";
-/** Hero promo illustrations (exported from Figma). */
-export const heroCardSrc = "/assets/hero-card.png";
-export const heroEsimSrc = "/assets/hero-esim.png";
+/** Hero promo illustrations (exported from Figma as transparent SVGs). */
+export const heroIllustration: Record<string, string> = {
+  rate: "/assets/hero/rate.svg",
+  card: "/assets/hero/card.svg",
+  esim: "/assets/hero/esim.svg",
+  send: "/assets/hero/send-money.svg",
+  "send-quick": "/assets/hero/default.svg",
+};
 // XE wordmark — theme-specific. light = blue logo (light bg), dark = white logo (dark bg).
 export const logoLightSrc = "/assets/xelogo_light.svg";
 export const logoDarkSrc = "/assets/xelogo_dark.svg";

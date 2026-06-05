@@ -43,7 +43,7 @@ export const WIDGETS: WidgetEntry[] = [
     bentoCols: [1, 2],
     containers: ["mobile", "desktop"],
     controls: [
-      { kind: "select", prop: "variant", label: "Variant", options: ["balance", "all-accounts", "card", "esim"], default: "balance" },
+      { kind: "select", prop: "variant", label: "Variant", options: ["balance", "all-accounts", "rate", "card", "esim", "send", "send-quick"], default: "balance" },
       { kind: "text", prop: "label", label: "Label", default: "USD Account" },
       { kind: "amount", prop: "amount", label: "Amount", default: "$380.00" },
       { kind: "toggle", prop: "showOverflow", label: "Overflow tile", default: false },
@@ -51,8 +51,11 @@ export const WIDGETS: WidgetEntry[] = [
     presets: [
       { label: "Balance (USD)", props: { variant: "balance", label: "USD Account", amount: "$380.00" } },
       { label: "All accounts", props: { variant: "all-accounts", label: "All accounts", amount: "$500.00", showOverflow: true } },
+      { label: "Rate promo", props: { variant: "rate" } },
       { label: "Card promo", props: { variant: "card" } },
       { label: "eSIM promo", props: { variant: "esim" } },
+      { label: "Send promo", props: { variant: "send" } },
+      { label: "Quick send", props: { variant: "send-quick" } },
     ],
     render: (p) => <Hero {...p} />,
   },
