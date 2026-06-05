@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
-import { Figure } from "@/components/primitives/Figure";
+import { FlagStack } from "@/components/primitives/FlagStack";
 import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { CurrencyRow } from "@/components/primitives/CurrencyRow";
 import { spring } from "@/lib/motion";
@@ -61,14 +61,10 @@ const VARIANT_ITEMS: Record<ConvertVariant, RateWatchItem[]> = {
   "First Time - Only Convert": ONLY_CONVERT_ITEMS,
 };
 
-/** Stacked flag emblem — a single flag, or an overlapping pair for FX rows. */
+/** Stacked flag emblem — a single flag, or an overlapping pair (with the mask
+ *  cutout, via FlagStack) for FX rows. */
 function PairEmblem({ base, quote }: { base: string; quote?: string }) {
-  return (
-    <div className="flex items-center">
-      <Figure flag={base} size={24} ring className={quote ? "-mr-2" : ""} />
-      {quote && <Figure flag={quote} size={24} ring />}
-    </div>
-  );
+  return <FlagStack flags={quote ? [base, quote] : [base]} size={24} />;
 }
 
 /**
