@@ -29,9 +29,15 @@ function tsValue(t: TokenDef, value: string): string {
 export function toTokensStudio({ tokens, resolved }: ExportInput): string {
   const light: Record<string, Record<string, unknown>> = {};
   const dark: Record<string, Record<string, unknown>> = {};
+  // textStyle sub-tokens collapse into one composite `typography` token per typeset.
+  const typesets: Record<string, Record<string, string>> = {};
   for (const t of tokens) {
-    const group = CATEGORY_LABEL[t.category];
     const r = resolved[t.name] ?? { light: t.light, dark: t.dark };
+    if (t.category === "textStyle" && t.typeset && t.prop) {
+      (typesets[t.typeset] ??= {})[t.prop] = tsValue(t, r.light);
+      continue;
+    }
+    const group = CATEGORY_LABEL[t.category];
     const type = tsType(t);
     (light[group] ??= {});
     light[group][t.name] = { value: tsValue(t, r.light), type };
@@ -39,6 +45,19 @@ export function toTokensStudio({ tokens, resolved }: ExportInput): string {
       (dark[group] ??= {});
       dark[group][t.name] = { value: tsValue(t, r.dark), type };
     }
+  }
+  const tsGroup = CATEGORY_LABEL.textStyle;
+  for (const [name, v] of Object.entries(typesets)) {
+    (light[tsGroup] ??= {});
+    light[tsGroup][name] = {
+      type: "typography",
+      value: {
+        fontSize: v.fontSize,
+        lineHeight: v.lineHeight,
+        fontWeight: v.fontWeight,
+        letterSpacing: v.letterSpacing,
+      },
+    };
   }
   return JSON.stringify(
     {
