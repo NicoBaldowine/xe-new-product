@@ -1,17 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 export type MasonryItem = { key: string; span?: number; node: ReactNode };
 
-type Placement = { x: number; y: number; w: number };
-
 /**
- * A real masonry that supports multi-column items. Cards pack into N columns
- * (N derived from `minColWidth`); each item drops into the position that keeps
- * the columns most balanced, so there are no gaps — and "large" items can span
- * 2+ columns. Transform-based positioning, so it composes with the entrance
- * animation (transforms don't affect the measured layout height).
+ * Masonry via the CSS-grid row-span technique: the grid uses 1px auto-rows, and
+ * each item's `grid-row-end` is set to its measured height (+ gap) so columns
+ * pack tightly with no gaps. `grid-auto-flow: dense` backfills around items that
+ * span 2 columns. Auto-fill columns keep it fluid; supports any content.
  */
 export function Masonry({
   items,
@@ -22,74 +19,51 @@ export function Masonry({
   minColWidth?: number;
   gap?: number;
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map());
-  const [placements, setPlacements] = useState<Record<string, Placement>>({});
-  const [height, setHeight] = useState(0);
-
-  const measure = useCallback(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const width = el.clientWidth;
-    if (width === 0) return;
-    const cols = Math.max(1, Math.min(items.length, Math.floor((width + gap) / (minColWidth + gap))));
-    const colW = (width - gap * (cols - 1)) / cols;
-    const heights = new Array(cols).fill(0);
-    const pos: Record<string, Placement> = {};
-
-    for (const it of items) {
-      const span = Math.max(1, Math.min(it.span ?? 1, cols));
-      const node = itemRefs.current.get(it.key);
-      const h = node ? node.offsetHeight : 0;
-      // Pick the window of `span` adjacent columns whose tallest column is lowest.
-      let best = 0;
-      let bestTop = Infinity;
-      for (let c = 0; c + span <= cols; c++) {
-        const top = Math.max(...heights.slice(c, c + span));
-        if (top < bestTop - 0.5) {
-          bestTop = top;
-          best = c;
-        }
-      }
-      pos[it.key] = { x: best * (colW + gap), y: bestTop, w: span * colW + (span - 1) * gap };
-      const next = bestTop + h + gap;
-      for (let c = best; c < best + span; c++) heights[c] = next;
-    }
-
-    setPlacements(pos);
-    setHeight(Math.max(0, Math.max(...heights) - gap));
-  }, [items, minColWidth, gap]);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    measure();
-    const ro = new ResizeObserver(() => measure());
-    if (containerRef.current) ro.observe(containerRef.current);
-    itemRefs.current.forEach((n) => ro.observe(n));
+    const grid = ref.current;
+    if (!grid) return;
+
+    const layout = () => {
+      for (const wrapper of Array.from(grid.children) as HTMLElement[]) {
+        const content = wrapper.firstElementChild as HTMLElement | null;
+        if (!content) continue;
+        // offsetHeight ignores transforms, so the entrance scale/translate
+        // animation doesn't skew the measurement.
+        const h = content.offsetHeight;
+        // 1px rows → span ≈ height; + gap rows leave the vertical gap below.
+        wrapper.style.gridRowEnd = `span ${Math.max(1, h + gap)}`;
+      }
+    };
+
+    layout();
+    const ro = new ResizeObserver(layout);
+    ro.observe(grid);
+    for (const wrapper of Array.from(grid.children)) {
+      const content = wrapper.firstElementChild;
+      if (content) ro.observe(content);
+    }
     return () => ro.disconnect();
-  }, [measure]);
+  }, [items, gap]);
 
   return (
-    <div ref={containerRef} className="relative w-full" style={{ height: height || undefined }}>
-      {items.map((it) => {
-        const p = placements[it.key];
-        return (
-          <div
-            key={it.key}
-            ref={(n) => {
-              if (n) itemRefs.current.set(it.key, n);
-              else itemRefs.current.delete(it.key);
-            }}
-            className="absolute left-0 top-0"
-            style={
-              p
-                ? { transform: `translate(${p.x}px, ${p.y}px)`, width: p.w }
-                : { position: "relative", width: "100%" }
-            }
-          >
-            {it.node}
-          </div>
-        );
-      })}
+    <div
+      ref={ref}
+      style={{
+        display: "grid",
+        gridTemplateColumns: `repeat(auto-fill, minmax(${minColWidth}px, 1fr))`,
+        gridAutoRows: "1px",
+        gridAutoFlow: "row dense",
+        columnGap: `${gap}px`,
+        rowGap: 0,
+      }}
+    >
+      {items.map((it) => (
+        <div key={it.key} style={{ gridColumnEnd: `span ${Math.max(1, it.span ?? 1)}` }}>
+          {it.node}
+        </div>
+      ))}
     </div>
   );
 }

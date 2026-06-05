@@ -74,6 +74,19 @@ export function PlaygroundView({
     }
   }
 
+  const [copiedBento, setCopiedBento] = useState(false);
+  function exportBentoConfig() {
+    const config = WIDGETS.map((w) => ({
+      id: w.id,
+      inBento: isInBento(w.id),
+      ...(w.bentoSpan ? { bentoSpan: w.bentoSpan } : {}),
+    }));
+    const text = JSON.stringify(config, null, 2);
+    navigator.clipboard?.writeText(text).catch(() => {});
+    setCopiedBento(true);
+    setTimeout(() => setCopiedBento(false), 1200);
+  }
+
   const setProp = (prop: string, value: unknown) => setProps((p) => ({ ...p, [prop]: value }));
   const showMobile = (container === "mobile" || container === "both") && entry.containers.includes("mobile");
   const showDesktop = (container === "desktop" || container === "both") && entry.containers.includes("desktop");
@@ -134,6 +147,16 @@ export function PlaygroundView({
             );
           })}
         </div>
+
+        <button
+          type="button"
+          onClick={exportBentoConfig}
+          title="Copy the bento selection as JSON to paste into the registry defaults"
+          className="mt-1 flex items-center justify-center gap-1.5 rounded-lg border border-stroke bg-surface px-2 py-1.5 text-xs font-medium text-content hover:bg-surface-1"
+        >
+          <Icon name="external" size={13} />
+          {copiedBento ? "Copied!" : "Export bento config"}
+        </button>
       </aside>
 
       {/* Center — stage */}

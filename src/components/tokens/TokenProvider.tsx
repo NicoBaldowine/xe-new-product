@@ -39,6 +39,8 @@ interface TokenContextValue {
   resetToken: (name: string) => void;
   /** Reset everything. */
   resetAll: () => void;
+  /** Merge an imported set of edits over the current ones. */
+  applyEdits: (partial: Edits) => void;
   /** Full resolved snapshot for the exporters. */
   snapshot: () => ResolvedTokens;
   /** Saved named+dated snapshots (sources of truth). */
@@ -124,6 +126,11 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
 
   const resetAll = useCallback(() => setEdits({}), []);
 
+  const applyEdits = useCallback(
+    (partial: Edits) => setEdits((prev) => ({ ...prev, ...partial })),
+    [],
+  );
+
   const snapshot = useCallback(() => buildResolved(edits), [edits]);
 
   const persistVersions = useCallback((next: TokenVersion[]) => {
@@ -170,13 +177,14 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
       setValue,
       resetToken,
       resetAll,
+      applyEdits,
       snapshot,
       versions,
       saveVersion,
       applyVersion,
       deleteVersion,
     }),
-    [edits, editingTheme, getValue, setValue, resetToken, resetAll, snapshot, versions, saveVersion, applyVersion, deleteVersion],
+    [edits, editingTheme, getValue, setValue, resetToken, resetAll, applyEdits, snapshot, versions, saveVersion, applyVersion, deleteVersion],
   );
 
   return <TokenContext.Provider value={value}>{children}</TokenContext.Provider>;

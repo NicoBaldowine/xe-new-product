@@ -6,6 +6,7 @@ import { TOKENS, TOKEN_GROUPS, CATEGORY_LABEL } from "@/lib/tokens/registry";
 import { useTokens } from "./TokenProvider";
 import { TokenRow, type EditMode } from "./TokenRow";
 import { ExportDialog } from "./ExportDialog";
+import { ImportDialog } from "./ImportDialog";
 import { Icon } from "@/components/primitives/Icon";
 import { cn } from "@/lib/cn";
 
@@ -14,6 +15,7 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
   const { isDirty, resetAll } = useTokens();
   const [mode, setMode] = useState<EditMode>("both");
   const [showExport, setShowExport] = useState(false);
+  const [showImport, setShowImport] = useState(false);
   // Only one token's usage popover open at a time.
   const [openToken, setOpenToken] = useState<string | null>(null);
 
@@ -58,6 +60,14 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
                 className="flex items-center gap-1.5 rounded-lg bg-brand-blue-bright px-2.5 py-1.5 text-xs font-medium text-content-white"
               >
                 <Icon name="external" size={14} /> Export
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowImport(true)}
+                title="Import tokens from DTCG JSON or CSS variables"
+                className="flex items-center gap-1.5 rounded-lg bg-surface-1 px-2.5 py-1.5 text-xs font-medium text-content hover:bg-surface-adaptive"
+              >
+                <Icon name="deposit" size={14} /> Import
               </button>
               <button
                 type="button"
@@ -113,6 +123,7 @@ export function TokenEditorPanel({ open, onClose }: { open: boolean; onClose: ()
       </AnimatePresence>
 
       {showExport && <ExportDialog onClose={() => setShowExport(false)} />}
+      {showImport && <ImportDialog onClose={() => setShowImport(false)} />}
     </>
   );
 }
