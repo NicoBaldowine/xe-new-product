@@ -115,9 +115,10 @@ export function TokenRow({
   /** Name on its own line + full-width field below — for narrow panels. */
   stacked?: boolean;
 }) {
-  const { resetToken, edits } = useTokens();
+  const { resetToken, edits, getValue } = useTokens();
   const edited = token.name in edits;
   const invariant = token.dark == null;
+  const aliased = Boolean(token.ref);
   const showBoth = mode === "both" && !invariant;
 
   const nameRow = (
@@ -134,11 +135,18 @@ export function TokenRow({
         <Icon name="help" size={11} />
       </button>
       {token.pairWith && !showBoth && <ContrastChip token={token} theme={invariant ? "light" : (mode as Theme)} />}
-      {invariant && (
+      {aliased ? (
+        <span
+          className="rounded bg-surface-1 px-1 font-mono text-[10px] text-content-tertiary"
+          title={`Aliased to ${token.ref} — edit that foundation to change every token that references it.`}
+        >
+          → {token.ref}
+        </span>
+      ) : invariant ? (
         <span className="rounded bg-surface-1 px-1 text-[10px] text-content-tertiary" title="Theme-invariant — same in light and dark.">
           fixed
         </span>
-      )}
+      ) : null}
       {edited && (
         <button
           type="button"
@@ -153,7 +161,18 @@ export function TokenRow({
     </div>
   );
 
-  const fieldArea = showBoth ? (
+  const fieldArea = aliased ? (
+    // Read-only: the value lives on the referenced foundation; show it resolved
+    // and point the user there to edit (keeps the two-tier integrity).
+    <div className={stacked ? "w-full" : "w-44 shrink-0"}>
+      <div
+        className="flex h-8 items-center rounded-md border border-dashed border-stroke bg-surface-1 px-2 font-mono text-xs text-content-secondary"
+        title={`Resolved from ${token.ref}`}
+      >
+        {getValue(token.name, "light")}
+      </div>
+    </div>
+  ) : showBoth ? (
     <div className={cn("flex gap-2", stacked ? "w-full" : "w-[232px] shrink-0")}>
       <div className={stacked ? "flex-1" : "w-[112px]"} title="Light">
         <Field token={token} theme="light" />

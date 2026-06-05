@@ -81,5 +81,11 @@ export function scanTokenUsage(root: HTMLElement | null): string[] {
       out.add(name);
     }
   }
+  // Pull in the foundations those tokens alias, so the editable primitive rows
+  // (size-* / leading-* / tracking-* / weight-*) show up next to the typesets.
+  for (const name of [...out]) {
+    const ref = TOKEN_BY_NAME[name]?.ref;
+    if (ref) out.add(ref);
+  }
   return TOKENS.filter((t) => out.has(t.name)).map((t) => t.name);
 }
