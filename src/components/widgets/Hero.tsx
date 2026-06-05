@@ -190,9 +190,20 @@ function PillButton({ icon, label }: QuickAction) {
   );
 }
 
+/**
+ * Default hero gradient (Figma node 8491:11740): a brand-blue-bright scrim at
+ * the top fading to transparent. Used by `all-accounts`, which has no single
+ * currency to theme on — over `surface`/`canvas` it reads blue-on-white in light
+ * and deep-blue in dark (brand-blue-bright is theme-invariant, the base flips).
+ */
+const DEFAULT_GRADIENT =
+  "linear-gradient(180deg, color-mix(in srgb, var(--color-brand-blue-bright) 30%, transparent) 0%, transparent 100%)";
+
 function BalanceHero({ variant, flags, flag, showOverflow, label, amount, actions, className }: HeroProps) {
   const container = useWidgetContainer();
   const isDesktop = container === "desktop";
+  // All-accounts is the aggregate view → default blue gradient, not a flag blur.
+  const isAllAccounts = variant === "all-accounts";
   const d = DEFAULTS[variant === "all-accounts" ? "all-accounts" : "balance"];
   // A single-flag override (the Playground picker) wins, so you can swap the flag
   // and see its blurred backdrop; otherwise use the multi-flag set.
@@ -242,14 +253,20 @@ function BalanceHero({ variant, flags, flag, showOverflow, label, amount, action
   if (container === "mobile") {
     return (
       <div className={cn("relative isolate overflow-hidden", className)}>
-        {bgFlag && (
-          <div
-            aria-hidden
-            style={{ backgroundImage: `url(${bgFlag})` }}
-            className="pointer-events-none absolute left-1/2 top-0 size-[340px] -translate-x-1/2 -translate-y-1/3 bg-contain bg-center bg-no-repeat opacity-25 blur-2xl"
-          />
+        {isAllAccounts ? (
+          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: DEFAULT_GRADIENT }} />
+        ) : (
+          <>
+            {bgFlag && (
+              <div
+                aria-hidden
+                style={{ backgroundImage: `url(${bgFlag})` }}
+                className="pointer-events-none absolute left-1/2 top-0 size-[340px] -translate-x-1/2 -translate-y-1/3 bg-contain bg-center bg-no-repeat opacity-25 blur-2xl"
+              />
+            )}
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-canvas" />
+          </>
         )}
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-canvas" />
         <div className="relative z-10 flex flex-col gap-6 px-5 pb-2 pt-11">
           <div className="flex items-center justify-between">
             <TopIcon kind="bell" />
@@ -266,14 +283,20 @@ function BalanceHero({ variant, flags, flag, showOverflow, label, amount, action
   if (isDesktop) {
     return (
       <div className={cn("relative -m-6 flex min-h-[224px] flex-col justify-between overflow-hidden rounded-card p-6", className)}>
-        {bgFlag && (
-          <div
-            aria-hidden
-            style={{ backgroundImage: `url(${bgFlag})` }}
-            className="pointer-events-none absolute left-1/2 top-1/2 size-[392px] -translate-x-1/2 -translate-y-1/2 bg-contain bg-center bg-no-repeat opacity-20 blur-2xl"
-          />
+        {isAllAccounts ? (
+          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: DEFAULT_GRADIENT }} />
+        ) : (
+          <>
+            {bgFlag && (
+              <div
+                aria-hidden
+                style={{ backgroundImage: `url(${bgFlag})` }}
+                className="pointer-events-none absolute left-1/2 top-1/2 size-[392px] -translate-x-1/2 -translate-y-1/2 bg-contain bg-center bg-no-repeat opacity-20 blur-2xl"
+              />
+            )}
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-surface" />
+          </>
         )}
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-surface" />
         {content}
       </div>
     );
