@@ -14,8 +14,23 @@ import {
 } from "@/lib/playground/registry";
 import { defaultProps, type WidgetEntry, type WidgetSource } from "@/lib/playground/types";
 import { FULL_SPAN, bentoColsFor, type BentoInstance } from "@/lib/playground/bentoConfig";
-import { TOKEN_BY_NAME } from "@/lib/tokens/registry";
+import { TOKEN_BY_NAME, CATEGORY_LABEL } from "@/lib/tokens/registry";
+import type { TokenCategory } from "@/lib/tokens/types";
 import { scanTokenUsage } from "@/lib/tokens/usage";
+
+/** Order the Tokens panel groups by concern: colours → typography → shape/effects. */
+const TOKEN_GROUP_ORDER: TokenCategory[] = [
+  "content",
+  "surface",
+  "stroke",
+  "brand",
+  "utility",
+  "fontFamily",
+  "textStyle",
+  "fontWeight",
+  "radius",
+  "blur",
+];
 import { TokenRow } from "@/components/tokens/TokenRow";
 import { ControlsPanel } from "./playground/ControlsPanel";
 
@@ -469,21 +484,31 @@ export function PlaygroundView({
                 No tokenised styles detected for this widget.
               </p>
             ) : (
-              <div className="divide-y divide-stroke">
-                {usedTokens.map((name) => {
-                  const tok = TOKEN_BY_NAME[name];
-                  return tok ? (
-                    <TokenRow
-                      key={name}
-                      token={tok}
-                      mode={previewTheme}
-                      stacked
-                      open={openToken === name}
-                      onToggle={() => setOpenToken((c) => (c === name ? null : name))}
-                    />
-                  ) : null;
-                })}
-              </div>
+              TOKEN_GROUP_ORDER.map((cat) => {
+                const toks = usedTokens
+                  .map((n) => TOKEN_BY_NAME[n])
+                  .filter((t) => t && t.category === cat);
+                if (!toks.length) return null;
+                return (
+                  <section key={cat}>
+                    <h4 className="mb-0.5 mt-1 font-display text-[10px] font-semibold uppercase tracking-wide text-content-tertiary">
+                      {CATEGORY_LABEL[cat]}
+                    </h4>
+                    <div className="divide-y divide-stroke">
+                      {toks.map((tok) => (
+                        <TokenRow
+                          key={tok.name}
+                          token={tok}
+                          mode={previewTheme}
+                          stacked
+                          open={openToken === tok.name}
+                          onToggle={() => setOpenToken((c) => (c === tok.name ? null : tok.name))}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                );
+              })
             )}
           </div>
         )}
