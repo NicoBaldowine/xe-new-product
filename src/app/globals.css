@@ -71,23 +71,39 @@
   --xe-radius-xl: 12px;
   --xe-radius-card: 20px;
 
-  /* text styles (size + line-height) — the single typographic scale */
+  /* text styles → composite typesets (size + line-height + weight + tracking) */
   --xe-title-h1: 36px;
   --xe-title-h1-lh: 36px;
+  --xe-title-h1-weight: 600;
+  --xe-title-h1-tracking: -0.02em;
   --xe-title-h2: 30px;
   --xe-title-h2-lh: 34px;
+  --xe-title-h2-weight: 600;
+  --xe-title-h2-tracking: -0.02em;
   --xe-title-h3: 24px;
   --xe-title-h3-lh: 32px;
+  --xe-title-h3-weight: 600;
+  --xe-title-h3-tracking: -0.02em;
   --xe-title-h4: 20px;
   --xe-title-h4-lh: 28px;
+  --xe-title-h4-weight: 600;
+  --xe-title-h4-tracking: -0.02em;
   --xe-body-lg: 18px;
   --xe-body-lg-lh: 28px;
+  --xe-body-lg-weight: 400;
+  --xe-body-lg-tracking: -0.02em;
   --xe-body: 16px;
   --xe-body-lh: 24px;
+  --xe-body-weight: 400;
+  --xe-body-tracking: -0.02em;
   --xe-body-sm: 14px;
   --xe-body-sm-lh: 20px;
+  --xe-body-sm-weight: 400;
+  --xe-body-sm-tracking: -0.02em;
   --xe-caption: 12px;
   --xe-caption-lh: 16px;
+  --xe-caption-weight: 500;
+  --xe-caption-tracking: -0.02em;
 
   /* font weights */
   --xe-weight-normal: 400;
@@ -233,38 +249,56 @@
   --font-weight-medium: var(--xe-weight-medium);
   --font-weight-semibold: var(--xe-weight-semibold);
 
-  /* text styles → semantic utilities (text-h1.. / text-body..) AND the generic
-     Tailwind sizes (text-xs..4xl) they replace — one source per step. */
+  /* text styles → composite typeset utilities (text-h1.. / text-body..) that
+     bundle size + line-height + font-weight + letter-spacing in one class. The
+     size + line-height also feed the generic Tailwind sizes (text-xs..4xl) so
+     both stay in sync; weight + tracking live on the semantic typeset only. */
   --text-h1: var(--xe-title-h1);
   --text-h1--line-height: var(--xe-title-h1-lh);
+  --text-h1--font-weight: var(--xe-title-h1-weight);
+  --text-h1--letter-spacing: var(--xe-title-h1-tracking);
   --text-4xl: var(--xe-title-h1);
   --text-4xl--line-height: var(--xe-title-h1-lh);
   --text-h2: var(--xe-title-h2);
   --text-h2--line-height: var(--xe-title-h2-lh);
+  --text-h2--font-weight: var(--xe-title-h2-weight);
+  --text-h2--letter-spacing: var(--xe-title-h2-tracking);
   --text-3xl: var(--xe-title-h2);
   --text-3xl--line-height: var(--xe-title-h2-lh);
   --text-h3: var(--xe-title-h3);
   --text-h3--line-height: var(--xe-title-h3-lh);
+  --text-h3--font-weight: var(--xe-title-h3-weight);
+  --text-h3--letter-spacing: var(--xe-title-h3-tracking);
   --text-2xl: var(--xe-title-h3);
   --text-2xl--line-height: var(--xe-title-h3-lh);
   --text-h4: var(--xe-title-h4);
   --text-h4--line-height: var(--xe-title-h4-lh);
+  --text-h4--font-weight: var(--xe-title-h4-weight);
+  --text-h4--letter-spacing: var(--xe-title-h4-tracking);
   --text-xl: var(--xe-title-h4);
   --text-xl--line-height: var(--xe-title-h4-lh);
   --text-body-lg: var(--xe-body-lg);
   --text-body-lg--line-height: var(--xe-body-lg-lh);
+  --text-body-lg--font-weight: var(--xe-body-lg-weight);
+  --text-body-lg--letter-spacing: var(--xe-body-lg-tracking);
   --text-lg: var(--xe-body-lg);
   --text-lg--line-height: var(--xe-body-lg-lh);
   --text-body: var(--xe-body);
   --text-body--line-height: var(--xe-body-lh);
+  --text-body--font-weight: var(--xe-body-weight);
+  --text-body--letter-spacing: var(--xe-body-tracking);
   --text-base: var(--xe-body);
   --text-base--line-height: var(--xe-body-lh);
   --text-body-sm: var(--xe-body-sm);
   --text-body-sm--line-height: var(--xe-body-sm-lh);
+  --text-body-sm--font-weight: var(--xe-body-sm-weight);
+  --text-body-sm--letter-spacing: var(--xe-body-sm-tracking);
   --text-sm: var(--xe-body-sm);
   --text-sm--line-height: var(--xe-body-sm-lh);
   --text-caption: var(--xe-caption);
   --text-caption--line-height: var(--xe-caption-lh);
+  --text-caption--font-weight: var(--xe-caption-weight);
+  --text-caption--letter-spacing: var(--xe-caption-tracking);
   --text-xs: var(--xe-caption);
   --text-xs--line-height: var(--xe-caption-lh);
 

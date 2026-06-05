@@ -44,7 +44,18 @@ export interface TokenDef {
   pairWith?: string;
   /** Curated list of where this token is used (drives the usage explorer popover). */
   usage?: string[];
+  /**
+   * Typeset this token belongs to (e.g. "h1", "body"). Sub-tokens sharing a
+   * typeset form one composite text style (size + line-height + font-weight +
+   * letter-spacing) — grouped in the editor and exported as a DTCG `typography`.
+   */
+  typeset?: string;
+  /** Which property of its typeset this token sets. */
+  prop?: "fontSize" | "lineHeight" | "fontWeight" | "letterSpacing";
 }
+
+/** The four sub-properties that make up a composite typeset. */
+export type TypesetProp = "fontSize" | "lineHeight" | "fontWeight" | "letterSpacing";
 
 /** Sparse map of user edits over the registry defaults. */
 export type Edits = Partial<Record<string, { light?: string; dark?: string }>>;

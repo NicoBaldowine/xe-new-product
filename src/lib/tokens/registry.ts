@@ -71,25 +71,54 @@ export const TOKENS: TokenDef[] = [
   { name: "radius-xl", cssVar: "--xe-radius-xl", category: "radius", type: "dimension", light: "12px", description: "Selectors & in-card chips (Figma value/radius/rounded-xl).", themeKeys: ["--radius-xl"], usage: ["Currency selector / range chips (Rate chart)", "Amount fields", "chip buttons", "rounded-xl"] },
   { name: "radius-card", cssVar: "--xe-radius-card", category: "radius", type: "dimension", light: "20px", description: "Card radius.", themeKeys: ["--radius-card"], usage: ["Card surface (every block)", "bento tiles", "rounded-card"] },
 
-  // ── text styles — the single typographic scale (size + line-height). Each
-  //    drives BOTH a semantic utility (text-h1../text-body..) and the generic
-  //    Tailwind size it replaces (text-xs..4xl), so there's one source. ────
-  { name: "title-h1", cssVar: "--xe-title-h1", category: "textStyle", type: "dimension", light: "36px", description: "Title H1 — hero / display. (= text-4xl)", themeKeys: ["--text-h1", "--text-4xl"] },
-  { name: "title-h1-lh", cssVar: "--xe-title-h1-lh", category: "textStyle", type: "dimension", light: "36px", description: "Title H1 line-height.", themeKeys: ["--text-h1--line-height", "--text-4xl--line-height"] },
-  { name: "title-h2", cssVar: "--xe-title-h2", category: "textStyle", type: "dimension", light: "30px", description: "Title H2 — big numbers / balances. (= text-3xl)", themeKeys: ["--text-h2", "--text-3xl"] },
-  { name: "title-h2-lh", cssVar: "--xe-title-h2-lh", category: "textStyle", type: "dimension", light: "34px", description: "Title H2 line-height.", themeKeys: ["--text-h2--line-height", "--text-3xl--line-height"] },
-  { name: "title-h3", cssVar: "--xe-title-h3", category: "textStyle", type: "dimension", light: "24px", description: "Title H3 — card headings / greetings. (= text-2xl)", themeKeys: ["--text-h3", "--text-2xl"] },
-  { name: "title-h3-lh", cssVar: "--xe-title-h3-lh", category: "textStyle", type: "dimension", light: "32px", description: "Title H3 line-height.", themeKeys: ["--text-h3--line-height", "--text-2xl--line-height"] },
-  { name: "title-h4", cssVar: "--xe-title-h4", category: "textStyle", type: "dimension", light: "20px", description: "Title H4 — small section headings. (= text-xl)", themeKeys: ["--text-h4", "--text-xl"] },
-  { name: "title-h4-lh", cssVar: "--xe-title-h4-lh", category: "textStyle", type: "dimension", light: "28px", description: "Title H4 line-height.", themeKeys: ["--text-h4--line-height", "--text-xl--line-height"] },
-  { name: "body-lg", cssVar: "--xe-body-lg", category: "textStyle", type: "dimension", light: "18px", description: "Body large. (= text-lg)", themeKeys: ["--text-body-lg", "--text-lg"] },
-  { name: "body-lg-lh", cssVar: "--xe-body-lg-lh", category: "textStyle", type: "dimension", light: "28px", description: "Body large line-height.", themeKeys: ["--text-body-lg--line-height", "--text-lg--line-height"] },
-  { name: "body", cssVar: "--xe-body", category: "textStyle", type: "dimension", light: "16px", description: "Body — default paragraph. (= text-base)", themeKeys: ["--text-body", "--text-base"] },
-  { name: "body-lh", cssVar: "--xe-body-lh", category: "textStyle", type: "dimension", light: "24px", description: "Body line-height.", themeKeys: ["--text-body--line-height", "--text-base--line-height"] },
-  { name: "body-sm", cssVar: "--xe-body-sm", category: "textStyle", type: "dimension", light: "14px", description: "Body small — rows / secondary. (= text-sm)", themeKeys: ["--text-body-sm", "--text-sm"] },
-  { name: "body-sm-lh", cssVar: "--xe-body-sm-lh", category: "textStyle", type: "dimension", light: "20px", description: "Body small line-height.", themeKeys: ["--text-body-sm--line-height", "--text-sm--line-height"] },
-  { name: "caption", cssVar: "--xe-caption", category: "textStyle", type: "dimension", light: "12px", description: "Caption / eyebrow. (= text-xs)", themeKeys: ["--text-caption", "--text-xs"] },
-  { name: "caption-lh", cssVar: "--xe-caption-lh", category: "textStyle", type: "dimension", light: "16px", description: "Caption line-height.", themeKeys: ["--text-caption--line-height", "--text-xs--line-height"] },
+  // ── text styles → composite "typesets" ────────────────────────────────
+  //   Each typeset bundles size + line-height + font-weight + letter-spacing
+  //   into ONE `text-*` utility (Tailwind v4 --text-{name}--* syntax). The four
+  //   sub-tokens share a `typeset` key: the editor groups them into one card and
+  //   the exporters emit a single W3C DTCG `typography` composite. Size + line-
+  //   height also feed the generic Tailwind size (text-xs..4xl) so both stay in
+  //   sync. font-family stays a separate role (font-display / font-sans) — it
+  //   can't live inside --text-*. Weights/tracking mirror current widget usage.
+  // H1 — hero / display (= text-4xl)
+  { name: "title-h1", typeset: "h1", prop: "fontSize", cssVar: "--xe-title-h1", category: "textStyle", type: "dimension", light: "36px", description: "H1 font size.", themeKeys: ["--text-h1", "--text-4xl"] },
+  { name: "title-h1-lh", typeset: "h1", prop: "lineHeight", cssVar: "--xe-title-h1-lh", category: "textStyle", type: "dimension", light: "36px", description: "H1 line-height.", themeKeys: ["--text-h1--line-height", "--text-4xl--line-height"] },
+  { name: "title-h1-weight", typeset: "h1", prop: "fontWeight", cssVar: "--xe-title-h1-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H1 weight.", themeKeys: ["--text-h1--font-weight"] },
+  { name: "title-h1-tracking", typeset: "h1", prop: "letterSpacing", cssVar: "--xe-title-h1-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "H1 letter-spacing.", themeKeys: ["--text-h1--letter-spacing"] },
+  // H2 — big numbers / balances (= text-3xl)
+  { name: "title-h2", typeset: "h2", prop: "fontSize", cssVar: "--xe-title-h2", category: "textStyle", type: "dimension", light: "30px", description: "H2 font size.", themeKeys: ["--text-h2", "--text-3xl"] },
+  { name: "title-h2-lh", typeset: "h2", prop: "lineHeight", cssVar: "--xe-title-h2-lh", category: "textStyle", type: "dimension", light: "34px", description: "H2 line-height.", themeKeys: ["--text-h2--line-height", "--text-3xl--line-height"] },
+  { name: "title-h2-weight", typeset: "h2", prop: "fontWeight", cssVar: "--xe-title-h2-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H2 weight.", themeKeys: ["--text-h2--font-weight"] },
+  { name: "title-h2-tracking", typeset: "h2", prop: "letterSpacing", cssVar: "--xe-title-h2-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "H2 letter-spacing.", themeKeys: ["--text-h2--letter-spacing"] },
+  // H3 — card headings / greetings (= text-2xl)
+  { name: "title-h3", typeset: "h3", prop: "fontSize", cssVar: "--xe-title-h3", category: "textStyle", type: "dimension", light: "24px", description: "H3 font size.", themeKeys: ["--text-h3", "--text-2xl"] },
+  { name: "title-h3-lh", typeset: "h3", prop: "lineHeight", cssVar: "--xe-title-h3-lh", category: "textStyle", type: "dimension", light: "32px", description: "H3 line-height.", themeKeys: ["--text-h3--line-height", "--text-2xl--line-height"] },
+  { name: "title-h3-weight", typeset: "h3", prop: "fontWeight", cssVar: "--xe-title-h3-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H3 weight.", themeKeys: ["--text-h3--font-weight"] },
+  { name: "title-h3-tracking", typeset: "h3", prop: "letterSpacing", cssVar: "--xe-title-h3-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "H3 letter-spacing.", themeKeys: ["--text-h3--letter-spacing"] },
+  // H4 — small section headings (= text-xl)
+  { name: "title-h4", typeset: "h4", prop: "fontSize", cssVar: "--xe-title-h4", category: "textStyle", type: "dimension", light: "20px", description: "H4 font size.", themeKeys: ["--text-h4", "--text-xl"] },
+  { name: "title-h4-lh", typeset: "h4", prop: "lineHeight", cssVar: "--xe-title-h4-lh", category: "textStyle", type: "dimension", light: "28px", description: "H4 line-height.", themeKeys: ["--text-h4--line-height", "--text-xl--line-height"] },
+  { name: "title-h4-weight", typeset: "h4", prop: "fontWeight", cssVar: "--xe-title-h4-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H4 weight.", themeKeys: ["--text-h4--font-weight"] },
+  { name: "title-h4-tracking", typeset: "h4", prop: "letterSpacing", cssVar: "--xe-title-h4-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "H4 letter-spacing.", themeKeys: ["--text-h4--letter-spacing"] },
+  // Body large (= text-lg)
+  { name: "body-lg", typeset: "body-lg", prop: "fontSize", cssVar: "--xe-body-lg", category: "textStyle", type: "dimension", light: "18px", description: "Body-lg font size.", themeKeys: ["--text-body-lg", "--text-lg"] },
+  { name: "body-lg-lh", typeset: "body-lg", prop: "lineHeight", cssVar: "--xe-body-lg-lh", category: "textStyle", type: "dimension", light: "28px", description: "Body-lg line-height.", themeKeys: ["--text-body-lg--line-height", "--text-lg--line-height"] },
+  { name: "body-lg-weight", typeset: "body-lg", prop: "fontWeight", cssVar: "--xe-body-lg-weight", category: "textStyle", type: "fontWeight", light: "400", description: "Body-lg weight.", themeKeys: ["--text-body-lg--font-weight"] },
+  { name: "body-lg-tracking", typeset: "body-lg", prop: "letterSpacing", cssVar: "--xe-body-lg-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "Body-lg letter-spacing.", themeKeys: ["--text-body-lg--letter-spacing"] },
+  // Body — default paragraph (= text-base)
+  { name: "body", typeset: "body", prop: "fontSize", cssVar: "--xe-body", category: "textStyle", type: "dimension", light: "16px", description: "Body font size.", themeKeys: ["--text-body", "--text-base"] },
+  { name: "body-lh", typeset: "body", prop: "lineHeight", cssVar: "--xe-body-lh", category: "textStyle", type: "dimension", light: "24px", description: "Body line-height.", themeKeys: ["--text-body--line-height", "--text-base--line-height"] },
+  { name: "body-weight", typeset: "body", prop: "fontWeight", cssVar: "--xe-body-weight", category: "textStyle", type: "fontWeight", light: "400", description: "Body weight.", themeKeys: ["--text-body--font-weight"] },
+  { name: "body-tracking", typeset: "body", prop: "letterSpacing", cssVar: "--xe-body-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "Body letter-spacing.", themeKeys: ["--text-body--letter-spacing"] },
+  // Body small — rows / secondary (= text-sm)
+  { name: "body-sm", typeset: "body-sm", prop: "fontSize", cssVar: "--xe-body-sm", category: "textStyle", type: "dimension", light: "14px", description: "Body-sm font size.", themeKeys: ["--text-body-sm", "--text-sm"] },
+  { name: "body-sm-lh", typeset: "body-sm", prop: "lineHeight", cssVar: "--xe-body-sm-lh", category: "textStyle", type: "dimension", light: "20px", description: "Body-sm line-height.", themeKeys: ["--text-body-sm--line-height", "--text-sm--line-height"] },
+  { name: "body-sm-weight", typeset: "body-sm", prop: "fontWeight", cssVar: "--xe-body-sm-weight", category: "textStyle", type: "fontWeight", light: "400", description: "Body-sm weight.", themeKeys: ["--text-body-sm--font-weight"] },
+  { name: "body-sm-tracking", typeset: "body-sm", prop: "letterSpacing", cssVar: "--xe-body-sm-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "Body-sm letter-spacing.", themeKeys: ["--text-body-sm--letter-spacing"] },
+  // Caption / eyebrow (= text-xs)
+  { name: "caption", typeset: "caption", prop: "fontSize", cssVar: "--xe-caption", category: "textStyle", type: "dimension", light: "12px", description: "Caption font size.", themeKeys: ["--text-caption", "--text-xs"] },
+  { name: "caption-lh", typeset: "caption", prop: "lineHeight", cssVar: "--xe-caption-lh", category: "textStyle", type: "dimension", light: "16px", description: "Caption line-height.", themeKeys: ["--text-caption--line-height", "--text-xs--line-height"] },
+  { name: "caption-weight", typeset: "caption", prop: "fontWeight", cssVar: "--xe-caption-weight", category: "textStyle", type: "fontWeight", light: "500", description: "Caption weight.", themeKeys: ["--text-caption--font-weight"] },
+  { name: "caption-tracking", typeset: "caption", prop: "letterSpacing", cssVar: "--xe-caption-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "Caption letter-spacing.", themeKeys: ["--text-caption--letter-spacing"] },
 
   // ── font weights (theme-invariant) ────────────────────────────────────
   { name: "weight-normal", cssVar: "--xe-weight-normal", category: "fontWeight", type: "fontWeight", light: "400", description: "Regular.", themeKeys: ["--font-weight-normal"] },
