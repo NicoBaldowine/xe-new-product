@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { AssetIcon } from "@/components/primitives/AssetIcon";
 import { cn } from "@/lib/cn";
-import { illustrationSrc } from "@/lib/assets";
+import { mktCoverSrc } from "@/lib/assets";
 
 /**
  * MKT Card — marketing promo card (image + title + subtitle + optional dismiss).
@@ -34,7 +34,7 @@ const demo = {
   title: "Marketing demo title",
   subtitle:
     "Stay connected in minutes, not hours. Say goodbye to hefty fees and hello to instant connections.",
-  imageSrc: illustrationSrc,
+  imageSrc: mktCoverSrc,
 };
 
 export function MktCard({
@@ -55,7 +55,13 @@ export function MktCard({
         large ? "h-[88px] w-full" : "size-[88px]",
       )}
     >
-      <Image src={imageSrc} alt="" fill sizes="208px" className="object-cover" />
+      <Image
+        src={imageSrc}
+        alt=""
+        fill
+        sizes={large ? "(min-width: 768px) 360px, 90vw" : "88px"}
+        className="object-cover object-center"
+      />
     </div>
   );
 
