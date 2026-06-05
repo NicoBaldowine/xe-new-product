@@ -24,6 +24,11 @@ export type TokenCategory =
   | "typography"
   | "textStyle"
   | "fontFamily"
+  // Foundations — primitive scales (Figma `value/font/*`) that semantic tokens
+  // (typesets) reference via `ref`.
+  | "fontSize"
+  | "lineHeight"
+  | "letterSpacing"
   | "fontWeight"
   | "blur";
 
@@ -53,6 +58,13 @@ export interface TokenDef {
   typeset?: string;
   /** Which property of its typeset this token sets. */
   prop?: "fontSize" | "lineHeight" | "fontWeight" | "letterSpacing";
+  /**
+   * Alias: this token takes its value from the foundation token named here
+   * (e.g. a typeset's fontSize → `size-4xl`). The CSS emits `var(--xe-<ref>)`
+   * and resolution follows the chain, so editing the foundation cascades. The
+   * token's own `light`/`dark` stay as a denormalized fallback.
+   */
+  ref?: string;
 }
 
 /** The four sub-properties that make up a composite typeset. */

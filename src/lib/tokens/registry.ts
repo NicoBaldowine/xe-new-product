@@ -80,6 +80,34 @@ export const TOKENS: TokenDef[] = [
   { name: "radius-xl", cssVar: "--xe-radius-xl", category: "radius", type: "dimension", light: "12px", description: "Selectors & in-card chips (Figma value/radius/rounded-xl).", themeKeys: ["--radius-xl"], usage: ["Currency selector / range chips (Rate chart)", "Amount fields", "chip buttons", "rounded-xl"] },
   { name: "radius-card", cssVar: "--xe-radius-card", category: "radius", type: "dimension", light: "20px", description: "Card radius.", themeKeys: ["--radius-card"], usage: ["Card surface (every block)", "bento tiles", "rounded-card"] },
 
+  // ── foundations: primitive scales (mirror Figma value/font/*). Typesets
+  //    reference these via `ref`, so size / line-height / weight / tracking are
+  //    edited once and cascade. Names match Figma so the DTCG export round-trips.
+  // font size — Figma value/font/size/text-*
+  { name: "size-xs", cssVar: "--xe-size-xs", category: "fontSize", type: "dimension", light: "12px", description: "Font size XS (Figma text-xs)." },
+  { name: "size-sm", cssVar: "--xe-size-sm", category: "fontSize", type: "dimension", light: "14px", description: "Font size SM (Figma text-sm)." },
+  { name: "size-base", cssVar: "--xe-size-base", category: "fontSize", type: "dimension", light: "16px", description: "Font size base (Figma text-base)." },
+  { name: "size-lg", cssVar: "--xe-size-lg", category: "fontSize", type: "dimension", light: "18px", description: "Font size LG (Figma text-lg)." },
+  { name: "size-xl", cssVar: "--xe-size-xl", category: "fontSize", type: "dimension", light: "20px", description: "Font size XL (Figma text-xl)." },
+  { name: "size-2xl", cssVar: "--xe-size-2xl", category: "fontSize", type: "dimension", light: "24px", description: "Font size 2XL (Figma text-2xl)." },
+  { name: "size-3xl", cssVar: "--xe-size-3xl", category: "fontSize", type: "dimension", light: "30px", description: "Font size 3XL (Figma text-3xl)." },
+  { name: "size-4xl", cssVar: "--xe-size-4xl", category: "fontSize", type: "dimension", light: "36px", description: "Font size 4XL (Figma text-4xl)." },
+  // line-height — Figma value/font/line-height/leading-* (px = leading-N × 4)
+  { name: "leading-4", cssVar: "--xe-leading-4", category: "lineHeight", type: "dimension", light: "16px", description: "Line-height 16 (Figma leading-4)." },
+  { name: "leading-5", cssVar: "--xe-leading-5", category: "lineHeight", type: "dimension", light: "20px", description: "Line-height 20 (Figma leading-5)." },
+  { name: "leading-6", cssVar: "--xe-leading-6", category: "lineHeight", type: "dimension", light: "24px", description: "Line-height 24 (Figma leading-6)." },
+  { name: "leading-7", cssVar: "--xe-leading-7", category: "lineHeight", type: "dimension", light: "28px", description: "Line-height 28 (Figma leading-7)." },
+  { name: "leading-8", cssVar: "--xe-leading-8", category: "lineHeight", type: "dimension", light: "32px", description: "Line-height 32 (Figma leading-8)." },
+  { name: "leading-9", cssVar: "--xe-leading-9", category: "lineHeight", type: "dimension", light: "36px", description: "Line-height 36 (Figma leading-9)." },
+  { name: "leading-34", cssVar: "--xe-leading-34", category: "lineHeight", type: "dimension", light: "34px", description: "Line-height 34 — H2 only (deviation: not in Figma's leading scale)." },
+  // letter-spacing — Figma value/font/letter-spacing/* (em equivalents of the px@16 scale)
+  { name: "tracking-tighter", cssVar: "--xe-tracking-tighter", category: "letterSpacing", type: "dimension", light: "-0.05em", description: "Tracking tighter (Figma letter-spacing/tighter)." },
+  { name: "tracking-tight", cssVar: "--xe-tracking-tight", category: "letterSpacing", type: "dimension", light: "-0.025em", description: "Tracking tight (Figma letter-spacing/tight)." },
+  { name: "tracking-normal", cssVar: "--xe-tracking-normal", category: "letterSpacing", type: "dimension", light: "0em", description: "Tracking normal (Figma letter-spacing/normal)." },
+  { name: "tracking-wide", cssVar: "--xe-tracking-wide", category: "letterSpacing", type: "dimension", light: "0.025em", description: "Tracking wide (Figma letter-spacing/wide)." },
+  { name: "tracking-wider", cssVar: "--xe-tracking-wider", category: "letterSpacing", type: "dimension", light: "0.05em", description: "Tracking wider (Figma letter-spacing/wider)." },
+  { name: "tracking-widest", cssVar: "--xe-tracking-widest", category: "letterSpacing", type: "dimension", light: "0.1em", description: "Tracking widest (Figma letter-spacing/widest)." },
+
   // ── text styles → composite "typesets" ────────────────────────────────
   //   Each typeset bundles size + line-height + font-weight + letter-spacing
   //   into ONE `text-*` utility (Tailwind v4 --text-{name}--* syntax). The four
@@ -88,46 +116,49 @@ export const TOKENS: TokenDef[] = [
   //   height also feed the generic Tailwind size (text-xs..4xl) so both stay in
   //   sync. font-family stays a separate role (font-display / font-sans) — it
   //   can't live inside --text-*. Weights/tracking mirror current widget usage.
+  //   Each sub-token aliases a foundation via `ref` (size-* / leading-* /
+  //   weight-* / tracking-*), so the scale is edited once and cascades. `light`
+  //   is the denormalized resolved value (fallback); the CSS emits var(ref).
   // H1 — hero / display (= text-4xl)
-  { name: "title-h1", typeset: "h1", prop: "fontSize", cssVar: "--xe-title-h1", category: "textStyle", type: "dimension", light: "36px", description: "H1 font size.", themeKeys: ["--text-h1", "--text-4xl"] },
-  { name: "title-h1-lh", typeset: "h1", prop: "lineHeight", cssVar: "--xe-title-h1-lh", category: "textStyle", type: "dimension", light: "36px", description: "H1 line-height.", themeKeys: ["--text-h1--line-height", "--text-4xl--line-height"] },
-  { name: "title-h1-weight", typeset: "h1", prop: "fontWeight", cssVar: "--xe-title-h1-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H1 weight.", themeKeys: ["--text-h1--font-weight"] },
-  { name: "title-h1-tracking", typeset: "h1", prop: "letterSpacing", cssVar: "--xe-title-h1-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "H1 letter-spacing.", themeKeys: ["--text-h1--letter-spacing"] },
+  { name: "title-h1", typeset: "h1", prop: "fontSize", ref: "size-4xl", cssVar: "--xe-title-h1", category: "textStyle", type: "dimension", light: "36px", description: "H1 font size.", themeKeys: ["--text-h1", "--text-4xl"] },
+  { name: "title-h1-lh", typeset: "h1", prop: "lineHeight", ref: "leading-9", cssVar: "--xe-title-h1-lh", category: "textStyle", type: "dimension", light: "36px", description: "H1 line-height.", themeKeys: ["--text-h1--line-height", "--text-4xl--line-height"] },
+  { name: "title-h1-weight", typeset: "h1", prop: "fontWeight", ref: "weight-semibold", cssVar: "--xe-title-h1-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H1 weight.", themeKeys: ["--text-h1--font-weight"] },
+  { name: "title-h1-tracking", typeset: "h1", prop: "letterSpacing", ref: "tracking-tight", cssVar: "--xe-title-h1-tracking", category: "textStyle", type: "dimension", light: "-0.025em", description: "H1 letter-spacing.", themeKeys: ["--text-h1--letter-spacing"] },
   // H2 — big numbers / balances (= text-3xl)
-  { name: "title-h2", typeset: "h2", prop: "fontSize", cssVar: "--xe-title-h2", category: "textStyle", type: "dimension", light: "30px", description: "H2 font size.", themeKeys: ["--text-h2", "--text-3xl"] },
-  { name: "title-h2-lh", typeset: "h2", prop: "lineHeight", cssVar: "--xe-title-h2-lh", category: "textStyle", type: "dimension", light: "34px", description: "H2 line-height.", themeKeys: ["--text-h2--line-height", "--text-3xl--line-height"] },
-  { name: "title-h2-weight", typeset: "h2", prop: "fontWeight", cssVar: "--xe-title-h2-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H2 weight.", themeKeys: ["--text-h2--font-weight"] },
-  { name: "title-h2-tracking", typeset: "h2", prop: "letterSpacing", cssVar: "--xe-title-h2-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "H2 letter-spacing.", themeKeys: ["--text-h2--letter-spacing"] },
+  { name: "title-h2", typeset: "h2", prop: "fontSize", ref: "size-3xl", cssVar: "--xe-title-h2", category: "textStyle", type: "dimension", light: "30px", description: "H2 font size.", themeKeys: ["--text-h2", "--text-3xl"] },
+  { name: "title-h2-lh", typeset: "h2", prop: "lineHeight", ref: "leading-34", cssVar: "--xe-title-h2-lh", category: "textStyle", type: "dimension", light: "34px", description: "H2 line-height.", themeKeys: ["--text-h2--line-height", "--text-3xl--line-height"] },
+  { name: "title-h2-weight", typeset: "h2", prop: "fontWeight", ref: "weight-semibold", cssVar: "--xe-title-h2-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H2 weight.", themeKeys: ["--text-h2--font-weight"] },
+  { name: "title-h2-tracking", typeset: "h2", prop: "letterSpacing", ref: "tracking-tight", cssVar: "--xe-title-h2-tracking", category: "textStyle", type: "dimension", light: "-0.025em", description: "H2 letter-spacing.", themeKeys: ["--text-h2--letter-spacing"] },
   // H3 — card headings / greetings (= text-2xl)
-  { name: "title-h3", typeset: "h3", prop: "fontSize", cssVar: "--xe-title-h3", category: "textStyle", type: "dimension", light: "24px", description: "H3 font size.", themeKeys: ["--text-h3", "--text-2xl"] },
-  { name: "title-h3-lh", typeset: "h3", prop: "lineHeight", cssVar: "--xe-title-h3-lh", category: "textStyle", type: "dimension", light: "32px", description: "H3 line-height.", themeKeys: ["--text-h3--line-height", "--text-2xl--line-height"] },
-  { name: "title-h3-weight", typeset: "h3", prop: "fontWeight", cssVar: "--xe-title-h3-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H3 weight.", themeKeys: ["--text-h3--font-weight"] },
-  { name: "title-h3-tracking", typeset: "h3", prop: "letterSpacing", cssVar: "--xe-title-h3-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "H3 letter-spacing.", themeKeys: ["--text-h3--letter-spacing"] },
+  { name: "title-h3", typeset: "h3", prop: "fontSize", ref: "size-2xl", cssVar: "--xe-title-h3", category: "textStyle", type: "dimension", light: "24px", description: "H3 font size.", themeKeys: ["--text-h3", "--text-2xl"] },
+  { name: "title-h3-lh", typeset: "h3", prop: "lineHeight", ref: "leading-8", cssVar: "--xe-title-h3-lh", category: "textStyle", type: "dimension", light: "32px", description: "H3 line-height.", themeKeys: ["--text-h3--line-height", "--text-2xl--line-height"] },
+  { name: "title-h3-weight", typeset: "h3", prop: "fontWeight", ref: "weight-semibold", cssVar: "--xe-title-h3-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H3 weight.", themeKeys: ["--text-h3--font-weight"] },
+  { name: "title-h3-tracking", typeset: "h3", prop: "letterSpacing", ref: "tracking-tight", cssVar: "--xe-title-h3-tracking", category: "textStyle", type: "dimension", light: "-0.025em", description: "H3 letter-spacing.", themeKeys: ["--text-h3--letter-spacing"] },
   // H4 — small section headings (= text-xl)
-  { name: "title-h4", typeset: "h4", prop: "fontSize", cssVar: "--xe-title-h4", category: "textStyle", type: "dimension", light: "20px", description: "H4 font size.", themeKeys: ["--text-h4", "--text-xl"] },
-  { name: "title-h4-lh", typeset: "h4", prop: "lineHeight", cssVar: "--xe-title-h4-lh", category: "textStyle", type: "dimension", light: "28px", description: "H4 line-height.", themeKeys: ["--text-h4--line-height", "--text-xl--line-height"] },
-  { name: "title-h4-weight", typeset: "h4", prop: "fontWeight", cssVar: "--xe-title-h4-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H4 weight.", themeKeys: ["--text-h4--font-weight"] },
-  { name: "title-h4-tracking", typeset: "h4", prop: "letterSpacing", cssVar: "--xe-title-h4-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "H4 letter-spacing.", themeKeys: ["--text-h4--letter-spacing"] },
+  { name: "title-h4", typeset: "h4", prop: "fontSize", ref: "size-xl", cssVar: "--xe-title-h4", category: "textStyle", type: "dimension", light: "20px", description: "H4 font size.", themeKeys: ["--text-h4", "--text-xl"] },
+  { name: "title-h4-lh", typeset: "h4", prop: "lineHeight", ref: "leading-7", cssVar: "--xe-title-h4-lh", category: "textStyle", type: "dimension", light: "28px", description: "H4 line-height.", themeKeys: ["--text-h4--line-height", "--text-xl--line-height"] },
+  { name: "title-h4-weight", typeset: "h4", prop: "fontWeight", ref: "weight-semibold", cssVar: "--xe-title-h4-weight", category: "textStyle", type: "fontWeight", light: "600", description: "H4 weight.", themeKeys: ["--text-h4--font-weight"] },
+  { name: "title-h4-tracking", typeset: "h4", prop: "letterSpacing", ref: "tracking-tight", cssVar: "--xe-title-h4-tracking", category: "textStyle", type: "dimension", light: "-0.025em", description: "H4 letter-spacing.", themeKeys: ["--text-h4--letter-spacing"] },
   // Body large (= text-lg)
-  { name: "body-lg", typeset: "body-lg", prop: "fontSize", cssVar: "--xe-body-lg", category: "textStyle", type: "dimension", light: "18px", description: "Body-lg font size.", themeKeys: ["--text-body-lg", "--text-lg"] },
-  { name: "body-lg-lh", typeset: "body-lg", prop: "lineHeight", cssVar: "--xe-body-lg-lh", category: "textStyle", type: "dimension", light: "28px", description: "Body-lg line-height.", themeKeys: ["--text-body-lg--line-height", "--text-lg--line-height"] },
-  { name: "body-lg-weight", typeset: "body-lg", prop: "fontWeight", cssVar: "--xe-body-lg-weight", category: "textStyle", type: "fontWeight", light: "400", description: "Body-lg weight.", themeKeys: ["--text-body-lg--font-weight"] },
-  { name: "body-lg-tracking", typeset: "body-lg", prop: "letterSpacing", cssVar: "--xe-body-lg-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "Body-lg letter-spacing.", themeKeys: ["--text-body-lg--letter-spacing"] },
+  { name: "body-lg", typeset: "body-lg", prop: "fontSize", ref: "size-lg", cssVar: "--xe-body-lg", category: "textStyle", type: "dimension", light: "18px", description: "Body-lg font size.", themeKeys: ["--text-body-lg", "--text-lg"] },
+  { name: "body-lg-lh", typeset: "body-lg", prop: "lineHeight", ref: "leading-7", cssVar: "--xe-body-lg-lh", category: "textStyle", type: "dimension", light: "28px", description: "Body-lg line-height.", themeKeys: ["--text-body-lg--line-height", "--text-lg--line-height"] },
+  { name: "body-lg-weight", typeset: "body-lg", prop: "fontWeight", ref: "weight-normal", cssVar: "--xe-body-lg-weight", category: "textStyle", type: "fontWeight", light: "400", description: "Body-lg weight.", themeKeys: ["--text-body-lg--font-weight"] },
+  { name: "body-lg-tracking", typeset: "body-lg", prop: "letterSpacing", ref: "tracking-tight", cssVar: "--xe-body-lg-tracking", category: "textStyle", type: "dimension", light: "-0.025em", description: "Body-lg letter-spacing.", themeKeys: ["--text-body-lg--letter-spacing"] },
   // Body — default paragraph (= text-base)
-  { name: "body", typeset: "body", prop: "fontSize", cssVar: "--xe-body", category: "textStyle", type: "dimension", light: "16px", description: "Body font size.", themeKeys: ["--text-body", "--text-base"] },
-  { name: "body-lh", typeset: "body", prop: "lineHeight", cssVar: "--xe-body-lh", category: "textStyle", type: "dimension", light: "24px", description: "Body line-height.", themeKeys: ["--text-body--line-height", "--text-base--line-height"] },
-  { name: "body-weight", typeset: "body", prop: "fontWeight", cssVar: "--xe-body-weight", category: "textStyle", type: "fontWeight", light: "400", description: "Body weight.", themeKeys: ["--text-body--font-weight"] },
-  { name: "body-tracking", typeset: "body", prop: "letterSpacing", cssVar: "--xe-body-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "Body letter-spacing.", themeKeys: ["--text-body--letter-spacing"] },
+  { name: "body", typeset: "body", prop: "fontSize", ref: "size-base", cssVar: "--xe-body", category: "textStyle", type: "dimension", light: "16px", description: "Body font size.", themeKeys: ["--text-body", "--text-base"] },
+  { name: "body-lh", typeset: "body", prop: "lineHeight", ref: "leading-6", cssVar: "--xe-body-lh", category: "textStyle", type: "dimension", light: "24px", description: "Body line-height.", themeKeys: ["--text-body--line-height", "--text-base--line-height"] },
+  { name: "body-weight", typeset: "body", prop: "fontWeight", ref: "weight-normal", cssVar: "--xe-body-weight", category: "textStyle", type: "fontWeight", light: "400", description: "Body weight.", themeKeys: ["--text-body--font-weight"] },
+  { name: "body-tracking", typeset: "body", prop: "letterSpacing", ref: "tracking-tight", cssVar: "--xe-body-tracking", category: "textStyle", type: "dimension", light: "-0.025em", description: "Body letter-spacing.", themeKeys: ["--text-body--letter-spacing"] },
   // Body small — rows / secondary (= text-sm)
-  { name: "body-sm", typeset: "body-sm", prop: "fontSize", cssVar: "--xe-body-sm", category: "textStyle", type: "dimension", light: "14px", description: "Body-sm font size.", themeKeys: ["--text-body-sm", "--text-sm"] },
-  { name: "body-sm-lh", typeset: "body-sm", prop: "lineHeight", cssVar: "--xe-body-sm-lh", category: "textStyle", type: "dimension", light: "20px", description: "Body-sm line-height.", themeKeys: ["--text-body-sm--line-height", "--text-sm--line-height"] },
-  { name: "body-sm-weight", typeset: "body-sm", prop: "fontWeight", cssVar: "--xe-body-sm-weight", category: "textStyle", type: "fontWeight", light: "400", description: "Body-sm weight.", themeKeys: ["--text-body-sm--font-weight"] },
-  { name: "body-sm-tracking", typeset: "body-sm", prop: "letterSpacing", cssVar: "--xe-body-sm-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "Body-sm letter-spacing.", themeKeys: ["--text-body-sm--letter-spacing"] },
+  { name: "body-sm", typeset: "body-sm", prop: "fontSize", ref: "size-sm", cssVar: "--xe-body-sm", category: "textStyle", type: "dimension", light: "14px", description: "Body-sm font size.", themeKeys: ["--text-body-sm", "--text-sm"] },
+  { name: "body-sm-lh", typeset: "body-sm", prop: "lineHeight", ref: "leading-5", cssVar: "--xe-body-sm-lh", category: "textStyle", type: "dimension", light: "20px", description: "Body-sm line-height.", themeKeys: ["--text-body-sm--line-height", "--text-sm--line-height"] },
+  { name: "body-sm-weight", typeset: "body-sm", prop: "fontWeight", ref: "weight-normal", cssVar: "--xe-body-sm-weight", category: "textStyle", type: "fontWeight", light: "400", description: "Body-sm weight.", themeKeys: ["--text-body-sm--font-weight"] },
+  { name: "body-sm-tracking", typeset: "body-sm", prop: "letterSpacing", ref: "tracking-tight", cssVar: "--xe-body-sm-tracking", category: "textStyle", type: "dimension", light: "-0.025em", description: "Body-sm letter-spacing.", themeKeys: ["--text-body-sm--letter-spacing"] },
   // Caption / eyebrow (= text-xs)
-  { name: "caption", typeset: "caption", prop: "fontSize", cssVar: "--xe-caption", category: "textStyle", type: "dimension", light: "12px", description: "Caption font size.", themeKeys: ["--text-caption", "--text-xs"] },
-  { name: "caption-lh", typeset: "caption", prop: "lineHeight", cssVar: "--xe-caption-lh", category: "textStyle", type: "dimension", light: "16px", description: "Caption line-height.", themeKeys: ["--text-caption--line-height", "--text-xs--line-height"] },
-  { name: "caption-weight", typeset: "caption", prop: "fontWeight", cssVar: "--xe-caption-weight", category: "textStyle", type: "fontWeight", light: "500", description: "Caption weight.", themeKeys: ["--text-caption--font-weight"] },
-  { name: "caption-tracking", typeset: "caption", prop: "letterSpacing", cssVar: "--xe-caption-tracking", category: "textStyle", type: "dimension", light: "-0.02em", description: "Caption letter-spacing.", themeKeys: ["--text-caption--letter-spacing"] },
+  { name: "caption", typeset: "caption", prop: "fontSize", ref: "size-xs", cssVar: "--xe-caption", category: "textStyle", type: "dimension", light: "12px", description: "Caption font size.", themeKeys: ["--text-caption", "--text-xs"] },
+  { name: "caption-lh", typeset: "caption", prop: "lineHeight", ref: "leading-4", cssVar: "--xe-caption-lh", category: "textStyle", type: "dimension", light: "16px", description: "Caption line-height.", themeKeys: ["--text-caption--line-height", "--text-xs--line-height"] },
+  { name: "caption-weight", typeset: "caption", prop: "fontWeight", ref: "weight-medium", cssVar: "--xe-caption-weight", category: "textStyle", type: "fontWeight", light: "500", description: "Caption weight.", themeKeys: ["--text-caption--font-weight"] },
+  { name: "caption-tracking", typeset: "caption", prop: "letterSpacing", ref: "tracking-tight", cssVar: "--xe-caption-tracking", category: "textStyle", type: "dimension", light: "-0.025em", description: "Caption letter-spacing.", themeKeys: ["--text-caption--letter-spacing"] },
 
   // ── font weights (theme-invariant) ────────────────────────────────────
   { name: "weight-normal", cssVar: "--xe-weight-normal", category: "fontWeight", type: "fontWeight", light: "400", description: "Regular.", themeKeys: ["--font-weight-normal"] },
@@ -169,6 +200,10 @@ export const TOKEN_GROUPS: TokenCategory[] = [
   "utility",
   "fontFamily",
   "textStyle",
+  // foundations (primitive scales referenced by typesets)
+  "fontSize",
+  "lineHeight",
+  "letterSpacing",
   "fontWeight",
   "radius",
   "blur",
@@ -185,6 +220,9 @@ export const CATEGORY_LABEL: Record<TokenCategory, string> = {
   typography: "Type scale",
   textStyle: "Text styles",
   fontFamily: "Font family",
-  fontWeight: "Font weight",
+  fontSize: "Foundations · Font size",
+  lineHeight: "Foundations · Line height",
+  letterSpacing: "Foundations · Letter spacing",
+  fontWeight: "Foundations · Font weight",
   blur: "Blur",
 };

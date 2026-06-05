@@ -7,7 +7,11 @@ import { TOKEN_BY_NAME, TOKENS } from "./registry";
  * tokens (no `dark`) are emitted only in `:root`.
  */
 export function buildBaseCss(tokens: TokenDef[] = TOKENS): string {
-  const root = tokens.map((t) => `  ${t.cssVar}: ${t.light};`).join("\n");
+  // Aliased tokens emit `var(--xe-<ref>)` so editing the foundation cascades;
+  // others emit their literal `light`.
+  const baseLight = (t: TokenDef) =>
+    t.ref && TOKEN_BY_NAME[t.ref] ? `var(${TOKEN_BY_NAME[t.ref].cssVar})` : t.light;
+  const root = tokens.map((t) => `  ${t.cssVar}: ${baseLight(t)};`).join("\n");
   const dark = tokens
     .filter((t) => t.dark != null)
     .map((t) => `  ${t.cssVar}: ${t.dark};`)
@@ -21,6 +25,8 @@ export function resolveValue(name: string, theme: Theme, edits: Edits): string {
   // Unknown token name (e.g. a stale pairWith) → no value rather than a crash.
   if (!def) return "";
   const edit = edits[name];
+  // Aliased token with no direct edit → follow its foundation (live cascade).
+  if (def.ref && !edit) return resolveValue(def.ref, theme, edits);
   if (theme === "dark") {
     return edit?.dark ?? def.dark ?? edit?.light ?? def.light;
   }
@@ -32,8 +38,10 @@ export function buildResolved(edits: Edits, tokens: TokenDef[] = TOKENS): Resolv
   const out: ResolvedTokens = {};
   for (const t of tokens) {
     out[t.name] = {
-      light: edits[t.name]?.light ?? t.light,
-      ...(t.dark != null ? { dark: edits[t.name]?.dark ?? t.dark } : {}),
+      // resolveValue follows `ref`, so an aliased token exports its foundation's
+      // (possibly edited) value.
+      light: resolveValue(t.name, "light", edits),
+      ...(t.dark != null ? { dark: resolveValue(t.name, "dark", edits) } : {}),
     };
   }
   return out;
