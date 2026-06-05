@@ -176,7 +176,7 @@ export function BentoStage() {
                layoutIds as the desktop consumer view → they morph on toggle. */
             <MobileFrame>
               {MOBILE_ORDER.map((w) => (
-                <WidgetShell key={w.id} variant="mobile" layoutId={w.id} bare={w.bare}>
+                <WidgetShell key={w.id} variant="mobile" layoutId={w.id} bare={w.bare || w.bareMobile}>
                   {w.el}
                 </WidgetShell>
               ))}

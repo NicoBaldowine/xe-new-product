@@ -20,14 +20,16 @@ export type ConsumerWidget = {
   el: ReactNode;
   /** Self-contained widget (brings its own surface) → render without the shell card. */
   bare?: boolean;
+  /** Like `bare`, but only in the mobile frame (keeps its desktop card). */
+  bareMobile?: boolean;
 };
 
-/** Top-of-screen hero (spans full width on desktop). */
-export const HERO_WIDGET: ConsumerWidget = { id: "c-hero", el: <Hero variant="balance" /> };
+/** Top-of-screen hero — bare (no card): full-bleed, blends into the device top. */
+export const HERO_WIDGET: ConsumerWidget = { id: "c-hero", el: <Hero variant="balance" />, bare: true };
 
 /** Left desktop column / upper mobile stack. */
 export const PRIMARY_WIDGETS: ConsumerWidget[] = [
-  { id: "c-smf", el: <SendMoneyFlow /> },
+  { id: "c-smf", el: <SendMoneyFlow />, bareMobile: true },
   { id: "c-in-progress", el: <InProgress variant="In progress" /> },
   { id: "c-transactions", el: <Transactions variant="All" /> },
   { id: "c-charts", el: <Charts /> },
